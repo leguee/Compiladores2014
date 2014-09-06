@@ -1,6 +1,6 @@
 package compilador;
 
-// a ver si anda este comentario!456
+// a ver si anda este comentario!456jhkhhjk
 
 import javax.swing.WindowConstants;
 import javax.swing.SwingUtilities;
