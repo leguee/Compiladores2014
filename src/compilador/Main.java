@@ -1,5 +1,7 @@
 package compilador;
 
+// a ver si anda este comentario!
+
 import javax.swing.WindowConstants;
 import javax.swing.SwingUtilities;
 
