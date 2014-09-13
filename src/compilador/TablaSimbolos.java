@@ -9,7 +9,7 @@ public class TablaSimbolos {
     private Hashtable <String,ETS> lexemas;
 
 
-    public TablaDeSimbolos(){
+    public TablaSimbolos(){
         palReservadas = new Vector<String>();
         lexemas = new Hashtable <String,ETS>();
         palReservadas.addElement("if");
