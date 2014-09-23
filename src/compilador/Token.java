@@ -10,16 +10,16 @@ public class Token {
     
     //Simbolos que forman el token
     private String lexema;
-    private boolean ultimoCaracter;
+    private boolean seAgregoCaracter; // me dice si el ultimo caracter fue agregado al token (Ultimo caracter)
     private int contadorDeReferencia;
-    private ETS entrada;
+    private EntradaTS entrada;
     private Short id;
     private String tipo;
     private Vector<Token> parametros;
     
     public Token(){
         lexema = new String();
-        ultimoCaracter = false;
+        seAgregoCaracter = false;
         contadorDeReferencia = 1;
         entrada=null;
         id = 0;
@@ -30,21 +30,21 @@ public class Token {
     // Agrega el caracter recibido al final del string
     public void agregarCaracter(char c){
         this.lexema = this.lexema + c;
-        ultimoCaracter = true;
+        seAgregoCaracter = true;
     }
 
     //Setea que el último caracter leído no fue agregado al token
-    public void ultimoCaracterNoLeido(){
-        ultimoCaracter = false;
+    public void noSeAgregoCaracterLeido(){
+        seAgregoCaracter = false;
     }
 
     //Setea que el último caracter leído fue agregado al token
-    public void ultimoCaracterLeido(){
-        ultimoCaracter = true;
+    public void seAgregoCaracterLeido(){
+        seAgregoCaracter = true;
     }
     
     public boolean consumioCaracter(){
-        return ultimoCaracter;
+        return seAgregoCaracter;
     }
     
     //Devuelve la longitud del valor
@@ -64,7 +64,7 @@ public class Token {
 
     public void setId(Short id) {
         if ((id.equals(ID)) || (id.equals(STRING)) || (id.equals(CONSTANTE)))
-            entrada = new ETS(id, this.lexema);  // Creo la entrada para la tabla de simbolos
+            entrada = new EntradaTS(id, this.lexema);  // Creo la entrada para la tabla de simbolos
         this.id = id;
     }
 
@@ -102,13 +102,10 @@ public class Token {
         contadorDeReferencia--;
     }
     
-    public ETS getETS(){
+    public EntradaTS getETS(){
         return this.entrada;
     }
     
-    public void setETS(ETS ets){
-        this.entrada = ets;
-    }
     
     public String getTipo(){
         return tipo;
@@ -131,6 +128,12 @@ public class Token {
     public Vector<Token> getParametros(){
         return parametros;
     }
+
+	public void setEntradaTS(EntradaTS entradaTS) {
+		// TODO Auto-generated method stub
+		this.entrada = entradaTS;
+		
+	}
 
 
 }
