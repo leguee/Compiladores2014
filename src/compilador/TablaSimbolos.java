@@ -17,11 +17,12 @@ public class TablaSimbolos {
         palReservadas.addElement("entonces");
         palReservadas.addElement("sino");
         palReservadas.addElement("imprimir");
-        palReservadas.addElement("double");
+        palReservadas.addElement("doble");
         palReservadas.addElement("vector");
+        palReservadas.addElement("de");
         palReservadas.addElement("itera");
         palReservadas.addElement("hasta");
-        
+        palReservadas.addElement("entero");
     }
     
 
