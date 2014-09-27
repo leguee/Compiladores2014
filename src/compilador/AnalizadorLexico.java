@@ -93,208 +93,231 @@ public class AnalizadorLexico {
 
     private void inicializarAS(){// TODO
         
-//        matrizAS = new AccionSemantica[14][21];
-//        as1 = new AS1();
-//        as2 = new AS2();
-//        as3 = new AS3(tabla,manejador,this);
-//        as4 = new AS4(tabla,manejador,this);
-//        as5 = new AS5(manejador,this);
-//        as6 = new AS6();
-//        as7 = new AS7(manejador,this);
-//        as8 = new AS8(manejador,this);
-//        as9 = new AS9();
-//        as10 = new AS10(manejador,this);
-//        as11 = new AS11(manejador,this,tabla);
-//        as12 = new AS12(manejador,this,tabla);
-//        
-//        //Estado 0
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[0][i] = as5;
-//        matrizAS[0][0] = as1;
-//        matrizAS[0][1] = as1;
-//        matrizAS[0][2] = as6;
-//        matrizAS[0][4] = as9;
-//        matrizAS[0][8] = as1;
-//        matrizAS[0][12] = as1;
-//        matrizAS[0][13] = as1;
-//        matrizAS[0][14] = as1;
-//        matrizAS[0][15] = as1;
-//        matrizAS[0][16] = as1;
-//        matrizAS[0][17] = as1;
-//        matrizAS[0][18] = as6;
-//        matrizAS[0][19] = as6;
-//        matrizAS[0][20] = as10;
-//        
-//        //estado 1
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[1][i] = as3;
-//        matrizAS[1][0] = as2;
-//        matrizAS[1][1] = as2;
-//        matrizAS[1][17] = as2;
-//        
-//        //estado 2
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[2][i] = as4;
-//        matrizAS[2][1] = as2;
-//        matrizAS[2][16] = as2;
-//        matrizAS[2][17] = as2;
-//        
-//        //estado 3
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[3][i] = as7;
-//        matrizAS[3][3] = as9;
-//        
-//        //estado 4
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[4][i] = as6;
-//        matrizAS[4][19] = as10;
-//        
-//        //estado 5
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[5][i] = as6;
-//        matrizAS[5][19] = as10;
-//        
-//        //estado 6
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[6][i] = as2;
-//        matrizAS[6][4] = as11;
-//        matrizAS[6][2] = as10;
-//        matrizAS[6][19] = as10;
-//        
-//        //estado 7
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[7][i] = as7;
-//        matrizAS[7][12] = as8;
-//        
-//        //estado 8
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[8][i] = as10;
-//        matrizAS[8][12] = as8;
-//        
-//        //estado 9
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[9][i] = as10;
-//        matrizAS[9][1] = as2;
-//        
-//        //estado 10
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[10][i] = as4;
-//        matrizAS[10][1] = as2;
-//        matrizAS[10][17] = as2;
-//        
-//        //estado 11
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[11][i] = as12;
-//        matrizAS[11][1] = as2;
-//        matrizAS[11][5] = as2;
-//        matrizAS[11][6] = as2;
-//        
-//        //estado 12
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[12][i] = as10;
-//        matrizAS[12][1] = as2;
-//        
-//        //estado 13
-//        for (int i = 0; i <= 20; i++)
-//            matrizAS[13][i] = as4;
-//        matrizAS[13][1] = as2;
+        matrizAS = new AccionesSemantica[14][29];
+        as1 = new As1();
+        as2 = new As2();
+        as3 = new As3(tablaSimb, this, manejador);
+        as4 = new As4(tablaSimb, manejador, this);
+        as5 = new As5(manejador,this);
+        as6 = new As6(manejador, this);
+        as7 = new As7();
+        as8 = new As8(manejador,this);
+        as9 = new As9(manejador, this, tablaSimb);
+        as10 = new As10();
+        as11 = new As11(manejador, this);
+        as12 = new As12(manejador, this, tablaSimb);
+        
+        //Estado 0
+        for (int i = 0; i <= 28; i++)
+            matrizAS[0][i] = as8;
+        matrizAS[0][0] = as1;
+        matrizAS[0][1] = as1;
+        matrizAS[0][2] = as1;
+        matrizAS[0][3] = as11;
+        matrizAS[0][4] = as11;
+        matrizAS[0][5] = as11;
+        matrizAS[0][10] = as1;
+        matrizAS[0][11] = as1;
+        matrizAS[0][13] = as1;
+        matrizAS[0][14] = as1;
+        matrizAS[0][17] = as1;
+        matrizAS[0][22] = as1;
+        matrizAS[0][24] = as10;
+        matrizAS[0][25] = as7;
+        matrizAS[0][26] = as7;
+        matrizAS[0][27] = as7;
+        matrizAS[0][28] = as11; //TODO 
+        //estado 1
+        for (int i = 0; i <= 28; i++)
+            matrizAS[1][i] = as4;
+        matrizAS[1][0] = as2;
+        matrizAS[1][1] = as2;
+        matrizAS[1][2] = as2;
+        matrizAS[1][3] = as2; 
+        matrizAS[1][4] = as2; 
+        matrizAS[1][5] = as2; 
+        matrizAS[1][28] = as11; //TODO 
+        //estado 2
+        for (int i = 0; i <= 28; i++)
+            matrizAS[2][i] = as3;
+        matrizAS[2][1] = as2;
+        matrizAS[2][2] = as2;
+        matrizAS[2][22] = as2;
+        matrizAS[2][28] = as11; //TODO 
+        
+        //estado 3
+        for (int i = 0; i <= 28; i++)
+            matrizAS[3][i] = as11; 
+        matrizAS[3][12] = as5;
+        
+        //estado 4
+        for (int i = 0; i <= 28; i++)
+            matrizAS[4][i] = as6;
+        matrizAS[4][12] = as5;
+        
+        //estado 5
+        for (int i = 0; i <= 28; i++)
+            matrizAS[5][i] = as2;
+        matrizAS[5][24] = as9;
+        matrizAS[5][27] = as11; 
+        
+        //estado 6
+        for (int i = 0; i <= 28; i++)
+            matrizAS[6][i] = as11;
+        matrizAS[6][1] = as2;
+        matrizAS[6][22] = as5;
+        matrizAS[6][28] = as11; // TODO
+        
+        //estado 7
+        for (int i = 0; i <= 28; i++)
+            matrizAS[7][i] = as5;
+        matrizAS[7][1] = as2;
+        matrizAS[7][2] = as2;  
+        
+        //estado 8
+        for (int i = 0; i <= 28; i++)
+            matrizAS[8][i] = as12;
+        matrizAS[8][1] = as2;
+        matrizAS[8][6] = as2; 
+        matrizAS[8][7] = as2;  
+        
+     
+        //estado 9
+        for (int i = 0; i <= 28; i++)
+            matrizAS[9][i] = as11;
+        matrizAS[9][1] = as2;
+        
+        //estado 10
+        for (int i = 0; i <= 28; i++)
+            matrizAS[10][i] = as3;
+        matrizAS[10][1] = as2;
+        
+        //estado 11
+        for (int i = 0; i <= 28; i++)
+            matrizAS[11][i] = as6;
+        matrizAS[11][7] = as10;
+        
+        //estado 12
+        for (int i = 0; i <= 28; i++)
+            matrizAS[12][i] = as7;
+      
+        
+        //estado 13
+        for (int i = 0; i <= 28; i++)
+            matrizAS[13][i] = as7;
     }
     
-    private int getColumna(int caracter) { // obtiene la columna en la que está cada caracter en la matriz de estados TODO
+    private int getColumna(int caracter) { // obtiene la columna en la que está cada caracter en la matriz de estados 
             //comprueba que llegue una letra
             if ((caracter >= 65 && caracter <= 90) || (caracter >= 97 && caracter <= 122))
-                if ((caracter != 'D') && (caracter != 'd')) //D o d se trata en otra columna
+                if ((caracter != 'B') && (caracter != 'b')) //B o b se trata en otra columna
                     return 0;  // Retorna columna de letras
             if (caracter >= 48 && caracter <= 57)
                     return 1;  // Retorna columna de digitos
-            if (caracter == '\n')//salto de linea
+            if ((caracter == 'B') || (caracter =='b'))
                     return 2;
-            if (caracter == '*')
+            if (caracter == '_')
                     return 3;
-            if (caracter == '\'')
+            if (caracter == '$')
                     return 4;
-            if (caracter == '+')
+            if (caracter == '&')
                     return 5;
-            if (caracter == '-')
+            if (caracter == '+')
                     return 6;
-            if (caracter == '/')
+            if (caracter == '-')
                     return 7;
-            if (caracter == '(')
+            if (caracter == '/')
                     return 8;
-            if (caracter == ')')
+            if (caracter == '*')
                     return 9;
-            if (caracter == ',')
+            if (caracter == '>')
                     return 10;
-            if (caracter == ';')
+            if (caracter == '<')
                     return 11;
             if (caracter == '=')
                     return 12;
-            if (caracter == '!')
+            if (caracter == ':')
                     return 13;
-            if (caracter == '<')
+            if (caracter == '^')
                     return 14;
-            if (caracter == '>')
+            if (caracter == '(')
                     return 15;
-            if (caracter == '.')
+            if (caracter == ')')
                     return 16;
-            if ((caracter == 'D') || (caracter =='d'))
-                    return 17;  // L o l para delimitar un longint
+            if (caracter == '[')  
+                    return 17;  
+            if (caracter ==']')
+            		return 18;
+            if (caracter =='{')
+        			return 19;
+            if (caracter =='}')
+        			return 20;
+            if (caracter ==',')
+        			return 21;
+            if (caracter =='.')
+        			return 22;
+            if (caracter ==';')
+        			return 23;
+            if (caracter =='"')
+        			return 24;
             if ((caracter == 32) || (caracter == 9))
-                    return 18;  // ESPACIO BLANCO O TABULACION
+                    return 26;  // ESPACIO BLANCO O TABULACION
+            if (caracter == '\n')
+            		return 27;
             if (caracter == 255){
                     eof = true;
-                    return 19;  //FIN DE ARCHIVO
+                    return 28;  //FIN DE ARCHIVO
             }
-            return 20;
+            return 25;
     }
 
     
     public String getMensaje(int nro){ //TODO
-//        switch(nro){
-//            //ERRORES LEXICOS
-//            case 1: return "Constante double fuera del rango permitido";
-//            case 2: return "Carácter no identificado";
-//            case 3: return "Construcción de token erróneo";
-//
-//            //ERRORES SINTACTICOS
-//            case 4: return "No se encontró el fin de archivo";
-//            case 5: return "Falta el bloque de sentencias ejecutables";    
-//            case 6: return "Falta el bloque de sentencias declarativas";
-//            case 7: return "Se esperaba un ';'";
-//            case 8: return "Falta el tipo de la declaración";
-//            case 9: return "Sentencia declarativa incorrecta";
-//            case 10: return "Sentencia expresión de retorno";
-//            case 11: return "Falta el identificador de la asignación";
-//            case 12: return "Falta el identificador de la asignación y se esperaba un ';'";
-//            case 13: return "Bloque de sentencias sin finalizar";    
-//            case 14: return "Bloque de sentencias sin inicializar";
-//            case 15: return "Falta abrir paréntesis '('";
-//            case 16: return "Falta cerrar paréntesis ')'";
-//            case 17: return "Parámetro del print incorrecto";
-//            case 18: return "Falta palabra reservada 'print'";  
-//            case 19: return "Sentencia incorrecta";
-//                
-//            /*    
-//            case 7: return "Error sintáctico";
-//            case 8: return "Falta abrir paréntesis '('";
-//            case 9: return "Falta cerrar paréntesis ')'";
-//            case 10: return "Bloque de sentencias sin inicializar";    
-//            case 11: return "Bloque de sentencias sin finalizar";
-//            case 12: return "Error en el bloque de sentencias";
-//            case 13: return "Variable redeclarada";
-//            case 14: return "Variable no declarada";
-//            case 15: return "Utilización de variable incorrecta";*/
-//
-//            // ESTRUCTURAS SINTACTICAS
-//            case 30: return "Sentencia declarativa";
-//            case 31: return "Sentencia de asignación";
-//            case 32: return "Sentencia de selección";
-//            case 33: return "Sentencia de iteración";
-//            case 34: return "Sentencia de impresión de caracteres";
-//            case 35: return "Bloque de sentencias";
-//            case 36: return "Sentencia de return";
-//
-//        }
+        switch(nro){
+            //ERRORES LEXICOS
+            case 1: return "Constante double fuera del rango permitido";
+            case 2: return "Carácter no identificado";
+            case 3: return "Construcción de token erróneo";
+
+            //ERRORES SINTACTICOS
+            case 4: return "No se encontró el fin de archivo";
+            case 5: return "Falta el bloque de sentencias ejecutables";    
+            case 6: return "Falta el bloque de sentencias declarativas";
+            case 7: return "Se esperaba un ';'";
+            case 8: return "Falta el tipo de la declaración";
+            case 9: return "Sentencia declarativa incorrecta";
+            case 10: return "Sentencia expresión de retorno";
+            case 11: return "Falta el identificador de la asignación";
+            case 12: return "Falta el identificador de la asignación y se esperaba un ';'";
+            case 13: return "Bloque de sentencias sin finalizar";    
+            case 14: return "Bloque de sentencias sin inicializar";
+            case 15: return "Falta abrir paréntesis '('";
+            case 16: return "Falta cerrar paréntesis ')'";
+            case 17: return "Parámetro del print incorrecto";
+            case 18: return "Falta palabra reservada 'print'";  
+            case 19: return "Sentencia incorrecta";
+                
+            /*    
+            case 7: return "Error sintáctico";
+            case 8: return "Falta abrir paréntesis '('";
+            case 9: return "Falta cerrar paréntesis ')'";
+            case 10: return "Bloque de sentencias sin inicializar";    
+            case 11: return "Bloque de sentencias sin finalizar";
+            case 12: return "Error en el bloque de sentencias";
+            case 13: return "Variable redeclarada";
+            case 14: return "Variable no declarada";
+            case 15: return "Utilización de variable incorrecta";*/
+
+            // ESTRUCTURAS SINTACTICAS
+            case 30: return "Sentencia declarativa";
+            case 31: return "Sentencia de asignación";
+            case 32: return "Sentencia de selección";
+            case 33: return "Sentencia de iteración";
+            case 34: return "Sentencia de impresión de caracteres";
+            case 35: return "Bloque de sentencias";
+            case 36: return "Sentencia de return";
+
+        }
         return null;
     }
 

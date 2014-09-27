@@ -115,7 +115,7 @@ public class Token {
         tipo = t;
     }
     
-    public void addParametro(Token p){
+    public void addParametro(Token p){ // TODO
         if (parametros == null)
             parametros = new Vector<Token>();
         parametros.addElement(p);
