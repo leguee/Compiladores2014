@@ -6,7 +6,7 @@ public class AnalizadorLexico {
     private int nroLinea;                       //numero de linea 
     private String codFuente;                //codigo fuente tomado del panelText
     private TablaSimbolos tablaSimb;              //tabla de simbolos que contiene los tokens
-    private Mensajes manejador;      //lleva los msj a la interfaz
+    private Mensajes msj;      //lleva los msj a la interfaz
     private Token token;                        //token actual
     private int estado;                         //estado actual
     private int posicion;                       //posicion en el codigo fuente
@@ -14,7 +14,7 @@ public class AnalizadorLexico {
     private boolean eof;                        //booleana que indica si se llegó al final del archivo
     private boolean fin;
 
-                                  //  L  D  b  _  $  &  +  -  /  *  >  <  =  :  ^  (  )  [  ]  {  }  ,  .  ;  " OTRO TyB /n  EOF        TODO 
+                                  //  L  D  b  _  $  &  +  -  /  *  >  <  =  :  ^  (  )  [  ]  {  }  ,  .  ;  " OTRO TyB /n  EOF        TODO eof 
     private int[][] matrizEstados = {{ 1, 2, 1,-1,-1,-1,-1,-1,-1,-1, 4, 4,-1, 3, 3,-1,-1,11,-1,-1,-1,-1, 6,-1, 5, 0, 0 , 0 , -1},    //estado 0 
     								 { 1, 1, 1, 1, 1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 ,-1 , -1},    //estado 1
     								 {-1, 2, 9,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 7,-1,-1,-1,-1 ,-1 , -1},    //estado 2
@@ -35,7 +35,7 @@ public class AnalizadorLexico {
 
     public AnalizadorLexico(String cf, Mensajes m){
         tablaSimb = new TablaSimbolos();
-        manejador = m;
+        msj = m;
         this.codFuente = cf;
         this.nroLinea = 1;
         eof = false;
@@ -60,7 +60,7 @@ public class AnalizadorLexico {
         }
         
         if (eof && !fin){                                                       //Cuando llegamos al final del archivo
-            manejador.tablaDeSimbolos();
+            msj.tablaDeSimbolos();
             fin = true;
             return FIN;                                                         //Primero devolvemos el "FIN"
         }
@@ -96,16 +96,16 @@ public class AnalizadorLexico {
         matrizAS = new AccionesSemantica[14][29];
         as1 = new As1();
         as2 = new As2();
-        as3 = new As3(tablaSimb, this, manejador);
-        as4 = new As4(tablaSimb, manejador, this);
-        as5 = new As5(manejador,this);
-        as6 = new As6(manejador, this);
+        as3 = new As3(tablaSimb, this, msj);
+        as4 = new As4(tablaSimb, msj, this);
+        as5 = new As5(msj,this);
+        as6 = new As6(msj, this);
         as7 = new As7();
-        as8 = new As8(manejador,this);
-        as9 = new As9(manejador, this, tablaSimb);
+        as8 = new As8(msj,this);
+        as9 = new As9(msj, this, tablaSimb);
         as10 = new As10();
-        as11 = new As11(manejador, this);
-        as12 = new As12(manejador, this, tablaSimb);
+        as11 = new As11(msj, this);
+        as12 = new As12(msj, this, tablaSimb);
         
         //Estado 0
         for (int i = 0; i <= 28; i++)
@@ -170,7 +170,7 @@ public class AnalizadorLexico {
         
         //estado 7
         for (int i = 0; i <= 28; i++)
-            matrizAS[7][i] = as5;
+            matrizAS[7][i] = as3;
         matrizAS[7][1] = as2;
         matrizAS[7][2] = as2;  
         

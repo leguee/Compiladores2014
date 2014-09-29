@@ -1,25 +1,14 @@
 package compilador;
 
-public class Mensajes {
+public abstract class Mensajes {
 
-	public void tablaDeSimbolos() {
-		// TODO Auto-generated method stub
+	public abstract void tablaDeSimbolos();
+
+	public abstract void error(int nroLinea, String mensaje, String string);
+
+	public abstract void token(int nroLinea, String lexema) ;
+	
+	public abstract void warning(String string) ;
 		
-	}
-
-	public void error(int nroLinea, String mensaje, String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void token(int nroLinea, String lexema) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void warning(String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	 public abstract void estructuraSintactica(int linea, String estructura);
 }

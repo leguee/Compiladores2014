@@ -10,12 +10,11 @@ public class Token {
     
     //Simbolos que forman el token
     private String lexema;
-    private boolean seAgregoCaracter; // me dice si el ultimo caracter fue agregado al token (Ultimo caracter)
+    private boolean seAgregoCaracter; // me dice si el ultimo caracter fue agregado al token 
     private int contadorDeReferencia;
     private EntradaTS entrada;
     private Short id;
     private String tipo;
-    private Vector<Token> parametros;
     
     public Token(){
         lexema = new String();
@@ -24,7 +23,6 @@ public class Token {
         entrada=null;
         id = 0;
         tipo = null;
-        parametros = null;
     }
 
     // Agrega el caracter recibido al final del string
@@ -114,23 +112,9 @@ public class Token {
     public void setTipo(String t){
         tipo = t;
     }
-    
-    public void addParametro(Token p){ // TODO
-        if (parametros == null)
-            parametros = new Vector<Token>();
-        parametros.addElement(p);
-    }
-    
-    public void addParametros(Vector<Token> ps){
-        parametros = ps;
-    }
-    
-    public Vector<Token> getParametros(){
-        return parametros;
-    }
 
 	public void setEntradaTS(EntradaTS entradaTS) {
-		// TODO Auto-generated method stub
+
 		this.entrada = entradaTS;
 		
 	}

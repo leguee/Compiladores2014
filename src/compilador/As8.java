@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 public class As8 extends AccionesSemantica { //Inicializa un token, adiciona el símbolo leído y empaqueta el token.
 
-
+    public static final Short COMPARADOR = 271;
 		private Mensajes ms;
 	    private AnalizadorLexico al;
 	    private Hashtable <String, Short> simbolos;
@@ -12,14 +12,19 @@ public class As8 extends AccionesSemantica { //Inicializa un token, adiciona el 
 	    public As8(Mensajes m, AnalizadorLexico a){
 	        ms = m;
 	        al = a;
-	        simbolos = new Hashtable<String, Short>(); // TODO verificar con todos los que van del estado final al inicial
+	        simbolos = new Hashtable<String, Short>(); 
 	        simbolos.put("+", new Short((short)'+'));
 	        simbolos.put("-", new Short((short)'-'));
 	        simbolos.put("*", new Short((short)'*'));
 	        simbolos.put("/", new Short((short)'/'));
-	        simbolos.put(")", new Short((short)')'));
+	        simbolos.put("]", new Short((short)']'));
 	        simbolos.put(",", new Short((short)','));
 	        simbolos.put(";", new Short((short)';'));
+	        simbolos.put(")", new Short((short)')'));
+	        simbolos.put("(", new Short((short)'('));
+	        simbolos.put("{", new Short((short)'{'));
+	        simbolos.put("}", new Short((short)'}'));
+	        simbolos.put("=", COMPARADOR);
 	    }
 
 	    public Token ejecutar(Token token, char c) {

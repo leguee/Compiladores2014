@@ -1,7 +1,7 @@
 package compilador;
 
 public class As12 extends AccionesSemantica {
-	// Empaqueta el token, controlando el rango, sin adicionar el ultimo simbolo y
+	// Empaqueta el token, controlando el rango, no adiciona el ultimo simbolo y
 	// retrocediendo la posición de lectura de caracteres para que se vuelva a leer el caracter "B".
 	// El carcater "B" no se incluye en el token actual.
 	
@@ -19,7 +19,7 @@ public class As12 extends AccionesSemantica {
     public Token ejecutar(Token t, char c) {
         t.setId(CONSTANTE);
         double d = Double.valueOf(t.getLexema().substring(0, t.getLexema().length()-1));
-        t.setLexema(String.valueOf(d));
+        t.setLexema(String.valueOf(d)); // TODO verificar bien este rango 
         if (d > Short.MIN_VALUE && d < Short.MAX_VALUE){
             if (tabla.contieneLexema(t.getLexema())){
                 tabla.getEntradaTS(t.getLexema()).incrementarCont();
@@ -28,7 +28,7 @@ public class As12 extends AccionesSemantica {
             else{
                 t.setId(CONSTANTE);
                 tabla.addETS(t.getLexema(), t.getETS());
-                tabla.getEntradaTS(t.getLexema()).setTipo("double"); // TODO poner el tipo DOBLE
+                tabla.getEntradaTS(t.getLexema()).setTipo("doble"); 
             }
             ms.token(al.getNroLinea(), t.getLexema());
         }
