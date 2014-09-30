@@ -1,14 +1,14 @@
 package compilador;
 
-public abstract class Mensajes {
+public interface Mensajes {
 
-	public abstract void tablaDeSimbolos();
+	public void tablaDeSimbolos();
 
-	public abstract void error(int nroLinea, String mensaje, String string);
+	public void error(int nroLinea, String mensaje, String string);
 
-	public abstract void token(int nroLinea, String lexema) ;
+	public void token(int nroLinea, String lexema) ;
 	
-	public abstract void warning(String string) ;
+	public void warning(String string) ;
 		
-	 public abstract void estructuraSintactica(int linea, String estructura);
+	 public void estructuraSintactica(int linea, String estructura);
 }

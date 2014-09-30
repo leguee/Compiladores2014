@@ -1,0 +1,82 @@
+double a; (*sentencia declarativa*) 
+double y; (*sentencia declarativa*)
+
+(*prueba de comentario multiliena
+loop anidados con sentencias if/ else
+prueba de declaracion double zz que no debe ser reconocida en la TS*)
+
+
+(* ==========================================================
+ejemplo de declaraci?n de funcion
+===========================================================*)
+
+function funcion1 (double x)
+begin
+	double z, w;
+	z=0.;
+	w=5.;
+	if (z==x) then
+	begin
+		return z;
+	end
+	else 
+	begin
+		return w;
+	end
+	x = z+w;
+end
+
+(* ==========================================================
+ejemplo de declaraci?n de funcion
+===========================================================*)
+
+function funcion2 (double z)
+begin
+	double a;
+	print ('a- 1');
+	return a;
+end
+
+
+
+(* ==========================================================
+Declaraci?n de constantes
+===========================================================*)
+
+double 1.7976931348623156d308 (*constante v?lida*)
+double 1.7976931348623157d308 (*constante fuera de rango, limite superior*)
+
+double 2.2250738585072014d-308 (*constante v?lida*)
+double -3.0d308(*constante fuera de rango, limite superior*)
+
+(* ==========================================================
+ejemplos loop anidados con if y utilizando la funcion1 y 
+funcion 2 declarada  anteriormente
+===========================================================*)
+
+double aaaaaaaaaaaaaaaaaaaaaaaaaaa; (*este identificador sera truncado*)
+double b;
+double c; 
+b= funcion2(10.);
+
+loop		                        (* comienzo loop 1*)
+begin		                        (* inicio bloque de control loop1*)
+           a= a+1.0005;                                                (* asignacion dentro de loop1*)
+           double r;	                                                     (* asignacion dentro de loop1*)
+           loop		                       (* comienzo loop 2*) 		
+           begin                                                             (* inicio bloque de control loop2*)
+                      if (r > 50.) then
+	begin
+	           r= r+3.;
+	end
+                       else 
+                               begin
+	            r= r-1.
+                               end
+
+                         y=y-10.;
+
+           end                                                                  (* fin bloque de control loop2*)
+           until (y >r)	                         (* setencia iteracion loop2*)	
+end	                                                       (* fin bloque de control loop1*)
+until (a >2.)                                                                 (* setencia iteracion loop1*)

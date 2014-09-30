@@ -20,7 +20,7 @@ public class TablaSimbolos {
         palReservadas.addElement("doble");
         palReservadas.addElement("vector");
         palReservadas.addElement("de");
-        palReservadas.addElement("itera");
+        palReservadas.addElement("iterar");
         palReservadas.addElement("hasta");
         palReservadas.addElement("entero");
     }
