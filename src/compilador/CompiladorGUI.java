@@ -15,6 +15,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -30,7 +32,9 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 	private JTextField comboBox;
 	private JPanel panelPrincipal ;
 	private String codigo ;
+	private JTextArea textoCodigo;
     private JTextArea textoLineas;
+    private JScrollPane jScrollPane ;
 
 	
 	private JTabbedPane tb ;
@@ -77,13 +81,17 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		panelPrincipal.setLayout(null);
 		panelPrincipal.setPreferredSize(new java.awt.Dimension(748, 316));
         panelPrincipal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
-		//panelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
+		panelPrincipal.setBackground(new java.awt.Color(70, 150, 255));
 				
 		comboBox = new JTextField();
 		panelPrincipal.add(comboBox);
 		comboBox.setBounds(125, 30, (int) (x*0.37), 27);
 				
-		final JTextArea textoCodigo = new JTextArea ();
+		jScrollPane = new JScrollPane();
+		panelPrincipal.add(jScrollPane);
+		jScrollPane.setPreferredSize(new java.awt.Dimension(745,288));
+		
+		textoCodigo = new JTextArea ();
 		panelPrincipal.add(textoCodigo);
 		textoCodigo.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
 		textoCodigo.setBackground(new java.awt.Color(51, 51, 51));
@@ -93,6 +101,9 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         textoCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         textoCodigo.setCaretColor(new java.awt.Color(255, 255, 255));
         textoCodigo.setRows(5);
+        jScrollPane.setViewportView(textoCodigo);
+
+
         
         //textoLineas
         
@@ -210,14 +221,54 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         getContentPane().add(tab,BorderLayout.EAST);
         tab.setBounds(500, 100, 200, 300);
         
-		
-		
+        manejoDeLineas();
+
 	}
 	
 	// FIN GUI
 	
 	//////////////////////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	public void manejoDeLineas(){
+        textoLineas = new javax.swing.JTextArea(new String("1"));
+        textoLineas.setBackground(new java.awt.Color(51, 51, 51));
+        textoLineas.setColumns(3);
+        textoLineas.setFont(new java.awt.Font("Arial",1,12));
+        textoLineas.setForeground(new java.awt.Color(255, 255, 255));
+        textoLineas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        textoLineas.setCaretColor(new java.awt.Color(255, 255, 255));
+        textoLineas.setEditable(false);
+
+        textoCodigo.getDocument().addDocumentListener(new DocumentListener(){
+            public String getText(){
+                String text = new String("1");
+                for (int i = 2; i <= textoCodigo.getLineCount(); i++)
+                    text += "\n" + i;
+                return text;
+            }
+            @Override
+            public void changedUpdate(DocumentEvent de) {
+                textoLineas.setText(getText());
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent de) {
+                textoLineas.setText(getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent de) {
+                textoLineas.setText(getText());
+            }
+        });
+    
+        jScrollPane.getViewport().add(textoCodigo);
+        jScrollPane.setRowHeaderView(textoLineas);
+    }
+	
+	
 	
 	
 	public void loadData(FileReader archivo, JTextArea textoCodigo){
