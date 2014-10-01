@@ -1,6 +1,6 @@
 package compilador;
 
-public class As3 extends AccionesSemantica { // Empaqueta el token controlando el rango y sin consumir el último caracter.
+public class As13 extends AccionesSemantica { // Empaqueta el token controlando el rango de un Entero y sin consumir el ultimo caracter
 
 	public static final Short CONSTANTE = 265; 
 	private TablaSimbolos ts;
@@ -8,7 +8,7 @@ public class As3 extends AccionesSemantica { // Empaqueta el token controlando e
 	private Mensajes ms;
 	
 
-	public As3(TablaSimbolos ts, AnalizadorLexico al, Mensajes ms) {
+	public As13(TablaSimbolos ts, AnalizadorLexico al, Mensajes ms) {
 		this.ts = ts;
 		this.al = al;
 		this.ms = ms;
@@ -19,9 +19,9 @@ public class As3 extends AccionesSemantica { // Empaqueta el token controlando e
 	public Token ejecutar(Token token, char caracter) {
 		
 		token.setId(CONSTANTE);
-		double d = Double.valueOf(token.getLexema().replace('b', 'E').replace('B', 'E'));
-		token.setLexema(String.valueOf(d));
-		if(d> Double.MIN_VALUE && d< Double.MAX_VALUE ) { 
+		Double e = Double.valueOf(token.getLexema());
+		token.setLexema(String.valueOf(e).replace('.', ' ').replace('0', ' '));
+		if(e> Short.MIN_VALUE && e< Short.MAX_VALUE ) { 
 			if(ts.contieneLexema(token.getLexema())) {
 				ts.getEntradaTS(token.getLexema()).incrementarCont();
 				token.setEntradaTS(ts.getEntradaTS(token.getLexema()));
@@ -29,15 +29,16 @@ public class As3 extends AccionesSemantica { // Empaqueta el token controlando e
 			else {
 				token.setId(CONSTANTE);
 				ts.addETS(token.getLexema(), token.getETS());
-				ts.getEntradaTS(token.getLexema()).setTipo("doble");
+				ts.getEntradaTS(token.getLexema()).setTipo("entero");
 			}
 			
 		}
 		else {
-			ms.error(al.getNroLinea(), al.getMensaje(1), "LEXICO"); 
+			ms.error(al.getNroLinea(), al.getMensaje(20), "LEXICO"); 
 		}
 		token.noSeAgregoCaracterLeido();
 		return token;
 	}
+	
 
 }

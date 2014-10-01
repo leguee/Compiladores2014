@@ -10,7 +10,7 @@ public class AnalizadorLexico {
     private Token token;                        //token actual
     private int estado;                         //estado actual
     private int posicion;                       //posicion en el codigo fuente
-    private AccionesSemantica as1, as2, as3, as4, as5, as6, as7, as8, as9, as10, as11, as12; //acciones semanticas
+    private AccionesSemantica as1, as2, as3, as4, as5, as6, as7, as8, as9, as10, as11, as12, as13; //acciones semanticas
     private boolean eof;                        //booleana que indica si se llegó al final del archivo
     private boolean fin;
 
@@ -106,6 +106,7 @@ public class AnalizadorLexico {
         as10 = new As10();
         as11 = new As11(msj, this);
         as12 = new As12(msj, this, tablaSimb);
+        as13 = new As13(tablaSimb, this, msj);
         
         //Estado 0
         for (int i = 0; i <= 28; i++)
@@ -139,7 +140,7 @@ public class AnalizadorLexico {
         matrizAS[1][28] = as11; //TODO 
         //estado 2
         for (int i = 0; i <= 28; i++)
-            matrizAS[2][i] = as3;
+            matrizAS[2][i] = as13;
         matrizAS[2][1] = as2;
         matrizAS[2][2] = as2;
         matrizAS[2][22] = as2;
@@ -278,6 +279,7 @@ public class AnalizadorLexico {
             case 1: return "Constante double fuera del rango permitido";
             case 2: return "Carácter no identificado";
             case 3: return "Construcción de token erróneo";
+            case 20: return "Constante entero fuera de rango permitido";
 
             //ERRORES SINTACTICOS
             case 4: return "No se encontró el fin de archivo";
@@ -296,17 +298,6 @@ public class AnalizadorLexico {
             case 17: return "Parámetro del print incorrecto";
             case 18: return "Falta palabra reservada 'print'";  
             case 19: return "Sentencia incorrecta";
-                
-            /*    
-            case 7: return "Error sintáctico";
-            case 8: return "Falta abrir paréntesis '('";
-            case 9: return "Falta cerrar paréntesis ')'";
-            case 10: return "Bloque de sentencias sin inicializar";    
-            case 11: return "Bloque de sentencias sin finalizar";
-            case 12: return "Error en el bloque de sentencias";
-            case 13: return "Variable redeclarada";
-            case 14: return "Variable no declarada";
-            case 15: return "Utilización de variable incorrecta";*/
 
             // ESTRUCTURAS SINTACTICAS
             case 30: return "Sentencia declarativa";

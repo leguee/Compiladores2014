@@ -19,8 +19,8 @@ public class As12 extends AccionesSemantica {
     public Token ejecutar(Token t, char c) {
         t.setId(CONSTANTE);
         double d = Double.valueOf(t.getLexema().substring(0, t.getLexema().length()-1));
-        t.setLexema(String.valueOf(d)); // TODO verificar bien este rango 
-        if (d > Short.MIN_VALUE && d < Short.MAX_VALUE){
+        t.setLexema(String.valueOf(d)); 
+        if (d > Double.MIN_VALUE && d < Double.MAX_VALUE){
             if (tabla.contieneLexema(t.getLexema())){
                 tabla.getEntradaTS(t.getLexema()).incrementarCont();
                 t.setEntradaTS(tabla.getEntradaTS(t.getLexema()));
