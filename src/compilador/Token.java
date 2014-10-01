@@ -4,9 +4,9 @@ import java.util.Vector;
 
 public class Token {
 
-    public static final Short ID = 267;
-    public static final Short CONSTANTE = 268;
-    public static final Short STRING = 270;
+    public static final Short ID = 264;
+    public static final Short CONSTANTE = 265;
+    public static final Short STRING = 267;
     
     //Simbolos que forman el token
     private String lexema;
@@ -57,7 +57,7 @@ public class Token {
     
     //Trunca a 15 caracteres el valor del token
     public void truncarId() {
-	this.lexema = this.lexema.substring(0,15);
+	this.lexema = this.lexema.substring(0,11);
     }
 
     public void setId(Short id) {

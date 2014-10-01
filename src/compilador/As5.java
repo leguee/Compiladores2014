@@ -4,9 +4,9 @@ import java.util.Hashtable;
 
 public class As5 extends AccionesSemantica { // Adiciona el simbolo leido y empaqueta el token.
 
-    public static final Short COMPARADOR = 271;
-    public static final Short ASIGNACION = 272;
-    public static final Short RANGO = 273;
+    public static final Short COMPARADOR = 268;
+    public static final Short ASIGNACION = 269;
+    public static final Short RANGO = 274;
     
     private Mensajes ms;
     private AnalizadorLexico al;

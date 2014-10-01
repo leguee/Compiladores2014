@@ -7,7 +7,7 @@ public class As10 extends AccionesSemantica { // Inicializar el token sin adicio
 
 	    public Token ejecutar(Token token, char c) {
 	        token = new Token();
-	        token.seAgregoCaracterLeido(); //TODO verificar que no sea el otro false
+	        token.seAgregoCaracterLeido(); 
 	        return token;
 	    }
 }

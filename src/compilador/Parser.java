@@ -163,7 +163,7 @@ public final static short SI=258;
 public final static short ENTONCES=259;
 public final static short SINO=260;
 public final static short IMPRIMIR=261;
-public final static short ITERA=262;
+public final static short ITERAR=262;
 public final static short HASTA=263;
 public final static short ID=264;
 public final static short CONSTANTE=265;
@@ -331,7 +331,7 @@ null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 null,null,null,null,null,null,null,null,"ENTERO","SI","ENTONCES","SINO",
-"IMPRIMIR","ITERA","HASTA","ID","CONSTANTE","DOBLE","STRING","COMPARADOR",
+"IMPRIMIR","ITERAR","HASTA","ID","CONSTANTE","DOBLE","STRING","COMPARADOR",
 "ASIGNACION","FIN","\"..\"","\"DE\"",
 };
 final static String yyrule[] = {
@@ -374,7 +374,7 @@ final static String yyrule[] = {
 "bloque : '{' sentencias_ejecutables error",
 "bloque : '}'",
 "condicion : '(' expresion COMPARADOR expresion ')'",
-"iteracion : ITERA bloque HASTA condicion",
+"iteracion : ITERAR bloque HASTA condicion",
 "print : IMPRIMIR '(' STRING ')' ';'",
 "print : IMPRIMIR '(' STRING ')' error",
 "print : IMPRIMIR '(' error ')' ';'",

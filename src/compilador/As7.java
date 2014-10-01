@@ -6,7 +6,7 @@ public class As7 extends AccionesSemantica { // Lee un símbolo sin adicionarlo a
     }
 
     public Token ejecutar(Token token, char c) {
-        token.seAgregoCaracterLeido(); // TODO verificar que esto anda, sino cambiar por el otro ...true->original
+        token.seAgregoCaracterLeido(); 
         return token;
     }
 }

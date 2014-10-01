@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 public class As8 extends AccionesSemantica { //Inicializa un token, adiciona el símbolo leído y empaqueta el token.
 
-    public static final Short COMPARADOR = 271;
+    public static final Short COMPARADOR = 268;
 		private Mensajes ms;
 	    private AnalizadorLexico al;
 	    private Hashtable <String, Short> simbolos;

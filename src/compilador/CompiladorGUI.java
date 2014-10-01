@@ -321,7 +321,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 	@Override
 	public void tablaDeSimbolos() { // Muestra la tabla de simbolos por pantalla
 	    DefaultTableModel temp = (DefaultTableModel) tabla.getModel();
-		Hashtable<String,EntradaTS> aux = analizadorLexico.getTablaDeSimbolos().getTabla(); // TODO crear el al en el boton analizar
+		Hashtable<String,EntradaTS> aux = analizadorLexico.getTablaDeSimbolos().getTabla(); 
 		Enumeration<EntradaTS> e = aux.elements();
 		while (e.hasMoreElements()){
 	            EntradaTS entrada = e.nextElement();

@@ -2,7 +2,7 @@ package compilador;
 
 public class As3 extends AccionesSemantica { // Empaqueta el token controlando el rango y sin consumir el último caracter.
 
-	public static final Short CONSTANTE = 268; 
+	public static final Short CONSTANTE = 265; 
 	private TablaSimbolos ts;
 	private AnalizadorLexico al;
 	private Mensajes ms;
@@ -33,7 +33,7 @@ public class As3 extends AccionesSemantica { // Empaqueta el token controlando e
 			
 		}
 		else {
-			ms.error(al.getNroLinea(), al.getMensaje(1), "LEXICO"); // TODO ver el tipo de error cuando no está en el rango
+			ms.error(al.getNroLinea(), al.getMensaje(1), "LEXICO"); 
 		}
 		token.noSeAgregoCaracterLeido();
 		return token;

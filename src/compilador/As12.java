@@ -5,7 +5,7 @@ public class As12 extends AccionesSemantica {
 	// retrocediendo la posición de lectura de caracteres para que se vuelva a leer el caracter "B".
 	// El carcater "B" no se incluye en el token actual.
 	
-    public static final Short CONSTANTE = 268;
+    public static final Short CONSTANTE = 265;
     private Mensajes ms;
     private AnalizadorLexico al;
     private TablaSimbolos tabla;

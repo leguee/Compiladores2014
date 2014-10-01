@@ -2,7 +2,7 @@ package compilador;
 
 public class As9 extends AccionesSemantica {// Empaqueta el token consumiendo el simbolo, pero sin adicionarlo. en el caso de las comillas simples
 
-	 public static final Short STRING = 270;
+	 public static final Short STRING = 267;
 	    private Mensajes ms;
 	    private AnalizadorLexico al;
 	    private TablaSimbolos tabla;

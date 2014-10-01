@@ -5,7 +5,7 @@ import java.util.Hashtable;
 public class As6 extends AccionesSemantica { //  Empaqueta el token sin adicionar el símbolo y sin consumirlo
 
 
-    public static final Short COMPARADOR = 271;
+    public static final Short COMPARADOR = 268;
     
     private Mensajes ms;
     private AnalizadorLexico al;

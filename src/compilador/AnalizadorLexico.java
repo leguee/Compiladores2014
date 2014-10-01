@@ -1,7 +1,7 @@
 package compilador;
 
 public class AnalizadorLexico {
-	public static final Short FIN = 273;
+	public static final Short FIN = 270;
 
     private int nroLinea;                       //numero de linea 
     private String codFuente;                //codigo fuente tomado del panelText

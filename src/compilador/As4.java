@@ -5,17 +5,17 @@ import java.util.Hashtable;
 public class As4 extends AccionesSemantica{ // Empaqueta el token controlando la longitud sin consumir el símbolo leído
 
 	
-		public static final Short SI = 257; 
-	    public static final Short ENTONCES = 258;
-	    public static final Short SINO = 259;
-	    public static final Short IMPRIMIR = 260;
-	    public static final Short DOBLE = 269;
-	    public static final Short VECTOR = 262;
-	    public static final Short DE = 263;
-	    public static final Short ITERAR = 264;
-	    public static final Short HASTA = 265;
-	    public static final Short ENTERO = 266;
-	    public static final Short ID = 267;
+		public static final Short SI = 258; 
+	    public static final Short ENTONCES = 259;
+	    public static final Short SINO = 260;
+	    public static final Short IMPRIMIR = 261;
+	    public static final Short DOBLE = 266;
+	    public static final Short VECTOR = 273;
+	    public static final Short DE = 272;
+	    public static final Short ITERAR = 262;
+	    public static final Short HASTA = 263;
+	    public static final Short ENTERO = 257;
+	    public static final Short ID = 264;
 	    
 	    
 	    private TablaSimbolos ts;
