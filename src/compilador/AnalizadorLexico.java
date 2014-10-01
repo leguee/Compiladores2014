@@ -312,6 +312,7 @@ public class AnalizadorLexico {
             case 39: return "Falta cerrar corchetes ']'";
             case 40: return "Falta declarar los dos puntos ..";
             case 41: return "Falta agregar el tipo";
+            case 42: return "Falta agregar el tipo 'vector'";
         }
         return null;
     }
