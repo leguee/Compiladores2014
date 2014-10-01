@@ -2,6 +2,7 @@ package compilador;
 
 
 
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -93,19 +94,20 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		panelPrincipal.setLayout(null);
 		panelPrincipal.setPreferredSize(new java.awt.Dimension(748, 316));
         panelPrincipal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
-		panelPrincipal.setBackground(new java.awt.Color(70, 150, 255));
+		panelPrincipal.setBackground(new java.awt.Color(22,22,100));
 				
 		comboBox = new JTextField();
 		panelPrincipal.add(comboBox);
 		comboBox.setBounds(125, 30, (int) (x*0.37), 27);
 				
 		jScrollPane = new JScrollPane();
+		jScrollPane.setBounds((int) (x*0.025), 75, (int) (x*0.44), (int) (y*0.72));
 		panelPrincipal.add(jScrollPane);
 		jScrollPane.setPreferredSize(new java.awt.Dimension(745,288));
 		
 		textoCodigo = new JTextArea ();
 		panelPrincipal.add(textoCodigo);
-		textoCodigo.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
+		textoCodigo.setBounds((int) (x*0.03), 80, (int) (x*0.47), (int) (y*.70));
 		textoCodigo.setBackground(new java.awt.Color(51, 51, 51));
         textoCodigo.setColumns(20);
         textoCodigo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -125,7 +127,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         final JButton analizar = new JButton ("ANALIZAR");
 		analizar.setEnabled(true);
 		panelPrincipal.add(analizar);
-		analizar.setBounds((int) (x*.22), 630,90, 27);
+		analizar.setBounds((int) (x*.22), (int) (y*0.825),90, 27);
 		analizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				 Analizar();
@@ -169,6 +171,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         JPanel insidePanel1 = new JPanel();
         insidePanel1.setLayout(new GridLayout(1, 1));
         insidePanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
+        insidePanel1.setBackground(new java.awt.Color(22, 22, 100));
         tab.addTab("Tabla de Símbolos", insidePanel1);
         FlowLayout panelLayout1 = new FlowLayout();
 		insidePanel1.setLayout(panelLayout1);
@@ -176,7 +179,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 			jScrollPane1 = new JScrollPane();
 			insidePanel1.add(jScrollPane1);
 			
-			//jScrollPane1.setPreferredSize(new java.awt.Dimension((int) (x*.48),260));
+			jScrollPane1.setPreferredSize(new java.awt.Dimension((int) (x*.45),260));
 			{
 				tabModelRes = new DefaultTableModel(
 						new String[][] { {} }, new String[] {"Simbolo", "Clasificacion"});

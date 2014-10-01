@@ -1,3 +1,4 @@
+package compilador;
 //### This file created by BYACC 1.8(/Java extension  1.15)
 //### Java capabilities added 7 Jan 97, Bob Jamison
 //### Updated : 27 Nov 97  -- Bob Jamison, Joe Nieten
@@ -17,7 +18,7 @@
 
 
 //#line 2 "gramatica.y"
-package compilador;
+
 import java.util.Vector;
 import java.util.Enumeration;
 //#line 21 "Parser.java"
@@ -670,6 +671,10 @@ case 20:
 //#line 84 "gramatica.y"
 {  manejador.error(analizador.getNroLinea(), analizador.getMensaje(43),"SINTACTICO");}
 break;
+case 24:
+//#line 95 "gramatica.y"
+{manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(36));}
+break;
 case 29:
 //#line 102 "gramatica.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(19),"SINTACTICO");}
@@ -757,7 +762,7 @@ case 52:
 							yyval.obj = tabla.getTabla().get(nuevoLexema);
 						}
 break;
-//#line 684 "Parser.java"
+//#line 688 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
