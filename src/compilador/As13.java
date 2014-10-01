@@ -3,6 +3,7 @@ package compilador;
 public class As13 extends AccionesSemantica { // Empaqueta el token controlando el rango de un Entero y sin consumir el ultimo caracter
 
 	public static final Short CONSTANTE = 265; 
+	public final static short CTEENTERO=274;
 	private TablaSimbolos ts;
 	private AnalizadorLexico al;
 	private Mensajes ms;
@@ -18,7 +19,7 @@ public class As13 extends AccionesSemantica { // Empaqueta el token controlando 
 	@Override
 	public Token ejecutar(Token token, char caracter) {
 		
-		token.setId(CONSTANTE);
+		token.setId(CTEENTERO);
 		Double e = Double.valueOf(token.getLexema());
 		token.setLexema(String.valueOf(e).replace('.', ' ').replace('0', ' '));
 		if(e> Short.MIN_VALUE && e< Short.MAX_VALUE ) { 
@@ -27,7 +28,7 @@ public class As13 extends AccionesSemantica { // Empaqueta el token controlando 
 				token.setEntradaTS(ts.getEntradaTS(token.getLexema()));
 			}
 			else {
-				token.setId(CONSTANTE);
+				token.setId(CTEENTERO);
 				ts.addETS(token.getLexema(), token.getETS());
 				ts.getEntradaTS(token.getLexema()).setTipo("entero");
 			}

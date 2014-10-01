@@ -7,6 +7,7 @@ public class Token {
     public static final Short ID = 264;
     public static final Short CONSTANTE = 265;
     public static final Short STRING = 267;
+    public static final Short CTEENTERO = 274;
     
     //Simbolos que forman el token
     private String lexema;
@@ -61,7 +62,7 @@ public class Token {
     }
 
     public void setId(Short id) {
-        if ((id.equals(ID)) || (id.equals(STRING)) || (id.equals(CONSTANTE)))
+        if ((id.equals(ID)) || (id.equals(STRING)) || (id.equals(CONSTANTE)) || (id.equals(CTEENTERO))) 
             entrada = new EntradaTS(id, this.lexema);  // Creo la entrada para la tabla de simbolos
         this.id = id;
     }
