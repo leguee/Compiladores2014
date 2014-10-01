@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -37,6 +39,12 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 	private JTextArea textoCodigo;
     private JTextArea textoLineas;
     private JScrollPane jScrollPane ;
+    private TextArea textoError;
+    private TextArea textoEstrSin;
+    private TextArea textoToken;
+    private TextArea textoWarning;
+    private JTable tabla;
+    private AnalizadorLexico analizadorLexico;
 
 	
 	private JTabbedPane tb ;
@@ -113,12 +121,12 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         
         
         final JButton analizar = new JButton ("ANALIZAR");
-		analizar.setEnabled(false);
+		analizar.setEnabled(true);
 		panelPrincipal.add(analizar);
 		analizar.setBounds((int) (x*.22), 630,90, 27);
 		analizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				 Analizar();
 				
 			}
 		});
@@ -170,20 +178,20 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 			{
 				TableModel tabModelRes = new DefaultTableModel(
 						new String[][] { {} }, new String[] {"Simbolo", "Clasificacion", "Tipo"});
-				JTable tabPreview1 = new JTable(){
+				tabla = new JTable(){
 			        public boolean isCellEditable(int rowIndex, int vColIndex) {
 			            return false;
 			        }};
-				jScrollPane1.setViewportView(tabPreview1);
-				tabPreview1.setModel(tabModelRes);
+				jScrollPane1.setViewportView(tabla);
+				tabla.setModel(tabModelRes);
 			}
 		}
 	
-        JPanel insidePanel2 = new JPanel();
+        JPanel insidePanel2 = new JPanel(); // muestra errores
         insidePanel2.setLayout(new GridLayout(1, 1));
         insidePanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
         tab.addTab("Errores", insidePanel2);
-        TextArea textoError = new TextArea ();
+        textoError = new TextArea ();
         insidePanel2.add(textoError);
 		textoError.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
 		textoError.setColumns(20);
@@ -193,7 +201,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         insidePanel3.setLayout(new GridLayout(1, 1));
         insidePanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
         tab.addTab("Warnings", insidePanel3);
-        TextArea textoWarning = new TextArea ();
+        textoWarning = new TextArea ();
         insidePanel3.add(textoWarning);
         textoWarning.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
         textoWarning.setColumns(20);
@@ -203,7 +211,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         insidePanel4.setLayout(new GridLayout(1, 1));
         insidePanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
         tab.addTab("Tokens", insidePanel4);
-        TextArea textoToken = new TextArea ();
+        textoToken = new TextArea ();
         insidePanel4.add(textoToken);
         textoToken.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
         textoToken.setColumns(20);
@@ -213,7 +221,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         insidePanel5.setLayout(new GridLayout(1, 1));
         insidePanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
         tab.addTab("Estructura Sintáctica", insidePanel5);
-        TextArea textoEstrSin = new TextArea ();
+        textoEstrSin = new TextArea ();
         insidePanel5.add(textoEstrSin);
         textoEstrSin.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
         textoEstrSin.setColumns(20);
@@ -227,6 +235,21 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 
 	}
 	
+	protected void Analizar() {
+		analizadorLexico = new AnalizadorLexico(textoCodigo.getText()+" "+(char)255, this);
+       
+        textoError.setText("");
+        textoWarning.setText("");
+        textoToken.setText("");
+        textoEstrSin.setText("");
+
+        Parser analizadorSintactico = new Parser();
+        analizadorSintactico.setLexico(analizadorLexico);
+        analizadorSintactico.setMensajes(this);
+        analizadorSintactico.run();
+		
+	}
+
 	// FIN GUI
 	
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -296,32 +319,47 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 	
 
 	@Override
-	public void tablaDeSimbolos() {
-		// TODO Auto-generated method stub
+	public void tablaDeSimbolos() { // Muestra la tabla de simbolos por pantalla
+	    DefaultTableModel temp = (DefaultTableModel) tabla.getModel();
+		Hashtable<String,EntradaTS> aux = analizadorLexico.getTablaDeSimbolos().getTabla(); // TODO crear el al en el boton analizar
+		Enumeration<EntradaTS> e = aux.elements();
+		while (e.hasMoreElements()){
+	            EntradaTS entrada = e.nextElement();
+	            for (int i = 1; i <= entrada.getContRef(); i++)
+	            {   Object[] dato = { entrada.getLexema(), this.getName(entrada.getId()), entrada.getTipo()};
+	                temp.addRow(dato);
+	            }
+		}
 		
 	}
 
-	@Override
-	public void error(int nroLinea, String mensaje, String string) {
-		// TODO Auto-generated method stub
+	private String getName(Short id) { 
+		   switch(id){
+           case 264: return "Identificador";
+           case 265: return "Constante";
+           case 267: return "Cadena de caracteres";
+           default: return null;
+       }
+	}
+
+	public void error(int nroLinea, String error, String tipo) { // muestra los errores a medida que se reconocen
+		this.textoError.append("Línea " + nroLinea + ": " + error + " - Tipo: " + tipo + "\n");
 		
 	}
 
-	@Override
-	public void token(int nroLinea, String lexema) {
-		// TODO Auto-generated method stub
+	public void token(int nroLinea, String lexema) { // muestra los token a medida que se reconocen 
+		textoToken.append("Línea " + nroLinea + ": " + lexema + "\n");
 		
 	}
 
-	@Override
-	public void warning(String string) {
-		// TODO Auto-generated method stub
+
+	public void warning(String warning) { // muestra los warning
+		textoWarning.append(warning + "\n");
 		
 	}
-
-	@Override
-	public void estructuraSintactica(int linea, String estructura) {
-		// TODO Auto-generated method stub
+	
+	public void estructuraSintactica(int linea, String estructura) { // Muestra la estructura sintactica
+		textoEstrSin.append("Línea " + linea + ": " + estructura + "\n");
 		
 	}
 
