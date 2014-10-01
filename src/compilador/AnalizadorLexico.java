@@ -316,7 +316,11 @@ public class AnalizadorLexico {
             case 34: return "Sentencia de impresión de caracteres";
             case 35: return "Bloque de sentencias";
             case 36: return "Sentencia de return";
-
+            case 37: return "Sentencia declaracion de vector";
+            case 38: return "Falta abrir corchetes '['";
+            case 39: return "Falta cerrar corchetes ']'";
+            case 40: return "Falta declarar los dos puntos ..";
+            case 41: return "Falta agregar el tipo";
         }
         return null;
     }
