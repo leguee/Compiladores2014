@@ -45,6 +45,8 @@ public class CompiladorGUI extends JFrame implements Mensajes {
     private TextArea textoWarning;
     private JTable tabla;
     private AnalizadorLexico analizadorLexico;
+    private JScrollPane jScrollPane1;
+    private TableModel tabModelRes;
 
 	
 	private JTabbedPane tb ;
@@ -171,12 +173,12 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         FlowLayout panelLayout1 = new FlowLayout();
 		insidePanel1.setLayout(panelLayout1);
 		{
-			JScrollPane jScrollPane1 = new JScrollPane();
+			jScrollPane1 = new JScrollPane();
 			insidePanel1.add(jScrollPane1);
 			
 			//jScrollPane1.setPreferredSize(new java.awt.Dimension((int) (x*.48),260));
 			{
-				TableModel tabModelRes = new DefaultTableModel(
+				tabModelRes = new DefaultTableModel(
 						new String[][] { {} }, new String[] {"Simbolo", "Clasificacion", "Tipo"});
 				tabla = new JTable(){
 			        public boolean isCellEditable(int rowIndex, int vColIndex) {
@@ -237,7 +239,6 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 	
 	protected void Analizar() {
 		analizadorLexico = new AnalizadorLexico(textoCodigo.getText()+" "+(char)255, this);
-       
         textoError.setText("");
         textoWarning.setText("");
         textoToken.setText("");
@@ -320,6 +321,11 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 
 	@Override
 	public void tablaDeSimbolos() { // Muestra la tabla de simbolos por pantalla
+		tabModelRes = new DefaultTableModel(
+				new String[][] { {} }, new String[] {"Simbolo", "Clasificacion", "Tipo"});
+		tabla = new JTable();
+		jScrollPane1.setViewportView(tabla);
+		tabla.setModel(tabModelRes);
 	    DefaultTableModel temp = (DefaultTableModel) tabla.getModel();
 		Hashtable<String,EntradaTS> aux = analizadorLexico.getTablaDeSimbolos().getTabla(); 
 		Enumeration<EntradaTS> e = aux.elements();
