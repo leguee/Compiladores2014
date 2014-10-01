@@ -179,7 +179,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 			//jScrollPane1.setPreferredSize(new java.awt.Dimension((int) (x*.48),260));
 			{
 				tabModelRes = new DefaultTableModel(
-						new String[][] { {} }, new String[] {"Simbolo", "Clasificacion", "Tipo"});
+						new String[][] { {} }, new String[] {"Simbolo", "Clasificacion"});
 				tabla = new JTable(){
 			        public boolean isCellEditable(int rowIndex, int vColIndex) {
 			            return false;
@@ -329,7 +329,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 	@Override
 	public void tablaDeSimbolos() { // Muestra la tabla de simbolos por pantalla
 		tabModelRes = new DefaultTableModel(
-				new String[][] { {} }, new String[] {"Simbolo", "Clasificacion", "Tipo"});
+				new String[][] { {} }, new String[] {"Simbolo", "Clasificacion"});
 		tabla = new JTable();
 		jScrollPane1.setViewportView(tabla);
 		tabla.setModel(tabModelRes);
@@ -339,7 +339,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		while (e.hasMoreElements()){
 	            EntradaTS entrada = e.nextElement();
 	            for (int i = 1; i <= entrada.getContRef(); i++)
-	            {   Object[] dato = { entrada.getLexema(), this.getName(entrada.getId()), entrada.getTipo()};
+	            {   Object[] dato = { entrada.getLexema(), this.getName(entrada.getId())};
 	                temp.addRow(dato);
 	            }
 		}

@@ -6,7 +6,7 @@ public class As5 extends AccionesSemantica { // Adiciona el simbolo leido y empa
 
     public static final Short COMPARADOR = 268;
     public static final Short ASIGNACION = 269;
-    public static final Short RANGO = 274;
+    public static final Short RANGO = 271;
     
     private Mensajes ms;
     private AnalizadorLexico al;

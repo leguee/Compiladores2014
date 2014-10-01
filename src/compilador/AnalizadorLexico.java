@@ -155,12 +155,13 @@ public class AnalizadorLexico {
         for (int i = 0; i <= 28; i++)
             matrizAS[4][i] = as6;
         matrizAS[4][12] = as5;
-        
+        matrizAS[4][28] = as11; //TODO 
         //estado 5
         for (int i = 0; i <= 28; i++)
             matrizAS[5][i] = as2;
         matrizAS[5][24] = as9;
         matrizAS[5][27] = as11; 
+        matrizAS[5][28] = as11; //TODO 
         
         //estado 6
         for (int i = 0; i <= 28; i++)
@@ -174,6 +175,7 @@ public class AnalizadorLexico {
             matrizAS[7][i] = as3;
         matrizAS[7][1] = as2;
         matrizAS[7][2] = as2;  
+        matrizAS[7][28] = as11; //TODO 
         
         //estado 8
         for (int i = 0; i <= 28; i++)
@@ -181,6 +183,7 @@ public class AnalizadorLexico {
         matrizAS[8][1] = as2;
         matrizAS[8][6] = as2; 
         matrizAS[8][7] = as2;  
+        matrizAS[8][28] = as11; //TODO 
         
      
         //estado 9
@@ -192,20 +195,23 @@ public class AnalizadorLexico {
         for (int i = 0; i <= 28; i++)
             matrizAS[10][i] = as3;
         matrizAS[10][1] = as2;
-        
+        matrizAS[10][28] = as11; //TODO 
         //estado 11
         for (int i = 0; i <= 28; i++)
             matrizAS[11][i] = as6;
         matrizAS[11][7] = as10;
+        matrizAS[11][28] = as11; //TODO 
         
         //estado 12
         for (int i = 0; i <= 28; i++)
             matrizAS[12][i] = as7;
+        matrizAS[12][28] = as11; //TODO 
       
         
         //estado 13
         for (int i = 0; i <= 28; i++)
             matrizAS[13][i] = as7;
+        matrizAS[13][28] = as11; //TODO 
     }
     
     private int getColumna(int caracter) { // obtiene la columna en la que está cada caracter en la matriz de estados 
