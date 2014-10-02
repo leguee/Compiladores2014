@@ -242,6 +242,12 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 	
 	protected void Analizar() {
 		analizadorLexico = new AnalizadorLexico(textoCodigo.getText()+" "+(char)255, this);
+		tabModelRes = new DefaultTableModel(
+				new String[][] { {} }, new String[] {"Simbolo", "Clasificacion"});
+		tabla = new JTable();
+		jScrollPane1.setViewportView(tabla);
+		tabla.setModel(tabModelRes);
+		
         textoError.setText("");
         textoWarning.setText("");
         textoToken.setText("");
@@ -354,6 +360,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
            case 264: return "Identificador";
            case 265: return "Constante";
            case 267: return "Cadena de caracteres";
+           case 274: return "Constante Entera";
            default: return null;
        }
 	}

@@ -15,7 +15,7 @@ public class AnalizadorLexico {
     private boolean fin;
 
                                   //  L  D  b  _  $  &  +  -  /  *  >  <  =  :  ^  (  )  [  ]  {  }  ,  .  ;  " OTRO TyB /n  EOF        TODO eof 
-    private int[][] matrizEstados = {{ 1, 2, 1,-1,-1,-1,-1,-1,-1,-1, 4, 4,-1, 3, 3,-1,-1,11,-1,-1,-1,-1, 6,-1, 5, 0, 0 , 0 , -1},    //estado 0 
+    private int[][] matrizEstados = {{ 1, 2, 1,-1,-1,-1,-1,-1,-1,-1, 4, 4,-1, 3, 3,-1,-1,11,-1,-1,-1,-1, 6,-1, 5, 0, 0 , 0 , 0},    //estado 0 
     								 { 1, 1, 1, 1, 1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 ,-1 , -1},    //estado 1
     								 {-1, 2, 9,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 7,-1,-1,-1,-1 ,-1 , -1},    //estado 2
                                      {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 ,-1 , -1},    //estado 3
@@ -91,7 +91,7 @@ public class AnalizadorLexico {
         return tablaSimb;
     }
 
-    private void inicializarAS(){// TODO
+    private void inicializarAS(){
         
         matrizAS = new AccionesSemantica[14][29];
         as1 = new As1();
@@ -127,7 +127,7 @@ public class AnalizadorLexico {
         matrizAS[0][25] = as7;
         matrizAS[0][26] = as7;
         matrizAS[0][27] = as7;
-        matrizAS[0][28] = as11; //TODO 
+        matrizAS[0][28] = as7; 
         //estado 1
         for (int i = 0; i <= 28; i++)
             matrizAS[1][i] = as4;
@@ -137,14 +137,14 @@ public class AnalizadorLexico {
         matrizAS[1][3] = as2; 
         matrizAS[1][4] = as2; 
         matrizAS[1][5] = as2; 
-        matrizAS[1][28] = as11; //TODO 
+        matrizAS[1][28] = as4; 
         //estado 2
         for (int i = 0; i <= 28; i++)
             matrizAS[2][i] = as13;
         matrizAS[2][1] = as2;
         matrizAS[2][2] = as2;
         matrizAS[2][22] = as2;
-        matrizAS[2][28] = as11; //TODO 
+        matrizAS[2][28] = as13; 
         
         //estado 3
         for (int i = 0; i <= 28; i++)
@@ -155,27 +155,27 @@ public class AnalizadorLexico {
         for (int i = 0; i <= 28; i++)
             matrizAS[4][i] = as6;
         matrizAS[4][12] = as5;
-        matrizAS[4][28] = as11; //TODO 
+        
         //estado 5
         for (int i = 0; i <= 28; i++)
             matrizAS[5][i] = as2;
         matrizAS[5][24] = as9;
         matrizAS[5][27] = as11; 
-        matrizAS[5][28] = as11; //TODO 
+        matrizAS[5][28] = as11; 
         
         //estado 6
         for (int i = 0; i <= 28; i++)
             matrizAS[6][i] = as11;
         matrizAS[6][1] = as2;
         matrizAS[6][22] = as5;
-        matrizAS[6][28] = as11; // TODO
+       
         
         //estado 7
         for (int i = 0; i <= 28; i++)
             matrizAS[7][i] = as3;
         matrizAS[7][1] = as2;
         matrizAS[7][2] = as2;  
-        matrizAS[7][28] = as11; //TODO 
+
         
         //estado 8
         for (int i = 0; i <= 28; i++)
@@ -183,7 +183,6 @@ public class AnalizadorLexico {
         matrizAS[8][1] = as2;
         matrizAS[8][6] = as2; 
         matrizAS[8][7] = as2;  
-        matrizAS[8][28] = as11; //TODO 
         
      
         //estado 9
@@ -195,23 +194,23 @@ public class AnalizadorLexico {
         for (int i = 0; i <= 28; i++)
             matrizAS[10][i] = as3;
         matrizAS[10][1] = as2;
-        matrizAS[10][28] = as11; //TODO 
+   
         //estado 11
         for (int i = 0; i <= 28; i++)
             matrizAS[11][i] = as6;
         matrizAS[11][7] = as10;
-        matrizAS[11][28] = as11; //TODO 
+
         
         //estado 12
         for (int i = 0; i <= 28; i++)
             matrizAS[12][i] = as7;
-        matrizAS[12][28] = as11; //TODO 
+        matrizAS[12][28] = as11; 
       
         
         //estado 13
         for (int i = 0; i <= 28; i++)
             matrizAS[13][i] = as7;
-        matrizAS[13][28] = as11; //TODO 
+        matrizAS[13][28] = as11; 
     }
     
     private int getColumna(int caracter) { // obtiene la columna en la que está cada caracter en la matriz de estados 
@@ -279,7 +278,7 @@ public class AnalizadorLexico {
     }
 
     
-    public String getMensaje(int nro){ //TODO
+    public String getMensaje(int nro){ 
         switch(nro){
             //ERRORES LEXICOS
             case 1: return "Constante double fuera del rango permitido";
@@ -294,15 +293,14 @@ public class AnalizadorLexico {
             case 7: return "Se esperaba un ';'";
             case 8: return "Falta el tipo de la declaración";
             case 9: return "Sentencia declarativa incorrecta";
-            case 10: return "Sentencia expresión de retorno";
             case 11: return "Falta el identificador de la asignación";
             case 12: return "Falta el identificador de la asignación y se esperaba un ';'";
-            case 13: return "Bloque de sentencias sin finalizar";    
-            case 14: return "Bloque de sentencias sin inicializar";
+            case 13: return "Bloque de sentencias sin finalizar falta '}'";    
+            case 14: return "Bloque de sentencias sin inicializar falta '{'";
             case 15: return "Falta abrir paréntesis '('";
             case 16: return "Falta cerrar paréntesis ')'";
-            case 17: return "Parámetro del print incorrecto";
-            case 18: return "Falta palabra reservada 'print'";  
+            case 17: return "Parámetro del imprimir incorrecto";
+            case 18: return "Falta palabra reservada 'imprimir'";  
             case 19: return "Sentencia incorrecta";
 
             // ESTRUCTURAS SINTACTICAS
