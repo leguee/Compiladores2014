@@ -121,8 +121,6 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         
         //textoLineas
         
-
-        
         
         final JButton analizar = new JButton ("ANALIZAR");
 		analizar.setEnabled(true);
@@ -179,7 +177,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 			jScrollPane1 = new JScrollPane();
 			insidePanel1.add(jScrollPane1);
 			
-			jScrollPane1.setPreferredSize(new java.awt.Dimension((int) (x*.45),260));
+			jScrollPane1.setPreferredSize(new java.awt.Dimension((int) (x*.45),(int)(y*.85)));
 			{
 				tabModelRes = new DefaultTableModel(
 						new String[][] { {} }, new String[] {"Simbolo", "Clasificacion"});

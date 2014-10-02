@@ -4,7 +4,7 @@ public class AnalizadorLexico {
 	public static final Short FIN = 270;
 
     private int nroLinea;                       //numero de linea 
-    private String codFuente;                //codigo fuente tomado del panelText
+    private String codFuente;                //codigo fuente tomado del panel de texto ´grafica
     private TablaSimbolos tablaSimb;              //tabla de simbolos que contiene los tokens
     private Mensajes msj;      //lleva los msj a la interfaz
     private Token token;                        //token actual
@@ -14,7 +14,7 @@ public class AnalizadorLexico {
     private boolean eof;                        //booleana que indica si se llegó al final del archivo
     private boolean fin;
 
-                                  //  L  D  b  _  $  &  +  -  /  *  >  <  =  :  ^  (  )  [  ]  {  }  ,  .  ;  " OTRO TyB /n  EOF        TODO eof 
+                                  //  L  D  b  _  $  &  +  -  /  *  >  <  =  :  ^  (  )  [  ]  {  }  ,  .  ;  " OTRO TyB /n  EOF        
     private int[][] matrizEstados = {{ 1, 2, 1,-1,-1,-1,-1,-1,-1,-1, 4, 4,-1, 3, 3,-1,-1,11,-1,-1,-1,-1, 6,-1, 5, 0, 0 , 0 , 0},    //estado 0 
     								 { 1, 1, 1, 1, 1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 ,-1 , -1},    //estado 1
     								 {-1, 2, 9,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 7,-1,-1,-1,-1 ,-1 , -1},    //estado 2
@@ -44,19 +44,19 @@ public class AnalizadorLexico {
         inicializarAS();
     }
     
-    public int yylex(){
+    public int yylex(){ // devuelve el ID del token pedido por el parser
         this.estado = 0;
         this.token = new Token();
         while (estado != -1 && !eof){
-            char caracter = codFuente.charAt(posicion);                      //Leo el caracter actual
-            int simbolo = getColumna(caracter);                                 //Obtengo la columna en las matrices del caracter leído
-            token = (matrizAS[estado][simbolo]).ejecutar(token, caracter);              //Ejecuto la acción semántica correspondiente
-            if (!token.consumioCaracter())                                      //Si el caracter no fue consumido
-                posicion--;                                                     //Retrocedo la posición para volverlo a leer
-            if (caracter == '\n' && token.consumioCaracter())                   //Si era el carcater de salto de línea
-                nroLinea++;                                                     //Aumento en uno el número de líneas
-            posicion++;                                                         //Aumento la posición en el código fuente
-            estado = matrizEstados[estado][simbolo];                            //Obtengo el nuevo estado actual
+            char caracter = codFuente.charAt(posicion);                      	
+            int simbolo = getColumna(caracter);                                
+            token = (matrizAS[estado][simbolo]).ejecutar(token, caracter);     
+            if (!token.consumioCaracter())                                      
+                posicion--;                                                    
+            if (caracter == '\n' && token.consumioCaracter())                  
+                nroLinea++;                                                    
+            posicion++;                                                        
+            estado = matrizEstados[estado][simbolo];                          
         }
         
         if (eof && !fin){                                                       //Cuando llegamos al final del archivo
@@ -310,13 +310,16 @@ public class AnalizadorLexico {
             case 33: return "Sentencia de iteración";
             case 34: return "Sentencia de impresión de caracteres";
             case 35: return "Bloque de sentencias";
-            case 36: return "Sentencia de return";
             case 37: return "Sentencia declaracion de vector";
             case 38: return "Falta abrir corchetes '['";
             case 39: return "Falta cerrar corchetes ']'";
             case 40: return "Falta declarar los dos puntos ..";
             case 41: return "Falta agregar el tipo";
             case 42: return "Falta agregar el tipo 'vector'";
+            case 43: return "Asignacion de vector" ;
+            case 44: return "Falta agregar la expresion en la asignacion del vector" ;
+            case 45: return "Error en el token de asgnacion se espera un ':='" ;
+            
         }
         return null;
     }
