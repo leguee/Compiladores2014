@@ -20,9 +20,9 @@ public class As13 extends AccionesSemantica { // Empaqueta el token controlando 
 	public Token ejecutar(Token token, char caracter) {
 		
 		token.setId(CTEENTERO);
-		Double e = Double.valueOf(token.getLexema());
-		token.setLexema(String.valueOf(e).replace('.', ' ').replace('0', ' '));
-		if(e> Short.MIN_VALUE && e< Short.MAX_VALUE ) { 
+		Long e = Long.valueOf(token.getLexema());
+		token.setLexema(String.valueOf(e));
+		if(e> Short.MIN_VALUE && e<= Short.MAX_VALUE+1 ) { //me reconoce enteros sin sigo desde 0 hasta 32768 inclusive
 			if(ts.contieneLexema(token.getLexema())) {
 				ts.getEntradaTS(token.getLexema()).incrementarCont();
 				token.setEntradaTS(ts.getEntradaTS(token.getLexema()));

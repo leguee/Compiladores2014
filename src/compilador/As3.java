@@ -21,7 +21,7 @@ public class As3 extends AccionesSemantica { // Empaqueta el token controlando e
 		token.setId(CONSTANTE);
 		double d = Double.valueOf(token.getLexema().replace('b', 'E').replace('B', 'E'));
 		token.setLexema(String.valueOf(d));
-		if(d> Double.MIN_VALUE && d< Double.MAX_VALUE ) { 
+		if(d> Double.MIN_VALUE && d<= Double.MAX_VALUE ) { 
 			if(ts.contieneLexema(token.getLexema())) {
 				ts.getEntradaTS(token.getLexema()).incrementarCont();
 				token.setEntradaTS(ts.getEntradaTS(token.getLexema()));

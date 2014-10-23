@@ -48,6 +48,8 @@ public class CompiladorGUI extends JFrame implements Mensajes {
     private AnalizadorLexico analizadorLexico;
     private JScrollPane jScrollPane1;
     private TableModel tabModelRes;
+    private JPanel insidePanel2;
+    //private JTabbedPane tab;
 
 	
 	private JTabbedPane tb ;
@@ -190,7 +192,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 			}
 		}
 	
-        JPanel insidePanel2 = new JPanel(); // muestra errores
+       JPanel insidePanel2 = new JPanel(); // muestra errores
         insidePanel2.setLayout(new GridLayout(1, 1));
         insidePanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
         tab.addTab("Errores", insidePanel2);
@@ -246,10 +248,12 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		jScrollPane1.setViewportView(tabla);
 		tabla.setModel(tabModelRes);
 		
-        textoError.setText("");
-        textoWarning.setText("");
-        textoToken.setText("");
-        textoEstrSin.setText("");
+      
+
+        textoError.setText(" ");
+        textoWarning.setText(" ");
+        textoToken.setText(" ");
+        textoEstrSin.setText(" ");
         
 //        int aux = -1;
 //        while (aux != 0)
@@ -345,10 +349,12 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		Enumeration<EntradaTS> e = aux.elements();
 		while (e.hasMoreElements()){
 	            EntradaTS entrada = e.nextElement();
-	            for (int i = 1; i <= entrada.getContRef(); i++)
-	            {   Object[] dato = { entrada.getLexema(), this.getName(entrada.getId())};
-	                temp.addRow(dato);
-	            }
+	            Object[] dato = { entrada.getLexema(), this.getName(entrada.getId())};
+                temp.addRow(dato);
+//	            for (int i = 1; i <= entrada.getContRef(); i++)
+//	            {   Object[] dato = { entrada.getLexema(), this.getName(entrada.getId())};
+//	                temp.addRow(dato);
+//	            }
 		}
 		
 	}
