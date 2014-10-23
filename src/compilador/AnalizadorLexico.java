@@ -280,46 +280,59 @@ public class AnalizadorLexico {
     
     public String getMensaje(int nro){ 
         switch(nro){
-            //ERRORES LEXICOS
-            case 1: return "Constante double fuera del rango permitido";
-            case 2: return "Carácter no identificado";
-            case 3: return "Construcción de token erróneo";
-            case 20: return "Constante entero fuera de rango permitido";
+        //ERRORES LEXICOS
+        case 1: return "Constante double fuera del rango permitido";
+        case 2: return "Carácter no identificado";
+        case 3: return "Construcción de token erróneo";
+        case 20: return "Constante entero fuera de rango permitido";
 
-            //ERRORES SINTACTICOS
-            case 4: return "No se encontró el fin de archivo";
-            case 5: return "Falta el bloque de sentencias ejecutables";    
-            case 6: return "Falta el bloque de sentencias declarativas";
-            case 7: return "Se esperaba un ';'";
-            case 8: return "Falta el tipo de la declaración";
-            case 9: return "Sentencia declarativa incorrecta";
-            case 11: return "Falta el identificador de la asignación";
-            case 12: return "Falta el identificador de la asignación y se esperaba un ';'";
-            case 13: return "Bloque de sentencias sin finalizar falta '}'";    
-            case 14: return "Bloque de sentencias sin inicializar falta '{'";
-            case 15: return "Falta abrir paréntesis '('";
-            case 16: return "Falta cerrar paréntesis ')'";
-            case 17: return "Parámetro del imprimir incorrecto";
-            case 18: return "Falta palabra reservada 'imprimir'";  
-            case 19: return "Sentencia incorrecta";
+        //ERRORES SINTACTICOS
+        case 4: return "No se encontró el fin de archivo";
+        case 5: return "Falta el bloque de sentencias ejecutables";    
+        case 6: return "Falta el bloque de sentencias declarativas";
+        case 7: return "Se esperaba un ';'";
+        case 8: return "Falta el tipo de la declaración";
+        case 9: return "Sentencia declarativa incorrecta";
+        case 11: return "Falta el identificador de la asignación";
+        case 12: return "Falta el identificador de la asignación y se esperaba un ';'";
+        case 13: return "Bloque de sentencias sin finalizar falta '}'";    
+        case 14: return "Bloque de sentencias sin inicializar falta '{'";
+        case 15: return "Falta abrir paréntesis '('";
+        case 16: return "Falta cerrar paréntesis ')'";
+        case 17: return "Parámetro del imprimir incorrecto";
+        case 18: return "Falta palabra reservada 'imprimir'";  
+        case 19: return "Sentencia incorrecta";
 
-            // ESTRUCTURAS SINTACTICAS
-            case 30: return "Sentencia declarativa";
-            case 31: return "Sentencia de asignación";
-            case 32: return "Sentencia de selección";
-            case 33: return "Sentencia de iteración";
-            case 34: return "Sentencia de impresión de caracteres";
-            case 35: return "Bloque de sentencias";
-            case 37: return "Sentencia declaracion de vector";
-            case 38: return "Falta abrir corchetes '['";
-            case 39: return "Falta cerrar corchetes ']'";
-            case 40: return "Falta declarar los dos puntos ..";
-            case 41: return "Falta agregar el tipo";
-            case 42: return "Falta agregar el tipo 'vector'";
-            case 43: return "Asignacion de vector" ;
-            case 44: return "Falta agregar la expresion en la asignacion del vector" ;
-            case 45: return "Error en el token de asgnacion se espera un ':='" ;
-            
+        // ESTRUCTURAS SINTACTICAS
+        case 30: return "Sentencia declarativa";
+        case 31: return "Sentencia de asignación";
+        case 32: return "Sentencia de selección simple";
+        case 33: return "Sentencia de iteración";
+        case 34: return "Sentencia de impresión de caracteres";
+        case 35: return "Bloque de sentencias";
+        case 37: return "Sentencia declaracion de vector";
+        case 38: return "Falta abrir corchetes '['";
+        case 39: return "Falta cerrar corchetes ']'";
+        case 40: return "Falta declarar los dos puntos ..";
+        case 41: return "Falta agregar el tipo";
+        case 42: return "Falta agregar el tipo 'vector'";
+        case 43: return "Asignacion de vector" ;
+        case 44: return "Falta agregar la expresion en la asignacion del vector" ;
+        case 45: return "Error en el token de asgnacion se espera un ':='" ;
+        case 46: return "No se reconoce la palabra 'entonces'" ;
+        case 47: return "No se reconoce la palabra reservada 'si'";
+        case 48: return "Sentencia de seleccion completa" ;
+        case 49: return "No se reconoce la palabra 'iterar'" ;
+        case 50: return "No se reconoce la palabra 'hasta'" ;
+        case 51: return "No se reconoce '(' en la condicion" ;
+        case 52: return "No se reconoce ')' en la condicion" ;
+        case 53: return "error en la condicion";
+        case 54: return "no se reconoce ':=' en la asignacion";
+        case 55: return "error en la expresion de la asignacion ";
+        
+        case 57: return "falta la ',' entre los identificadores" ;
+        case 58: return "falta '(' en la sentencia imprimir";
+        case 59: return "falta ')' en la sentencia imprimir"; 
         }
         return null;
     }
