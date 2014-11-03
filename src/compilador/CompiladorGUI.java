@@ -251,10 +251,10 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		
       
 
-        textoError.setText(" ");
-        textoWarning.setText(" ");
-        textoToken.setText(" ");
-        textoEstrSin.setText(" ");
+        textoError.setText("");
+        textoWarning.setText("");
+        textoToken.setText("");
+        textoEstrSin.setText("");
         
 //        int aux = -1;
 //        while (aux != 0)
