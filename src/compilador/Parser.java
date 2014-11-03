@@ -895,8 +895,8 @@ break;
 case 42:
 //#line 163 "Gramatica4.y"
 {	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(32));
-									ArbolSintactico si = ((ArbolSintactico)val_peek(0).obj);
-									yyval.obj = new ArbolSintactico ("si", si, null );
+									/*ArbolSintactico si = ((ArbolSintactico)$1.obj);
+									$$.obj = new ArbolSintactico ("si", si, null );*/
 								}
 break;
 case 43:
