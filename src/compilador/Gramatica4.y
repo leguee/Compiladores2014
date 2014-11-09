@@ -31,6 +31,7 @@ import java.util.Enumeration;
 programa : declaraciones sentencias_ejecutables FIN	{	ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 														ArbolSintactico a2 = ((ArbolSintactico)$2.obj);
 														arbol = new ArbolSintactico ("program",a1,a2);
+														arbol.imprimir (0);
 														
 													}
 		 | declaraciones sentencias_ejecutables error FIN {manejador.error(analizador.getNroLinea(),analizador.getMensaje(4),"SINTACTICO");}
@@ -160,14 +161,18 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 ;
 
 seleccion : seleccion_simple	{	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(32));
-									/*ArbolSintactico si = ((ArbolSintactico)$1.obj);
-									$$.obj = new ArbolSintactico ("si", si, null );*/
 								}
-		  | seleccion_simple SINO bloque  {manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(48));
-											ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
-											ArbolSintactico a3 =  ((ArbolSintactico)$3.obj);
-											$$.obj = new ArbolSintactico("sino" , a1, a3 );
-											}
+		  | seleccion_simple SINO bloque  { manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(48));
+											ArbolSintactico sel_simple = ((ArbolSintactico)$1.obj);
+											ArbolSintactico bloque_si = sel_simple.getHijoDer();
+											 
+											ArbolSintactico bloque_sino =  ((ArbolSintactico)$3.obj);
+											ArbolSintactico cuerpo = new ArbolSintactico("cuerpo" , bloque_si, bloque_sino );
+											cuerpo.getHijoDer().setValor ("sino");
+											cuerpo.getHijoIzq().setValor ("si");
+											sel_simple.setHijoDer(cuerpo) ;
+											$$.obj = sel_simple ;
+										  }
 ;
 
 
