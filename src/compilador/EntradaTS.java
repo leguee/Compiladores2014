@@ -2,11 +2,14 @@ package compilador;
 
 public class EntradaTS {
 	private Short id;
-    private String lexema;
-    private String tipo;
-    private int contRef;
-	
-	
+	private String lexema;
+	private String tipo;
+	private int contRef;
+
+	private String rangoMenor ;
+	private String rangoMayor ;
+
+
 	public int getContRef() {
 		return contRef;
 	}
@@ -36,15 +39,15 @@ public class EntradaTS {
 
 	public void incrementarCont() {
 		contRef++;
-		
+
 	}
-	  public void decContRef(){
-	        this.contRef--;
-	    }
+	public void decContRef(){
+		this.contRef--;
+	}
 
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
-		
+
 	}
 
 	public String getLexema() {
@@ -54,11 +57,28 @@ public class EntradaTS {
 	public void setLexema(String lexema) {
 		this.lexema = lexema;
 	}
-	 public void invertir(){
-	        this.lexema= '-'+this.lexema;
-	    }
-	    public String imprimir(){
-	        return lexema;
-	    }
+	public void invertir(){
+		this.lexema= '-'+this.lexema;
+	}
 
+	public String imprimir(){
+		return lexema;
+	}
+
+	public String getRangoMenor() {
+		return rangoMenor;
+	}
+
+	public void setRangoMenor(String rangoMenor) {
+		this.rangoMenor = rangoMenor;
+	}
+
+	public String getRangoMayor() {
+		return rangoMayor;
+	}
+
+	public void setRangoMayor(String rangoMayor) {
+		this.rangoMayor = rangoMayor;
+	}
+	
 }

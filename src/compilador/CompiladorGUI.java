@@ -342,7 +342,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 	@Override
 	public void tablaDeSimbolos() { // Muestra la tabla de simbolos por pantalla
 		tabModelRes = new DefaultTableModel(
-				new String[][] { {} }, new String[] {"Simbolo", "Clasificacion" , "Tipo"});
+				new String[][] { {} }, new String[] {"Simbolo", "Clasificacion" , "Tipo" , "Rango Menor" , "Rango Mayor"});
 		tabla = new JTable();
 		jScrollPane1.setViewportView(tabla);
 		tabla.setModel(tabModelRes);
@@ -351,7 +351,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		Enumeration<EntradaTS> e = aux.elements();
 		while (e.hasMoreElements()){
 	            EntradaTS entrada = e.nextElement();
-	            Object[] dato = { entrada.getLexema(), this.getName(entrada.getId()),(entrada.getTipo())};
+	            Object[] dato = { entrada.getLexema(), this.getName(entrada.getId()),(entrada.getTipo()),entrada.getRangoMenor(),entrada.getRangoMayor()};
                 temp.addRow(dato);
 //	            for (int i = 1; i <= entrada.getContRef(); i++)
 //	            {   Object[] dato = { entrada.getLexema(), this.getName(entrada.getId())};

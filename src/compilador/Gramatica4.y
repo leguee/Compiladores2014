@@ -92,14 +92,19 @@ lista_variables : lista_variables ',' ID		{	Token token = (Token)$3.obj;
 				
 ;
 
-vector_declaracion : ID '[' CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo	{	String lexema1 = ((Token)$1.obj).getLexema();
-																				String lexema3 = ((Token)$3.obj).getLexema();
-																				String lexema5 = ((Token)$5.obj).getLexema();
-																				ArbolSintactico r1 = new Hoja (tabla.getTabla().get(lexema3),lexema3);
-																				ArbolSintactico r2 = new Hoja (tabla.getTabla().get(lexema5),lexema5);
-																				ArbolSintactico rango = new ArbolSintactico (("rango") ,r1,r2);
-																				ArbolSintactico t = ((ArbolSintactico)$9.obj);
-																				$$.obj = new ArbolSintactico (lexema1, rango, t);
+vector_declaracion : ID '[' CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo	{	
+																				Token ident = (Token)$1.obj ;
+																				String iden = ident.getLexema();
+																				String rangoMenor = ((Token)$3.obj).getLexema();
+																				String rangoMayor = ((Token)$5.obj).getLexema();
+																				ArbolSintactico rMenor = new Hoja (tabla.getTabla().get(rangoMenor),rangoMenor);
+																				ArbolSintactico rMayor = new Hoja (tabla.getTabla().get(rangoMayor),rangoMayor);
+																				ArbolSintactico rango = new ArbolSintactico (("rango") ,rMenor,rMayor);
+																				ArbolSintactico tipo = ((ArbolSintactico)$9.obj);
+																				ident.getETS().setTipo(tipo.getValor());
+																				ident.getETS().setRangoMenor (rangoMenor.getValor();
+																				ident.getETS().setRangoMayor (rangoMayor.getValor();
+																				$$.obj = new ArbolSintactico (iden, rango, tipo);
 																			}
 				   | ID error CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo  {	manejador.error(analizador.getNroLinea(), analizador.getMensaje(38),"SINTACTICO");}
 				   | ID '[' CTEENTERO RANGO CTEENTERO error VECTOR DE tipo { manejador.error(analizador.getNroLinea(), analizador.getMensaje(39),"SINTACTICO");}

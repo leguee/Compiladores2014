@@ -11,12 +11,12 @@ public class ArbolSintactico {
 	private Hoja hijoDerHoja ;
 	private Hoja hijoIzqHoja ;
 
-	private ArbolSintactico padre ;
+	
 
 	private boolean error = false ;
 
 	public ArbolSintactico (){
-		//padre = new ArbolSintactico ();
+		
 	}
 
 	public ArbolSintactico (String valor , ArbolSintactico i , ArbolSintactico d){
@@ -103,13 +103,6 @@ public class ArbolSintactico {
 		}
 	}
 
-	public ArbolSintactico getPadre() {
-		return padre;
-	}
-
-	public void setPadre(ArbolSintactico padre) {
-		this.padre = padre;
-	}
 
 	public void setError (){
 		this.error = true ;
