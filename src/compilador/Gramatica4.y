@@ -1,4 +1,5 @@
 %{
+
 package compilador;
 import java.util.Vector;
 import java.util.Enumeration;
@@ -42,8 +43,8 @@ programa : declaraciones sentencias_ejecutables FIN	{	ArbolSintactico a1 = ((Arb
 /* DECLARACIONES */
 declaraciones : declaraciones declaracion	{	
 												ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
-																ArbolSintactico a2 = ((ArbolSintactico)$2.obj);
-																$$.obj = new ArbolSintactico ("daclaraciones",a1,a2);
+												ArbolSintactico a2 = ((ArbolSintactico)$2.obj);
+												$$.obj = new ArbolSintactico ("daclaraciones",a1,a2);
 											}
 			  | declaracion	/*{ $$.obj = ((ArbolSintactico)$1.obj) ; }*/
 ;
@@ -54,6 +55,8 @@ declaracion : tipo lista_variables ';' 	{ 	manejador.estructuraSintactica(analiz
 											while (e.hasMoreElements()){
 												Token token = (Token)e.nextElement();
 												token.getETS().setTipo(lexema);
+												token.getETS().setDeclarada();
+												token.getETS().setId((short)264);
 											}
 											vt = new Vector<Token>();
 											ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
@@ -86,7 +89,7 @@ lista_variables : lista_variables ',' ID		{	Token token = (Token)$3.obj;
 													Token token = (Token)$1.obj;
 													token.setTipo("entero");
 													tokens.add(token);
-													vt = tokens ;		
+													vt = tokens ;	
 													$$.obj = new Hoja (tabla.getTabla().get(token.getLexema()),token.getLexema());
 												}
 				
@@ -102,8 +105,10 @@ vector_declaracion : ID '[' CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo	{
 																				ArbolSintactico rango = new ArbolSintactico (("rango") ,rMenor,rMayor);
 																				ArbolSintactico tipo = ((ArbolSintactico)$9.obj);
 																				ident.getETS().setTipo(tipo.getValor());
-																				ident.getETS().setRangoMenor (rangoMenor.getValor();
-																				ident.getETS().setRangoMayor (rangoMayor.getValor();
+																				ident.getETS().setId((short)264);
+																				ident.getETS().setRangoMenor (rangoMenor);
+																				ident.getETS().setRangoMayor (rangoMayor);
+																				ident.getETS().setDeclarada();
 																				$$.obj = new ArbolSintactico (iden, rango, tipo);
 																			}
 				   | ID error CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo  {	manejador.error(analizador.getNroLinea(), analizador.getMensaje(38),"SINTACTICO");}
@@ -143,6 +148,10 @@ sentencia : asignacion
 
 asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(31));
 										Token token1 = ((Token)$1.obj);
+										String lexID = token1.getLexema();
+										EntradaTS ET = tabla.getEntradaTS(lexID);
+										if ( !tabla.contieneLexema(lexID) || !ET.isDeclarada() )
+											manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
 										ArbolSintactico a1 = new Hoja(tabla.getTabla().get(token1.getLexema()),token1.getLexema());
 										ArbolSintactico a3 = ((ArbolSintactico)$3.obj);
 										$$.obj = new ArbolSintactico ("asig", a1 , a3 );
@@ -154,6 +163,9 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 		  | ID error expresion ';'{manejador.error(analizador.getNroLinea(), analizador.getMensaje(54),"SINTACTICO");}
 		  | ID '[' expresion ']' ASIGNACION expresion ';'	{	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(43));
 																String lexID = ((Token)$1.obj).getLexema();
+																EntradaTS ET = tabla.getEntradaTS (lexID);
+																if ( !tabla.contieneLexema(lexID) || !ET.isDeclarada() )
+																	manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
 																ArbolSintactico a1 = new Hoja (tabla.getTabla().get(lexID),lexID);
 																ArbolSintactico a3 = ((ArbolSintactico)$3.obj);
 																ArbolSintactico vec = new ArbolSintactico ("vector",a1,a3);
@@ -255,7 +267,21 @@ termino : termino '*' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
 								  $$.obj = new ArbolSintactico ("/",a1,a2);
 								}
-		| factor {$$.obj = ((ArbolSintactico)$1.obj);}
+		| factor {
+					ArbolSintactico a1 = ((ArbolSintactico)val_peek(0).obj);
+					String t = a1.getValor () ;
+					EntradaTS ETs = tabla.getEntradaTS(t);
+					try {
+						if ( (!tabla.contieneLexema(t) || 
+								!ETs.isDeclarada())&& ETs.getId()==264)
+							manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
+					} catch (NullPointerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					yyval.obj = a1;
+				  }
 ;
 
 factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
@@ -333,7 +359,12 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 	   | expresion_vector {$$.obj = ((ArbolSintactico)$1.obj);}
 ;
 
-expresion_vector : ID '[' expresion ']' {	ArbolSintactico id = ((ArbolSintactico)$1.obj);
+
+expresion_vector : ID '[' expresion ']' {	String lexema = ((Token)$1.obj).getLexema();
+											ArbolSintactico id = new Hoja (tabla.getTabla().get(lexema),lexema);
+											EntradaTS ET = tabla.getEntradaTS (lexema);
+											if ( !tabla.contieneLexema(lexema) || !ET.isDeclarada() )
+												manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
 											ArbolSintactico exp = ((ArbolSintactico)$3.obj);
 											$$.obj = new ArbolSintactico ("asig vector" , id , exp);
 										}

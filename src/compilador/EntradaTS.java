@@ -5,7 +5,7 @@ public class EntradaTS {
 	private String lexema;
 	private String tipo;
 	private int contRef;
-
+	private boolean declarada = false ;
 	private String rangoMenor ;
 	private String rangoMayor ;
 
@@ -79,6 +79,14 @@ public class EntradaTS {
 
 	public void setRangoMayor(String rangoMayor) {
 		this.rangoMayor = rangoMayor;
+	}
+	
+	public void setDeclarada (){
+		declarada = true ;
+	}
+	
+	public boolean isDeclarada (){
+		return declarada ;
 	}
 	
 }

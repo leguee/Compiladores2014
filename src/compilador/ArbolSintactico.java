@@ -11,12 +11,12 @@ public class ArbolSintactico {
 	private Hoja hijoDerHoja ;
 	private Hoja hijoIzqHoja ;
 
-	
+
 
 	private boolean error = false ;
 
 	public ArbolSintactico (){
-		
+
 	}
 
 	public ArbolSintactico (String valor , ArbolSintactico i , ArbolSintactico d){
@@ -89,16 +89,14 @@ public class ArbolSintactico {
 			if (this.esNodo()){
 				if(this.hijoIzq!=null)
 					this.hijoIzq.imprimir(nivel);
-
-
 				if(this.hijoDer!=null)
 					this.hijoDer.imprimir(nivel);
 			}
 			else{
-				if (this.hijoDerHoja!= null)
-					this.hijoDerHoja.imprimir(nivel);
 				if (this.hijoIzqHoja!=null)
 					this.hijoIzqHoja.imprimir(nivel);
+				if (this.hijoDerHoja!= null)
+					this.hijoDerHoja.imprimir(nivel);
 			}
 		}
 	}
@@ -107,7 +105,7 @@ public class ArbolSintactico {
 	public void setError (){
 		this.error = true ;
 	}
-	
+
 	public boolean tieneError (){
 		return error ;
 	}
