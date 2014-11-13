@@ -6,8 +6,8 @@ public class EntradaTS {
 	private String tipo;
 	private int contRef;
 	private boolean declarada = false ;
-	private String rangoMenor ;
-	private String rangoMayor ;
+	private String rangoMenor = null ;
+	private String rangoMayor = null ;
 
 
 	public int getContRef() {

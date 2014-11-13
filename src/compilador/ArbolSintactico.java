@@ -3,6 +3,8 @@ package compilador;
 
 public class ArbolSintactico {
 
+	
+	private String tipo = "NADA" ;
 	private String valor ;
 
 	private ArbolSintactico hijoDer ;
@@ -13,7 +15,7 @@ public class ArbolSintactico {
 
 
 
-	private boolean error = false ;
+	private static boolean error = false ;
 
 	public ArbolSintactico (){
 
@@ -102,12 +104,20 @@ public class ArbolSintactico {
 	}
 
 
-	public void setError (){
-		this.error = true ;
+	public static void setError (){
+		error = true ;
 	}
 
-	public boolean tieneError (){
+	public static boolean tieneError (){
 		return error ;
+	}
+	
+	public void setTipo (String t){
+		tipo = t ;
+	}
+	
+	public String getTipo (){
+		return tipo ;
 	}
 
 }

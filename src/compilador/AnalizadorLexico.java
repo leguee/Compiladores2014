@@ -332,7 +332,18 @@ public class AnalizadorLexico {
         
         case 57: return "falta la ',' entre los identificadores" ;
         case 58: return "falta '(' en la sentencia imprimir";
-        case 59: return "falta ')' en la sentencia imprimir"; 
+        case 59: return "falta ')' en la sentencia imprimir";
+        case 60: return "identificador no declarado" ; 
+        case 61: return "el identificador ya fue declarado";
+        case 62: return "el identificador no es un vector" ;
+        case 63: return "el tipo no es el mismo en la operacion *";
+        case 64: return "el tipo no es el mismo en la operacion /";
+        case 65: return "el tipo no es el mismo en la operacion -";
+        case 66: return "el tipo no es el mismo en la operacion +";
+        case 67: return "el tipo del indice del vector no es entero" ;
+        case 68: return "los tipos en la asignacion son diferentes";
+        case 69: return "el rango menor del vector es mayor que el mayor";
+        case 70: return "el vector tiene que tener el indice entre [ ]" ;
         }
         return null;
     }

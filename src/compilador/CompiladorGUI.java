@@ -335,10 +335,6 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		System.out.print(codigo);
 	}
 	
-	
-	
-	
-
 	@Override
 	public void tablaDeSimbolos() { // Muestra la tabla de simbolos por pantalla
 		tabModelRes = new DefaultTableModel(
@@ -358,7 +354,6 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 //	                temp.addRow(dato);
 //	            }
 		}
-		
 		
 	}
 
