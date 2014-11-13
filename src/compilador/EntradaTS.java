@@ -1,10 +1,20 @@
 package compilador;
 
 public class EntradaTS {
+	 public static final Short CONSTANTE = 265;
+	 public static final short CTEENTERO=274;
+	 public static final Short ID = 264;
+	 public static int IDDOBLE = 1;
+	 public static int IDENTERO = 1;
+	
 	private Short id;
 	private String lexema;
 	private String tipo;
 	private int contRef;
+	private int idDoble;
+	private int idEntero;
+	private String cadena;
+
 
 	private String rangoMenor ;
 	private String rangoMayor ;
@@ -31,6 +41,23 @@ public class EntradaTS {
 		this.setLexema(lexema);
 		tipo = null;
 		contRef = 1;
+		 cadena = null;
+	    if (this.id.equals(CONSTANTE))
+        {
+            idDoble = IDDOBLE;
+            IDDOBLE++;
+        }
+        else
+            this.idDoble = 0;
+	    
+	    if (this.id.equals(CTEENTERO))
+        {
+            idEntero = IDENTERO;
+            IDENTERO++;
+        }
+        else
+            this.idEntero = 0;
+        
 	}
 
 	public Short getId() {
@@ -80,5 +107,28 @@ public class EntradaTS {
 	public void setRangoMayor(String rangoMayor) {
 		this.rangoMayor = rangoMayor;
 	}
+
+	public String getLexAss() {
+		 if (id.equals(ID))
+	        {   
+	            return new String("_" + this.getLexema());
+	        }
+	     else
+	         if (id.equals(CONSTANTE)) {
+	        	return new String("_doble" + this.idDoble);
+	         }
+	         else return new String("_entero"+ this.idEntero);
+		 		
+	}
+	
+    public void setCadena(int c){ // Me trata las cadenas en las declaraciones, y aumenta el c 
+        cadena = new String("cadena"+c);
+    }
+
+    public String getCadena(){
+        return cadena;
+    }
+
+	
 	
 }

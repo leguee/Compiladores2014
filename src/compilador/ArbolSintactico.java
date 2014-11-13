@@ -1,5 +1,7 @@
 package compilador;
 
+import java.util.Vector;
+
 
 public class ArbolSintactico {
 
@@ -111,5 +113,13 @@ public class ArbolSintactico {
 	public boolean tieneError (){
 		return error ;
 	}
+
+	public Vector<String> generarAssembler() {
+		// TODO Auto-generated method stub HACER todo de recorrer el arbol y demas
+		
+		return null;
+	}
+	
+	
 
 }
