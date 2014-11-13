@@ -5,6 +5,8 @@ import java.util.Vector;
 
 public class ArbolSintactico {
 
+	
+	private String tipo = "NADA" ;
 	private String valor ;
 
 	private ArbolSintactico hijoDer ;
@@ -13,12 +15,12 @@ public class ArbolSintactico {
 	private Hoja hijoDerHoja ;
 	private Hoja hijoIzqHoja ;
 
-	
 
-	private boolean error = false ;
+
+	private static boolean error = false ;
 
 	public ArbolSintactico (){
-		
+
 	}
 
 	public ArbolSintactico (String valor , ArbolSintactico i , ArbolSintactico d){
@@ -91,27 +93,33 @@ public class ArbolSintactico {
 			if (this.esNodo()){
 				if(this.hijoIzq!=null)
 					this.hijoIzq.imprimir(nivel);
-
-
 				if(this.hijoDer!=null)
 					this.hijoDer.imprimir(nivel);
 			}
 			else{
-				if (this.hijoDerHoja!= null)
-					this.hijoDerHoja.imprimir(nivel);
 				if (this.hijoIzqHoja!=null)
 					this.hijoIzqHoja.imprimir(nivel);
+				if (this.hijoDerHoja!= null)
+					this.hijoDerHoja.imprimir(nivel);
 			}
 		}
 	}
 
 
-	public void setError (){
-		this.error = true ;
+	public static void setError (){
+		error = true ;
+	}
+
+	public static boolean tieneError (){
+		return error ;
 	}
 	
-	public boolean tieneError (){
-		return error ;
+	public void setTipo (String t){
+		tipo = t ;
+	}
+	
+	public String getTipo (){
+		return tipo ;
 	}
 
 	public Vector<String> generarAssembler() {

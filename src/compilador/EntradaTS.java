@@ -16,8 +16,11 @@ public class EntradaTS {
 	private String cadena;
 
 
-	private String rangoMenor ;
-	private String rangoMayor ;
+	private String rangoMenor = null ;
+	private String rangoMayor = null ;
+
+	private boolean declarada = false ;
+
 
 
 	public int getContRef() {
@@ -130,5 +133,13 @@ public class EntradaTS {
     }
 
 	
+	
+	public void setDeclarada (){
+		declarada = true ;
+	}
+	
+	public boolean isDeclarada (){
+		return declarada ;
+	}
 	
 }

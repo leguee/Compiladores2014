@@ -52,16 +52,28 @@ declaraciones : declaraciones declaracion	{
 declaracion : tipo lista_variables ';' 	{ 	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(30));
 											Enumeration e = ((Vector<Token>)vt).elements();
 											String lexema = ((ArbolSintactico)$1.obj).getValor();
+								
 											while (e.hasMoreElements()){
 												Token token = (Token)e.nextElement();
-												token.getETS().setTipo(lexema);
-												token.getETS().setDeclarada();
-												token.getETS().setId((short)264);
+												
+												
+												if ( tabla.contieneLexema(token.getLexema())&&(!tabla.getEntradaTS(token.getLexema()).isDeclarada())){
+													token.getETS().setTipo(lexema);
+													token.getETS().setDeclarada();
+													token.getETS().setId((short)264);
+												}
+												else
+												{
+												manejador.error(analizador.getNroLinea(),analizador.getMensaje(61),"SEMANTICO");
+												ArbolSintactico.setError();
+												}
 											}
 											vt = new Vector<Token>();
 											ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 											ArbolSintactico a2 = ((ArbolSintactico)$2.obj);
-											$$.obj = new ArbolSintactico ("declaracion",a1,a2);
+											ArbolSintactico a3 = new ArbolSintactico ("declaracion",a1,a2);
+											a3.setTipo(lexema);
+											$$.obj = a3 ;
 											
 										}
 										
@@ -104,12 +116,26 @@ vector_declaracion : ID '[' CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo	{
 																				ArbolSintactico rMayor = new Hoja (tabla.getTabla().get(rangoMayor),rangoMayor);
 																				ArbolSintactico rango = new ArbolSintactico (("rango") ,rMenor,rMayor);
 																				ArbolSintactico tipo = ((ArbolSintactico)$9.obj);
-																				ident.getETS().setTipo(tipo.getValor());
-																				ident.getETS().setId((short)264);
-																				ident.getETS().setRangoMenor (rangoMenor);
-																				ident.getETS().setRangoMayor (rangoMayor);
-																				ident.getETS().setDeclarada();
-																				$$.obj = new ArbolSintactico (iden, rango, tipo);
+																				
+																				if ( tabla.contieneLexema(ident.getLexema())&&(!tabla.getEntradaTS(ident.getLexema()).isDeclarada())){
+																					ident.getETS().setTipo(tipo.getValor());
+																					ident.getETS().setId((short)264);
+																					ident.getETS().setRangoMenor (rangoMenor);
+																					ident.getETS().setRangoMayor (rangoMayor);
+																					ident.getETS().setDeclarada();
+																				}
+																				else{
+																					ArbolSintactico.setError();
+																					manejador.error(analizador.getNroLinea(),analizador.getMensaje(61),"SEMANTICO");
+																					
+																				}
+																				if (rangoMenor.compareTo(rangoMayor)== 1 ) {
+																					arbol.setError();
+																					manejador.error(analizador.getNroLinea(),analizador.getMensaje(69),"SEMANTICO");
+																				}
+																				ArbolSintactico vector = new ArbolSintactico (iden, rango, tipo);
+																				vector.setTipo (tipo.getValor());
+																				$$.obj = vector ;
 																			}
 				   | ID error CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo  {	manejador.error(analizador.getNroLinea(), analizador.getMensaje(38),"SINTACTICO");}
 				   | ID '[' CTEENTERO RANGO CTEENTERO error VECTOR DE tipo { manejador.error(analizador.getNroLinea(), analizador.getMensaje(39),"SINTACTICO");}
@@ -134,7 +160,7 @@ sentencias_ejecutables : sentencias_ejecutables sentencia  {	ArbolSintactico a1 
 																ArbolSintactico a2 = ((ArbolSintactico)$2.obj);
 																$$.obj = new ArbolSintactico ("sentencias",a1,a2);
 															}
-			           | sentencia /*{ $$.obj = ((ArbolSintactico)$1.obj);}*/
+			           | sentencia 
 					   
 ;
 
@@ -149,11 +175,26 @@ sentencia : asignacion
 asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(31));
 										Token token1 = ((Token)$1.obj);
 										String lexID = token1.getLexema();
+										
 										EntradaTS ET = tabla.getEntradaTS(lexID);
-										if ( !tabla.contieneLexema(lexID) || !ET.isDeclarada() )
+										if ( !tabla.contieneLexema(lexID) || !ET.isDeclarada() ){
 											manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
+											ArbolSintactico.setError();
+											}
+										if (ET.getRangoMenor()!=null){
+											arbol.setError();
+											manejador.error(analizador.getNroLinea(),analizador.getMensaje (70) , "SEMANTICO");
+										}
 										ArbolSintactico a1 = new Hoja(tabla.getTabla().get(token1.getLexema()),token1.getLexema());
+										if ( tabla.getEntradaTS(a1.getValor()).isDeclarada()){
+											a1.setTipo(tabla.getEntradaTS(a1.getValor()).getTipo());
+										}
 										ArbolSintactico a3 = ((ArbolSintactico)$3.obj);
+										
+										if ( !a1.getTipo().equals(a3.getTipo())){
+											manejador.error(analizador.getNroLinea(),analizador.getMensaje (68 ) , "SEMANTICO");
+											arbol.setError();
+										}
 										$$.obj = new ArbolSintactico ("asig", a1 , a3 );
 										}
 		  | ID ASIGNACION expresion error {manejador.error(analizador.getNroLinea(),analizador.getMensaje(7),"SINTACTICO");}
@@ -164,12 +205,30 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 		  | ID '[' expresion ']' ASIGNACION expresion ';'	{	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(43));
 																String lexID = ((Token)$1.obj).getLexema();
 																EntradaTS ET = tabla.getEntradaTS (lexID);
-																if ( !tabla.contieneLexema(lexID) || !ET.isDeclarada() )
+																if ( !tabla.contieneLexema(lexID) || !ET.isDeclarada() ){
 																	manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
+																	ArbolSintactico.setError();
+																	
+																	}
+																if (tabla.contieneLexema(lexID) && ET.getRangoMenor() == null)
+																		manejador.error(analizador.getNroLinea(),analizador.getMensaje (62 ) , "SEMANTICO");
+																
 																ArbolSintactico a1 = new Hoja (tabla.getTabla().get(lexID),lexID);
+																if ( tabla.getEntradaTS(a1.getValor()).isDeclarada()){
+																	a1.setTipo(tabla.getEntradaTS(a1.getValor()).getTipo());
+																}
 																ArbolSintactico a3 = ((ArbolSintactico)$3.obj);
+																if (!a3.getTipo().equals("entero")){
+																	manejador.error(analizador.getNroLinea(), analizador.getMensaje(67), "LEXICO");
+																	arbol.setError();	
+																}
 																ArbolSintactico vec = new ArbolSintactico ("vector",a1,a3);
 																ArbolSintactico a6 = ((ArbolSintactico)$6.obj);
+																if ( !a1.getTipo().equals(a6.getTipo())){
+																	manejador.error(analizador.getNroLinea(),analizador.getMensaje (68 ) , "SEMANTICO");
+																	arbol.setError();
+																}
+																
 																$$.obj = new ArbolSintactico ("asig vector", vec , a6 );
 															}
 		  | error '[' expresion ']' ASIGNACION expresion ';' {manejador.error(analizador.getNroLinea(), analizador.getMensaje(11),"SINTACTICO");}
@@ -250,22 +309,50 @@ print: IMPRIMIR '(' STRING ')' ';' {manejador.estructuraSintactica(analizador.ge
 
 expresion : expresion '+' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 										ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-										$$.obj = new ArbolSintactico ("+",a1,a2);
+										ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
+								  if ( a1.getTipo().equals(a2.getTipo()))
+								  	res.setTipo(a1.getTipo());
+								  else{
+								  	manejador.error(analizador.getNroLinea(),analizador.getMensaje(66),"SEMANTICO");
+								  	arbol.setError();
+								  	}
+										$$.obj = res ;
 									}
 		  | expresion '-' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
-										ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-										$$.obj = new ArbolSintactico ("-",a1,a2);
+									ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
+									ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
+								  if ( a1.getTipo().equals(a2.getTipo()))
+								  	res.setTipo(a1.getTipo());
+								  else{
+								  	manejador.error(analizador.getNroLinea(),analizador.getMensaje(65),"SEMANTICO");
+								  	arbol.setError();
+								  	}
+										$$.obj = res ;
 									}
 		  | termino {$$.obj = ((ArbolSintactico)$1.obj);} 
 ;
 
 termino : termino '*' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-								  $$.obj = new ArbolSintactico ("*",a1,a2);
+								  ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
+								  if ( a1.getTipo().equals(a2.getTipo()))
+								  	res.setTipo(a1.getTipo());
+								  else{
+								  	manejador.error(analizador.getNroLinea(),analizador.getMensaje(63),"SEMANTICO");
+								  	arbol.setError();
+								  	}
+								  $$.obj = res ;
 								}
 		| termino '/' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-								  $$.obj = new ArbolSintactico ("/",a1,a2);
+								  ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
+								  if ( a1.getTipo().equals(a2.getTipo()))
+								  	res.setTipo(a1.getTipo());
+								  else{
+								  	manejador.error(analizador.getNroLinea(),analizador.getMensaje(64),"SEMANTICO");
+								  	arbol.setError();
+								  	}
+								  $$.obj = res;
 								}
 		| factor {
 					ArbolSintactico a1 = ((ArbolSintactico)val_peek(0).obj);
@@ -273,8 +360,10 @@ termino : termino '*' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 					EntradaTS ETs = tabla.getEntradaTS(t);
 					try {
 						if ( (!tabla.contieneLexema(t) || 
-								!ETs.isDeclarada())&& ETs.getId()==264)
+								!ETs.isDeclarada())&& ETs.getId()==264){
 							manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
+							ArbolSintactico.setError();
+							}
 					} catch (NullPointerException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -306,14 +395,23 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 									nuevaEntrada.setTipo("doble");
 								}
 							}
-							$$.obj = new Hoja(tabla.getTabla().get(nuevoLexema),nuevoLexema);
+							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							a1.setTipo ("doble"); 
+							$$.obj = a1 ;
+							
 						}
 	   | CONSTANTE { String lexema = ((Token)$1.obj).getLexema();
-						$$.obj = new Hoja (tabla.getTabla().get(lexema),lexema);
+	   					ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							a1.setTipo ("doble"); 
+							$$.obj = a1 ;
+						
 					}
 	   
 	   | ID		{	String lexema = ((Token)$1.obj).getLexema();
-					$$.obj = new Hoja (tabla.getTabla().get(lexema),lexema);
+	   				ArbolSintactico a1 = new Hoja (tabla.getTabla().get(lexema),lexema);
+	   				if ( tabla.getEntradaTS(lexema).isDeclarada())
+	   					a1.setTipo(tabla.getEntradaTS(lexema).getTipo());
+					$$.obj = a1 ;
 				}
 	   | '-' CTEENTERO		{	String lexema = ((Token)$2.obj).getLexema();
 							
@@ -339,7 +437,11 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 									nuevaEntrada.setTipo("entero");
 								}
 							}
-							$$.obj = new Hoja(tabla.getTabla().get(nuevoLexema),nuevoLexema);
+							
+							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							a1.setTipo ("entero"); 
+							$$.obj = a1 ;
+							
 						}
 				   else {
 					manejador.error(analizador.getNroLinea(), analizador.getMensaje(20), "LEXICO"); 
@@ -349,11 +451,12 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 						String lexema = ((Token)$1.obj).getLexema();
 
 							if(Long.parseLong(lexema)<= Short.MAX_VALUE ) { //TODO
-				
-							$$.obj = new Hoja(tabla.getTabla().get(lexema),lexema);
+							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							a1.setTipo ("entero"); 
+							$$.obj = a1 ;
 							}
 							else {
-							manejador.error(analizador.getNroLinea(), analizador.getMensaje(20), "LEXICO"); 
+								manejador.error(analizador.getNroLinea(), analizador.getMensaje(20), "LEXICO");
 							}
 					}					
 	   | expresion_vector {$$.obj = ((ArbolSintactico)$1.obj);}
@@ -363,10 +466,20 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 expresion_vector : ID '[' expresion ']' {	String lexema = ((Token)$1.obj).getLexema();
 											ArbolSintactico id = new Hoja (tabla.getTabla().get(lexema),lexema);
 											EntradaTS ET = tabla.getEntradaTS (lexema);
-											if ( !tabla.contieneLexema(lexema) || !ET.isDeclarada() )
+											id.setTipo (ET.getTipo());
+											if ( !tabla.contieneLexema(lexema) || !ET.isDeclarada() ){
 												manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
+												ArbolSintactico.setError();
+											}
+											
 											ArbolSintactico exp = ((ArbolSintactico)$3.obj);
-											$$.obj = new ArbolSintactico ("asig vector" , id , exp);
+											if (!exp.getTipo().equals("entero")){
+												manejador.error(analizador.getNroLinea(), analizador.getMensaje(67), "LEXICO");
+												arbol.setError();	
+											}
+											ArbolSintactico asigVector = new ArbolSintactico ("asig vector" , id , exp);
+											asigVector.setTipo (id.getTipo());
+											$$.obj = asigVector ;
 										}
 				 | ID '[' expresion error {manejador.error(analizador.getNroLinea(),analizador.getMensaje(39),"SINTACTICO");}
 		    	 | error '[' expresion ']' {manejador.error(analizador.getNroLinea(),analizador.getMensaje(11),"SINTACTICO");}
