@@ -122,12 +122,13 @@ public class ArbolSintactico {
 		return tipo ;
 	}
 
-	public Vector<String> generarAssembler() {
+	public Vector<String> generarAssembler(TablaSimbolos ts, Sentencia sentencias) {
 		// TODO Auto-generated method stub HACER todo de recorrer el arbol y demas
+		
 		
 		return null;
 	}
-	
+
 	
 
 }

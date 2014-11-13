@@ -93,11 +93,11 @@ public class GeneradorAssembler {
 		  Vector<String> codigoAs = new Vector<String>();
 		  codigoAs.add(new String(".CODE"));
 		  codigoAs.add(new String("START:"));
-		  System.out.println("Generar Assembler"); // TODO hasta aca joya o casi
+		  System.out.println("Generar Assembler"); //
 
-		  //CodigoAssembler capturadorASM = new CodigoAssembler();
-		  //arb.generarAssembler(capturadorASM);
-		  //codigo += capturadorASM.getarb();
+		  Sentencia sentencias = new Sentencia(); // es la clase que voy a usar para la recursion, y va a tener el codigo generado 
+		  arb.generarAssembler(ts, sentencias);// despues de recorrer el arbol y ademas tiene una pila de labels
+		  codigoAs = sentencias.getCodigo();
 
 		  //--------------------------------------------------------
 
