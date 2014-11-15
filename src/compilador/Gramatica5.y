@@ -133,6 +133,10 @@ vector_declaracion : ID '[' CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo	{
 																					arbol.setError();
 																					manejador.error(analizador.getNroLinea(),analizador.getMensaje(69),"SEMANTICO");
 																				}
+																				if (rangoMenor.compareTo(((Integer)0).toString())== -1 ){
+																					arbol.setError();
+																					manejador.error(analizador.getNroLinea(),analizador.getMensaje(71),"SEMANTICO");
+																				}
 																				ArbolSintactico vector = new ArbolSintactico (iden, rango, tipo);
 																				vector.setTipo (tipo.getValor());
 																				$$.obj = vector ;
@@ -241,11 +245,13 @@ seleccion : seleccion_simple	{	manejador.estructuraSintactica(analizador.getNroL
 		  | seleccion_simple SINO bloque  { manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(48));
 											ArbolSintactico sel_simple = ((ArbolSintactico)$1.obj);
 											ArbolSintactico bloque_si = sel_simple.getHijoDer();
-											 
 											ArbolSintactico bloque_sino =  ((ArbolSintactico)$3.obj);
-											ArbolSintactico cuerpo = new ArbolSintactico("cuerpo" , bloque_si, bloque_sino );
-											cuerpo.getHijoDer().setValor ("sino");
-											cuerpo.getHijoIzq().setValor ("si");
+											
+											ArbolSintactico cuerpoSi = new ArbolSintactico ("cuerpo si" ,null , bloque_si);
+											ArbolSintactico cuerpoSino = new ArbolSintactico ("cuerpo sino" ,null , bloque_sino);
+											ArbolSintactico cuerpo = new ArbolSintactico("bloque" , cuerpoSi, cuerpoSino );
+											/*cuerpo.getHijoDer().setValor ("sino");
+											cuerpo.getHijoIzq().setValor ("si");*/
 											sel_simple.setHijoDer(cuerpo) ;
 											$$.obj = sel_simple ;
 										  }
@@ -254,7 +260,8 @@ seleccion : seleccion_simple	{	manejador.estructuraSintactica(analizador.getNroL
 
 seleccion_simple : SI '(' condicion ')' ENTONCES bloque	{	ArbolSintactico cn = ((ArbolSintactico)$3.obj);
 															ArbolSintactico bl = ((ArbolSintactico)$6.obj);
-															$$.obj = new ArbolSintactico ("si",cn,bl);
+															ArbolSintactico bloque = new ArbolSintactico ("bloque", null , bl);
+															$$.obj = new ArbolSintactico ("si",cn,bloque);
 														}
 				 | SI '(' condicion ')' error bloque {manejador.error(analizador.getNroLinea(), analizador.getMensaje(46),"SINTACTICO");}
 				 | ID '(' condicion ')' ENTONCES bloque {manejador.error(analizador.getNroLinea(), analizador.getMensaje(47),"SINTACTICO");}
@@ -309,7 +316,7 @@ print: IMPRIMIR '(' STRING ')' ';' {manejador.estructuraSintactica(analizador.ge
 
 expresion : expresion '+' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 										ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-										ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
+										ArbolSintactico res = new ArbolSintactico ("+",a1,a2);
 								  if ( a1.getTipo().equals(a2.getTipo()))
 								  	res.setTipo(a1.getTipo());
 								  else{
@@ -320,7 +327,7 @@ expresion : expresion '+' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.ob
 									}
 		  | expresion '-' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 									ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-									ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
+									ArbolSintactico res = new ArbolSintactico ("-",a1,a2);
 								  if ( a1.getTipo().equals(a2.getTipo()))
 								  	res.setTipo(a1.getTipo());
 								  else{
@@ -345,7 +352,7 @@ termino : termino '*' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 								}
 		| termino '/' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-								  ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
+								  ArbolSintactico res = new ArbolSintactico ("/",a1,a2);
 								  if ( a1.getTipo().equals(a2.getTipo()))
 								  	res.setTipo(a1.getTipo());
 								  else{
