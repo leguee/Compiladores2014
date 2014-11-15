@@ -221,19 +221,33 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 																if ( tabla.getEntradaTS(a1.getValor()).isDeclarada()){
 																	a1.setTipo(tabla.getEntradaTS(a1.getValor()).getTipo());
 																}
-																ArbolSintactico a3 = ((ArbolSintactico)$3.obj);
+																ArbolSintactico expresionVector = ((ArbolSintactico)$3.obj);
 																if (!a3.getTipo().equals("entero")){
 																	manejador.error(analizador.getNroLinea(), analizador.getMensaje(67), "LEXICO");
 																	arbol.setError();	
 																}
-																ArbolSintactico vec = new ArbolSintactico ("vector",a1,a3);
+																
+																ArbolSintactico base = new Hoja (tabla.getEntradaTS(lexID),"&"+lexID);
+																ArbolSintactico rangoMenor = new Hoja ("null",tabla.getEntradaTS(lexID).getRangoMenor());
+																String factor ;
+																if (tabla.getEntradaTS(lexID).getTipo().equals("entero"))
+																	factor = "2";
+																else
+																	factor = "6";
+																ArbolSintactico tipo = new Hoja (null,tipo);
+																
+																ArbolSintactico resta = new ArbolSintactico("-",expresionVector,rangoMenor);
+																ArbolSintactico mult = new ArbolSintactico ("*",tipo,resta);
+																ArbolSintactico direccion = new ArbolSintactico ("+",base,mult);
+																
+																ArbolSintactico vec = new ArbolSintactico ("vector",a1,direccion);
 																ArbolSintactico a6 = ((ArbolSintactico)$6.obj);
 																if ( !a1.getTipo().equals(a6.getTipo())){
 																	manejador.error(analizador.getNroLinea(),analizador.getMensaje (68 ) , "SEMANTICO");
 																	arbol.setError();
 																}
 																
-																$$.obj = new ArbolSintactico ("asig vector", vec , a6 );
+																$$.obj = new ArbolSintactico ("asig a vector", vec , a6 );
 															}
 		  | error '[' expresion ']' ASIGNACION expresion ';' {manejador.error(analizador.getNroLinea(), analizador.getMensaje(11),"SINTACTICO");}
 		  | ID error expresion ']' ASIGNACION expresion ';' {manejador.error(analizador.getNroLinea(), analizador.getMensaje(38),"SINTACTICO");}
@@ -484,7 +498,21 @@ expresion_vector : ID '[' expresion ']' {	String lexema = ((Token)$1.obj).getLex
 												manejador.error(analizador.getNroLinea(), analizador.getMensaje(67), "LEXICO");
 												arbol.setError();	
 											}
-											ArbolSintactico asigVector = new ArbolSintactico ("asig vector" , id , exp);
+											ArbolSintactico base = new Hoja (tabla.getEntradaTS(lexema),"&"+lexema);
+											String factor ;
+											if (id.getTipo().equals("entero")){
+												factor = "2" ;
+												}
+											else{
+												factor = "6";
+												}
+												
+											ArbolSintactico tipo = new Hoja (null,factor);
+											ArbolSintactico rango = new Hoja (null,ET.getRangoMenor());
+											ArbolSintactico resta = new ArbolSintactico ("-",exp,rango);
+											ArbolSintactico mult = new ArbolSintactico ("*",tipo,resta);
+											ArbolSintactico direccion = new ArbolSintactico ("+",base,mult);
+											ArbolSintactico asigVector = new ArbolSintactico ("asig vector" , id , direccion);
 											asigVector.setTipo (id.getTipo());
 											$$.obj = asigVector ;
 										}
