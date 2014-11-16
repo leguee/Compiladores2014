@@ -4,7 +4,8 @@ import java.util.Vector;
 
 
 public class ArbolSintactico {
-
+	
+	 public static final short AUX=275;
 	
 	private String tipo = "NADA" ;
 	private String valor ;
@@ -14,8 +15,10 @@ public class ArbolSintactico {
 
 	private Hoja hijoDerHoja ;
 	private Hoja hijoIzqHoja ;
+	private static int cont = 1;
 
-
+	ArbolSintactico puntAnterior = null ;
+	private static char ultimaVisita ;
 
 	private static boolean error = false ;
 
@@ -133,8 +136,11 @@ public class ArbolSintactico {
 		}
 
 		//Se recorre el arbol in orden
-		if (this.hijoIzq != null)
+		if (this.hijoIzq != null) {
+			puntAnterior = this ;
+			ultimaVisita = 'i';
 			hijoIzq.generarAssembler(ts, sentencias);
+		}
 
 		//nodo del medio //////////////////////////////////////////////////////////////////////////////
 		
@@ -165,8 +171,11 @@ public class ArbolSintactico {
 
 
 		//Se recorre el arbol
-		if (this.hijoDer!= null)
+		if (this.hijoDer!= null) {
+			puntAnterior = this ;
+			ultimaVisita = 'd' ;
 			this.hijoDer.generarAssembler(ts,sentencias);
+		}
 
 
 		//Nodos que ignoro
@@ -263,17 +272,57 @@ public class ArbolSintactico {
 		//Operacion Aritmeticas---------------------------------------------------------------------------------
 
 
-		if (valor.equals("+")){ // TODO hacerlo que maneje los enteros y los dobles , ir creando las var aux
-			 String oper = "ADD";
+		if (valor.equals("+")){
+			if (this.tipo.equals("entero")) {
+				EntradaTS ent= new EntradaTS(AUX, "");
+				ent.setLexema("aux"+ ent.getIdAux());
+				ent.setTipo("entero");
+				ts.addETS("aux"+ ent.getIdAux(), ent);				
+				sentencias.add("ADD " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
+				if (ultimaVisita == 'd') {
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+cont));
+					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
+					puntAnterior.setHijoDer(null);
+				}
+				else
+				{
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+cont));
+					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
+					puntAnterior.setHijoIzq(null);
+				}
+				
+			} if (this.tipo.equals("doble")) {
+				EntradaTS ent= new EntradaTS(AUX, "@aux"+cont);
+				ent.setTipo("doble");
+				ts.addETS("@aux"+cont, ent);
+				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
+				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FADD ");
+				if (ultimaVisita == 'd') {
+					puntAnterior.setHijoDer(new Hoja (ent,"@aux"+cont));
+					puntAnterior.setHijoDer(null);
+				}
+				else
+				{
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+cont));
+					puntAnterior.setHijoIzq(null);
+				}
+				cont++;
+				
+
+			}
+
+			 
 		}else if (valor.equals("-")){
-			String oper = "SUB";
+			String oper = "SUB ";
 		}else if (valor.equals("*")){
-			String oper = "MUL";
+			String oper = "MUL ";
 		}else if (valor.equals("/")){  
-			String oper = "DIV";
+			String oper = "DIV ";
 		} else {
 			return;
 		}
+		
 
 		/* ---------------------------------------------------------------------------------- */
 
