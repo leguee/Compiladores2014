@@ -1,0 +1,36 @@
+entero a , b , c , d ;
+doble z , w , y , x ;
+
+vectorA [ 1 .. 10 ] vector de doble ;
+vectorB [ 5 .. 15 ] vector de entero ;
+
+b := 7 ;
+c := 8 ;
+d := 10 ;
+
+a := b + c * d / b ;
+
+w := 0.6 ;
+y := 1.5 ;
+x := 2.6 ;
+
+z := w + y * x + w / x ;
+
+
+si ( b = 5 ) entonces {
+	b := a ;
+	a := 0 ;
+	iterar {
+		a := a + 1 ;
+		b := b*5 ;
+	} hasta ( a = 7 ) 
+}
+sino
+{
+	b := d ;
+}
+
+vectorA [ 5 ] := z ;
+
+
+	

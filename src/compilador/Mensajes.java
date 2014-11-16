@@ -6,9 +6,10 @@ public interface Mensajes {
 
 	public void error(int nroLinea, String mensaje, String string);
 
-	public void token(int nroLinea, String lexema) ;
-	
 	public void warning(String string) ;
+	
+	public void token(int nroLinea, String lexema);
+
+	public void estructuraSintactica(int linea, String estructura);
 		
-	 public void estructuraSintactica(int linea, String estructura);
 }

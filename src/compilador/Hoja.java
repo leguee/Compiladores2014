@@ -1,16 +1,12 @@
 package compilador;
 
-
-
 public class Hoja extends ArbolSintactico {
 	
 	EntradaTS entrada ;
 	
-	
 	public Hoja (EntradaTS e , String valor){
 		super(valor,null,null);
 		entrada = e ;
-		
 	}
 	
 	public Hoja () {}

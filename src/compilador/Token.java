@@ -1,6 +1,5 @@
 package compilador;
 
-import java.util.Vector;
 
 public class Token {
 
