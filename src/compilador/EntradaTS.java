@@ -151,5 +151,8 @@ public class EntradaTS {
 		return declarada ;
 	}
 	
-
+	public String getRangoMayor() {
+		return rangoMayor ;
+	}
+	
 }
