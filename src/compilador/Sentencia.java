@@ -34,4 +34,8 @@ public class Sentencia {
 		pilaEtiquetas.remove(pilaEtiquetas.size() - 1);
 		return salida;
 	}
+	public void add(String string) {
+		codigo.add(string);
+		
+	}
 }
