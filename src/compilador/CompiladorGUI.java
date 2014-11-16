@@ -4,28 +4,21 @@ package compilador;
 
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.TextArea;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -49,18 +42,14 @@ public class CompiladorGUI extends JFrame implements Mensajes {
     private JScrollPane jScrollPane ;
     private TextArea textoError;
     private TextArea textoEstrSin;
-    private TextArea textoAssembler;
+    private TextArea textoToken;
     private TextArea textoWarning;
-    private static TextArea textoArbol;
     private JTable tabla;
     private AnalizadorLexico analizadorLexico;
+    private ArbolSintactico arbol ;
     private JScrollPane jScrollPane1;
     private TableModel tabModelRes;
-    private Grafico f ;
-    private JButton mostrarArbol ;
-    private JButton guardarAssembler ;
-
-    //private JPanel insidePanel2;
+    private JPanel insidePanel2;
     //private JTabbedPane tab;
 
 	
@@ -139,35 +128,11 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         final JButton analizar = new JButton ("ANALIZAR");
 		analizar.setEnabled(true);
 		panelPrincipal.add(analizar);
-		analizar.setBounds((int) (x*.04), (int) (y*0.825),90, 27);
+		analizar.setBounds((int) (x*.22), (int) (y*0.825),90, 27);
 		analizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Analizar();
-				mostrarArbol.setEnabled(true);
-				guardarAssembler.setEnabled(true);
-			}
-		});
-		
-		mostrarArbol = new JButton ("MOSTRAR ARBOL");
-		mostrarArbol.setEnabled(false);
-		panelPrincipal.add(mostrarArbol);
-		mostrarArbol.setBounds((int) (x*.14), (int) (y*0.825),140, 27);
-		mostrarArbol.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mostrarArbol();
-				mostrarArbol.setEnabled(false);
-
-			}
-		});
-		
-		guardarAssembler = new JButton ("GUARDAR ASSEMBLER");
-		guardarAssembler.setEnabled(false);
-		panelPrincipal.add(guardarAssembler);
-		guardarAssembler.setBounds((int) (x*.29), (int) (y*0.825),170, 27);
-		guardarAssembler.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				guardarAssembler();
-				guardarAssembler.setEnabled(false);
+				 Analizar();
+				
 			}
 		});
         
@@ -251,22 +216,22 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         JPanel insidePanel4 = new JPanel();
         insidePanel4.setLayout(new GridLayout(1, 1));
         insidePanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
-        tab.addTab("Assembler", insidePanel4);
-        textoAssembler = new TextArea ();
-        insidePanel4.add(textoAssembler);
-        textoAssembler.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
-        textoAssembler.setColumns(20);
-        textoAssembler.setFont(new java.awt.Font("Arial", 1, 12));
+        tab.addTab("Tokens", insidePanel4);
+        textoToken = new TextArea ();
+        insidePanel4.add(textoToken);
+        textoToken.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
+        textoToken.setColumns(20);
+        textoToken.setFont(new java.awt.Font("Arial", 1, 12));
         
         JPanel insidePanel5 = new JPanel();
         insidePanel5.setLayout(new GridLayout(1, 1));
         insidePanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 3));
-        tab.addTab("Arbol", insidePanel5);
-        textoArbol = new TextArea ();
-        insidePanel5.add(textoArbol);
-        textoArbol.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
-        textoArbol.setColumns(20);
-        textoArbol.setFont(new java.awt.Font("Arial", 1, 12));
+        tab.addTab("Estructura Sintáctica", insidePanel5);
+        textoEstrSin = new TextArea ();
+        insidePanel5.add(textoEstrSin);
+        textoEstrSin.setBounds((int) (x*0.03), 80, (int) (x*0.46), (int) (y*.70));
+        textoEstrSin.setColumns(20);
+        textoEstrSin.setFont(new java.awt.Font("Arial", 1, 12));
 	
         setLayout(new GridLayout(1, 1));
         getContentPane().add(tab,BorderLayout.EAST);
@@ -288,8 +253,8 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 
         textoError.setText(" ");
         textoWarning.setText(" ");
-        textoAssembler.setText(" ");
-        textoArbol.setText(" ");
+        textoToken.setText(" ");
+        textoEstrSin.setText(" ");
         
 //        int aux = -1;
 //        while (aux != 0)
@@ -297,36 +262,15 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 //            aux = analizadorLexico.yylex();
 //            System.out.println(aux);
 //        }
-        
+
         Parser analizadorSintactico = new Parser();
         analizadorSintactico.setLexico(analizadorLexico);
         analizadorSintactico.setMensajes(this);
+        analizadorSintactico.setArbol (arbol);
         analizadorSintactico.run();
-	}
-	
-	protected void mostrarArbol (){
-		analizadorLexico = new AnalizadorLexico(textoCodigo.getText()+" "+(char)255, this);
-		Parser analizadorSintactico = new Parser();
-        analizadorSintactico.setLexico(analizadorLexico);
-        analizadorSintactico.setMensajes(this);
-        analizadorSintactico.run();
-        f = Drawer.dibujarGrafo(analizadorSintactico.getArbol());
-        analizadorSintactico.getArbol().imprimir(0);
+		
 	}
 
-	protected void guardarAssembler (){
-		try{
-			File archivo=new File("assembler.asm");
-			archivo.delete();
-			FileWriter escribir=new FileWriter(archivo,true);
-			escribir.write(textoAssembler.getText());
-			escribir.close();
-		}
-		catch(Exception e){
-			System.out.println("Error al escribir");
-		}
-	}
-	
 	// FIN GUI
 	
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -391,14 +335,10 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		System.out.print(codigo);
 	}
 	
-	
-	
-	
-
 	@Override
 	public void tablaDeSimbolos() { // Muestra la tabla de simbolos por pantalla
 		tabModelRes = new DefaultTableModel(
-				new String[][] { {} }, new String[] {"Simbolo", "Clasificacion"});
+				new String[][] { {} }, new String[] {"Simbolo", "Clasificacion" , "Tipo" , "Rango Menor" , "Rango Mayor"});
 		tabla = new JTable();
 		jScrollPane1.setViewportView(tabla);
 		tabla.setModel(tabModelRes);
@@ -407,7 +347,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		Enumeration<EntradaTS> e = aux.elements();
 		while (e.hasMoreElements()){
 	            EntradaTS entrada = e.nextElement();
-	            Object[] dato = { entrada.getLexema(), this.getName(entrada.getId())};
+	            Object[] dato = { entrada.getLexema(), this.getName(entrada.getId()),(entrada.getTipo()),entrada.getRangoMenor(),entrada.getRangoMayor()};
                 temp.addRow(dato);
 //	            for (int i = 1; i <= entrada.getContRef(); i++)
 //	            {   Object[] dato = { entrada.getLexema(), this.getName(entrada.getId())};
@@ -432,29 +372,21 @@ public class CompiladorGUI extends JFrame implements Mensajes {
 		
 	}
 
-	public void assembler(Vector<String> codigo) { // muestra el codigo assembler
-		for (String s : codigo)
-			textoAssembler.append( s + "\n");
+	public void token(int nroLinea, String lexema) { // muestra los token a medida que se reconocen 
+		textoToken.append("Línea " + nroLinea + ": " + lexema + "\n");
 		
 	}
+
 
 	public void warning(String warning) { // muestra los warning
 		textoWarning.append(warning + "\n");
 		
 	}
-
-	public static void imprimirArbol(String s, boolean n) { // imprime arbol de a poco
-		if (n)
-			textoArbol.append(s + "\n");
-		else
-			textoArbol.append(s);
-	}
-
-	public void token(int nroLinea, String lexema) {
+	
+	public void estructuraSintactica(int linea, String estructura) { // Muestra la estructura sintactica
+		textoEstrSin.append("Línea " + linea + ": " + estructura + "\n");
 		
 	}
+	
 
-	public void estructuraSintactica(int linea, String estructura) {
-		
-	}
 }

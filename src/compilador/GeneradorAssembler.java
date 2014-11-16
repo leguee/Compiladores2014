@@ -9,7 +9,7 @@ public class GeneradorAssembler {
 	 public static final Short CONSTANTE = 265;
 	 public static final Short CTEENTERO=274;
 	 public static final Short STRING = 267; // cadena de caracteres
-	 public static final Short ID = 264;
+	public static final Short ID = 264;
 	 
 	 
 	private ArbolSintactico arb;
@@ -96,7 +96,7 @@ public class GeneradorAssembler {
 		  System.out.println("Generar Assembler"); //
 
 		  Sentencia sentencias = new Sentencia(); // es la clase que voy a usar para la recursion, y va a tener el codigo generado 
-		  //arb.generarAssembler(ts, sentencias);// despues de recorrer el arbol y ademas tiene una pila de labels
+		  arb.generarAssembler(ts, sentencias);// despues de recorrer el arbol y ademas tiene una pila de labels
 		  codigoAs = sentencias.getCodigo();
 
 		  //--------------------------------------------------------
