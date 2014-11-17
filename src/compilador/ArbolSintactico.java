@@ -125,10 +125,10 @@ public class ArbolSintactico {
 	public void generarAssembler(TablaSimbolos ts, Sentencia sentencias) {
 
 		//IZQUIERDA #################################################################################
-		if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
-			String label = sentencias.apilarEtiqueta();
-			sentencias.agregarEtiqueta(label);
-		}
+				if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
+					String label = sentencias.apilarEtiqueta();
+					sentencias.agregarEtiqueta(label);
+				}
 
 		//Se recorre el arbol in orden
 		if (this.hijoIzq != null) {
@@ -189,16 +189,6 @@ public class ArbolSintactico {
 		if (valor.equals("declaracion")){
 			return;
 		}
-
-		if (valor.equals("cuerpo si")){
-			return;
-		}
-
-		if (valor.equals("cuerpo sino")){
-			return;
-		}
-
-
 
 
 		//bloque 
