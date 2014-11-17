@@ -4,9 +4,9 @@ import java.util.Vector;
 
 
 public class ArbolSintactico {
-	
-	 public static final short AUX=275;
-	
+
+	public static final short AUX=275;
+
 	private String tipo = "NADA" ;
 	private String valor ;
 
@@ -116,20 +116,20 @@ public class ArbolSintactico {
 	public static boolean tieneError (){
 		return error ;
 	}
-	
+
 	public void setTipo (String t){
 		tipo = t ;
 	}
-	
+
 	public String getTipo (){
 		return tipo ;
 	}
 
 	public void generarAssembler(TablaSimbolos ts, Sentencia sentencias) {
-	
+
 		//IZQUIERDA #################################################################################
 
-		
+
 		if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
 			String label = sentencias.apilarEtiqueta();
 			sentencias.agregarEtiqueta(label);
@@ -143,24 +143,24 @@ public class ArbolSintactico {
 		}
 
 		//nodo del medio //////////////////////////////////////////////////////////////////////////////
-		
+
 		//Si, seleccion
 		if (valor.equals("si")){
 			//Se generó ya la comparación !!!!!!!!!!!!!!!!!! TODO ver donde se generó en la recursion
- 			//Se debe poner el salto y apilarlo
+			//Se debe poner el salto y apilarlo
 			String comparador = this.hijoIzq .getValor(); // me va a devolver si es:  >=     <=		>		<		=		^=
 			String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
 			String salto = getSalto(comparador); // si es JE, JB, JNE etc
 			sentencias.add(salto + etiqueta);
 		}
-		
+
 		// bloque o Cuerpo sino
 		if (valor.equals("bloque")){
 			String etiquetaPrimera = sentencias.desapilarEtiqueta();
 
 			if (hijoDer != null){
 				String etiqueta = sentencias.apilarEtiqueta();
-								//Se agrega la sentencia
+				//Se agrega la sentencia
 				sentencias.add("JMP "+ etiqueta);
 
 			}
@@ -189,7 +189,7 @@ public class ArbolSintactico {
 		if (valor.equals("declaraciones")){
 			return;
 		}
-		
+
 		if (valor.equals("declaracion")){
 			return;
 		}
@@ -201,9 +201,9 @@ public class ArbolSintactico {
 		if (valor.equals("cuerpo sino")){
 			return;
 		}
-		
-		
-		
+
+
+
 
 		//bloque 
 		if (valor.equals("bloque")){
@@ -230,26 +230,26 @@ public class ArbolSintactico {
 		//Asignación
 		if (valor.equals("asig") || valor.equals("asig vector")){
 			//boolean widening = izquierdo.getTipo().equals(TIPOS.ENTERO_LSS) && derecho.getTipo().equals(TIPOS.ENTERO);
-			
+
 			if (this.tipo.equals("entero")) {
 				String dest = "_"+hijoIzq.valor;
 				String orig; // TODO ver en que parte se carga la parte derecha de la asignacion
 				sentencias.add("MOV "+dest+" , "+ orig);
 			}else if (this.tipo.equals("doble")) {
 				// TODO aca todo las instrucciones de trata de Dobles FLD etc
-				
+
 				String dest = "_"+hijoIzq.valor;
 				String orig; // TODO ver en que parte se carga la parte derecha de la asignacion
 				sentencias.add("FLD "+ orig);
 				sentencias.add("FSTP "+dest);
-				
+
 				//FLD _g
 				//FSTP _a
-				
-				
+
+
 			}
-			
-		// TODO Si es un acceso a un vector hay que moverlo primero
+
+			// TODO Si es un acceso a un vector hay que moverlo primero
 
 			return;
 		}
@@ -257,7 +257,7 @@ public class ArbolSintactico {
 
 		//Comparación 
 		if (valor.equals("=") || valor.equals("<") || valor.equals("<=") || valor.equals(">") || valor.equals(">=") || valor.equals("^=")){
-		
+
 
 
 			return;
@@ -272,57 +272,194 @@ public class ArbolSintactico {
 		//Operacion Aritmeticas---------------------------------------------------------------------------------
 
 
-		if (valor.equals("+")){
+		if (valor.equals("+")){ /////////////////////////////////////////////////////////////SUMA/////////////////////////////////////////
 			if (this.tipo.equals("entero")) {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
 				ts.addETS("aux"+ ent.getIdAux(), ent);				
 				sentencias.add("ADD " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+cont));
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
 					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
 					puntAnterior.setHijoDer(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+cont));
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
 					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
 					puntAnterior.setHijoIzq(null);
 				}
-				
-			} if (this.tipo.equals("doble")) {
-				EntradaTS ent= new EntradaTS(AUX, "@aux"+cont);
+
+			}else if (this.tipo.equals("doble")) {
+				EntradaTS ent= new EntradaTS(AUX, "");
+				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
-				ts.addETS("@aux"+cont, ent);
+				ts.addETS("aux"+ent.getIdAux(), ent);
 				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
 				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
 				sentencias.add("FADD ");
+				sentencias.add("FSTP "+ ent.getLexAss() );
+				sentencias.add("FLD "+  ent.getLexAss() );
+				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
+
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new Hoja (ent,"@aux"+cont));
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
 					puntAnterior.setHijoDer(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+cont));
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
 					puntAnterior.setHijoIzq(null);
-				}
-				cont++;
-				
-
+				}			
 			}
 
-			 
-		}else if (valor.equals("-")){
-			String oper = "SUB ";
-		}else if (valor.equals("*")){
-			String oper = "MUL ";
-		}else if (valor.equals("/")){  
-			String oper = "DIV ";
+		}else if (valor.equals("-")){/////////////////////////////////////////////////////////////RESTA/////////////////////////////////////////
+			if (this.tipo.equals("entero")) {
+				EntradaTS ent= new EntradaTS(AUX, "");
+				ent.setLexema("aux"+ ent.getIdAux());
+				ent.setTipo("entero");
+				ts.addETS("aux"+ ent.getIdAux(), ent);				
+				sentencias.add("SUB " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
+				if (ultimaVisita == 'd') {
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
+					puntAnterior.setHijoDer(null);
+				}
+				else
+				{
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
+					puntAnterior.setHijoIzq(null);
+				}
+
+			}else if (this.tipo.equals("doble")) {
+				EntradaTS ent= new EntradaTS(AUX, "");
+				ent.setLexema("aux"+ ent.getIdAux());
+				ent.setTipo("doble");
+				ts.addETS("aux"+ent.getIdAux(), ent);
+				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
+				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FSUBR ");
+				sentencias.add("FSTP "+ ent.getLexAss() );
+				sentencias.add("FLD "+  ent.getLexAss() );
+				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
+
+				if (ultimaVisita == 'd') {
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
+					puntAnterior.setHijoDer(null);
+				}
+				else
+				{
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
+					puntAnterior.setHijoIzq(null);
+				}			
+			}
+		}else if (valor.equals("*")){/////////////////////////////////////////////////////////////MULTIPLIC/////////////////////////////////////////
+			if (this.tipo.equals("entero")) {//TODO verificar el overflow del producto ENTERO
+				EntradaTS ent= new EntradaTS(AUX, "");
+				ent.setLexema("aux"+ ent.getIdAux());
+				ent.setTipo("entero");
+				ts.addETS("aux"+ ent.getIdAux(), ent);				
+				sentencias.add("MUL " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
+				sentencias.add("CMP "+ hijoIzqHoja.getEntrada().getLexAss() + ", _@max_entero"); // TODO ver si no es al revez
+				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
+				if (ultimaVisita == 'd') {
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
+					puntAnterior.setHijoDer(null);
+				}
+				else
+				{
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
+					puntAnterior.setHijoIzq(null);
+				}
+
+			}else if (this.tipo.equals("doble")) {
+				EntradaTS ent= new EntradaTS(AUX, "");
+				ent.setLexema("aux"+ ent.getIdAux());
+				ent.setTipo("doble");
+				ts.addETS("aux"+ent.getIdAux(), ent);
+				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
+				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FMUL ");
+				sentencias.add("FLD _@max_doble");
+				sentencias.add("FCOMPP ");
+				sentencias.add("FWAIT ");
+				sentencias.add("SAHF ");
+				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
+				sentencias.add("FSTP "+ ent.getLexAss() );
+				sentencias.add("FLD "+  ent.getLexAss() );
+				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
+				
+				if (ultimaVisita == 'd') {
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
+					puntAnterior.setHijoDer(null);
+				}
+				else
+				{
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
+					puntAnterior.setHijoIzq(null);
+				}			
+			}
+		}else if (valor.equals("/")){  /////////////////////////////////////////////////////////////DIVISION/////////////////////////////////////////
+			if (this.tipo.equals("entero")) {
+				EntradaTS ent= new EntradaTS(AUX, "");
+				ent.setLexema("aux"+ ent.getIdAux());
+				ent.setTipo("entero");
+				ts.addETS("aux"+ ent.getIdAux(), ent);				
+				sentencias.add("DIV " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
+				if (ultimaVisita == 'd') {
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
+					puntAnterior.setHijoDer(null);
+				}
+				else
+				{
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
+					puntAnterior.setHijoIzq(null);
+				}
+
+			}else if (this.tipo.equals("doble")) {
+				EntradaTS ent= new EntradaTS(AUX, "");
+				ent.setLexema("aux"+ ent.getIdAux());
+				ent.setTipo("doble");
+				ts.addETS("aux"+ent.getIdAux(), ent);
+				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
+				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FDIVR ");
+				sentencias.add("FSTP "+ ent.getLexAss() );
+				sentencias.add("FLD "+  ent.getLexAss() );
+				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
+
+				if (ultimaVisita == 'd') {
+					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
+					puntAnterior.setHijoDer(null);
+				}
+				else
+				{
+					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
+					puntAnterior.setHijoIzq(null);
+				}			
+			}
 		} else {
 			return;
 		}
-		
+
 
 		/* ---------------------------------------------------------------------------------- */
 
@@ -357,6 +494,6 @@ public class ArbolSintactico {
 		return null;
 	}
 
-	
+
 
 }
