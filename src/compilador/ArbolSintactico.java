@@ -229,8 +229,7 @@ public class ArbolSintactico {
 			System.out.println( );
 			System.out.println("...............es hoja.......");
 			
-			String dest = hijoIzq.getHijoIzqHoja().getEntrada().getLexAss(); // aca se rompe
-			System.out.println("reafraedasdsadsadsa");
+			String dest = hijoIzqHoja.getEntrada().getLexAss(); // aca se rompe
 			String orig = hijoDerHoja.getEntrada().getLexAss(); 
 			if (this.tipo.equals("entero")) {
 				sentencias.add("MOV "+dest+" , "+ orig);
