@@ -257,12 +257,12 @@ public class ArbolSintactico {
 
 
 		//Comparación 
-		if (valor.equals("=") || valor.equals("<") || valor.equals("<=") || valor.equals(">") || valor.equals(">=") || valor.equals("^=")){
+		/*if (valor.equals("=") || valor.equals("<") || valor.equals("<=") || valor.equals(">") || valor.equals(">=") || valor.equals("^=")){
 
 
 
 			return;
-		}
+		}*/
 
 
 		if (valor.equals("indice")){ // tratar el indice
@@ -497,12 +497,12 @@ public class ArbolSintactico {
 			return "JA ";
 		}
 		if (comparador.equals("=")){
-			//Saltas por Distinto
-			return "JNE ";	
+			//Saltas por Igual
+			return "JE ";	
 		}
 		if (comparador.equals("^=")){
-			//Saltas por Igual
-			return "JE ";		
+			//Saltas por Distinto
+			return "JNE ";		
 		}
 		return null;
 	}
