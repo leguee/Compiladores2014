@@ -700,7 +700,7 @@ case 1:
 {	ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 														ArbolSintactico a2 = ((ArbolSintactico)val_peek(1).obj);
 														arbol = new ArbolSintactico ("program",a1,a2);
-														
+														arbol.imprimir (0);
 														
 													}
 break;
