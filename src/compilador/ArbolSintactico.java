@@ -124,11 +124,7 @@ public class ArbolSintactico {
 
 	public void generarAssembler(TablaSimbolos ts, Sentencia sentencias) {
 
-		//IZQUIERDA #################################################################################
-		if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
-			String label = sentencias.apilarEtiqueta();
-			sentencias.agregarEtiqueta(label);
-		}
+
 
 		//Se recorre el arbol in orden
 		if (this.hijoIzq != null) {
@@ -137,7 +133,7 @@ public class ArbolSintactico {
 			hijoIzq.generarAssembler(ts, sentencias);
 		}
 
-		
+
 		//nodo del medio //////////////////////////////////////////////////////////////////////////////
 
 		//Si, seleccion
@@ -164,7 +160,11 @@ public class ArbolSintactico {
 			sentencias.agregarEtiqueta(etiquetaPrimera);
 		}
 
-
+		//IZQUIERDA #################################################################################
+		if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
+			String label = sentencias.apilarEtiqueta();
+			sentencias.agregarEtiqueta(label);
+		}
 
 		//Se recorre el arbol
 		if (this.hijoDer!= null) {
@@ -218,7 +218,7 @@ public class ArbolSintactico {
 			System.out.println("el tipo es ");
 			System.out.println( );
 			System.out.println("...............es hoja.......");
-			
+
 			String dest = hijoIzqHoja.getEntrada().getLexAss(); // aca se rompe
 			String orig = hijoDerHoja.getEntrada().getLexAss(); 
 			if (this.tipo.equals("entero")) {
@@ -376,7 +376,7 @@ public class ArbolSintactico {
 				sentencias.add("FSTP "+ ent.getLexAss() );
 				sentencias.add("FLD "+  ent.getLexAss() );
 				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
-				
+
 				if (ultimaVisita == 'd') {
 					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
 					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
@@ -436,7 +436,7 @@ public class ArbolSintactico {
 		} else {
 			return;
 		}
-		
+
 
 
 		/* ---------------------------------------------------------------------------------- */
