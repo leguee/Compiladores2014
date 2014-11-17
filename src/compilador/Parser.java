@@ -700,6 +700,7 @@ case 1:
 {	ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 														ArbolSintactico a2 = ((ArbolSintactico)val_peek(1).obj);
 														arbol = new ArbolSintactico ("program",a1,a2);
+														arbol.imprimir (0);
 														
 													}
 break;
@@ -1000,69 +1001,69 @@ case 43:
 											ArbolSintactico sel_simple = ((ArbolSintactico)val_peek(2).obj);
 											ArbolSintactico bloque_si = sel_simple.getHijoDer();
 											ArbolSintactico bloque_sino =  ((ArbolSintactico)val_peek(0).obj);
-											
-											ArbolSintactico cuerpoSi = new ArbolSintactico ("cuerpo si" ,null , bloque_si);
-											ArbolSintactico cuerpoSino = new ArbolSintactico ("cuerpo sino" ,null , bloque_sino);
-											ArbolSintactico cuerpo = new ArbolSintactico("bloque" , cuerpoSi, cuerpoSino );
-											/*cuerpo.getHijoDer().setValor ("sino");
-											cuerpo.getHijoIzq().setValor ("si");*/
-											sel_simple.setHijoDer(cuerpo) ;
+											bloque_si.setHijoDer(bloque_sino);
+											/*ArbolSintactico cuerpoSi = new ArbolSintactico ("cuerpo si" ,null , bloque_si);*/
+											/*ArbolSintactico cuerpoSino = new ArbolSintactico ("cuerpo sino" ,null , bloque_sino);*/
+											/*ArbolSintactico cuerpo = new ArbolSintactico("bloque" , cuerpoSi, cuerpoSino );*/
+											/*sel_simple.setHijoDer(cuerpo) ;*/
 											yyval.obj = sel_simple ;
 										  }
 break;
 case 44:
-//#line 275 "Gramatica5.y"
+//#line 273 "Gramatica5.y"
 {	ArbolSintactico cn = ((ArbolSintactico)val_peek(3).obj);
 															ArbolSintactico bl = ((ArbolSintactico)val_peek(0).obj);
-															ArbolSintactico bloque = new ArbolSintactico ("bloque", null , bl);
+															ArbolSintactico bloque = new ArbolSintactico ("bloque", bl , null);
 															yyval.obj = new ArbolSintactico ("si",cn,bloque);
 														}
 break;
 case 45:
-//#line 280 "Gramatica5.y"
+//#line 278 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(46),"SINTACTICO");}
 break;
 case 46:
-//#line 281 "Gramatica5.y"
+//#line 279 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(47),"SINTACTICO");}
 break;
 case 47:
-//#line 282 "Gramatica5.y"
+//#line 280 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(47),"SINTACTICO");}
 break;
 case 48:
-//#line 283 "Gramatica5.y"
+//#line 281 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
 break;
 case 49:
-//#line 284 "Gramatica5.y"
+//#line 282 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(51),"SINTACTICO");}
 break;
 case 50:
-//#line 285 "Gramatica5.y"
+//#line 283 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(52),"SINTACTICO");}
 break;
 case 51:
-//#line 288 "Gramatica5.y"
+//#line 286 "Gramatica5.y"
 {	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(35));
 											yyval.obj = ((ArbolSintactico)val_peek(1).obj);
 										}
 break;
 case 52:
-//#line 291 "Gramatica5.y"
+//#line 289 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(13),"SINTACTICO");}
 break;
 case 53:
-//#line 292 "Gramatica5.y"
+//#line 290 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(14),"SINTACTICO");}
 break;
 case 54:
-//#line 296 "Gramatica5.y"
+//#line 294 "Gramatica5.y"
 { 	String lexema = ((Token)val_peek(1).obj).getLexema();
 												ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 												ArbolSintactico a2 = ((ArbolSintactico)val_peek(0).obj);
 												ArbolSintactico comp = new ArbolSintactico (lexema,a1,a2);
-												if ( a1.getTipo() == a2.getTipo())
+												System.out.println (a1.getTipo());
+												System.out.println (a2.getTipo());
+												if ( a1.getTipo().equals(a2.getTipo()))
 													comp.setTipo(a1.getTipo());
 												else{
 													arbol.setError();
@@ -1318,7 +1319,7 @@ case 79:
 break;
 case 80:
 //#line 491 "Gramatica5.y"
-{yyval.obj = ((ArbolSintactico)val_peek(0).obj);}
+{/*$$.obj = ((ArbolSintactico)$1.obj);*/}
 break;
 case 81:
 //#line 495 "Gramatica5.y"

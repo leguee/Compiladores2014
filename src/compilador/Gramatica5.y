@@ -260,13 +260,11 @@ seleccion : seleccion_simple	{	manejador.estructuraSintactica(analizador.getNroL
 											ArbolSintactico sel_simple = ((ArbolSintactico)$1.obj);
 											ArbolSintactico bloque_si = sel_simple.getHijoDer();
 											ArbolSintactico bloque_sino =  ((ArbolSintactico)$3.obj);
-											
-											ArbolSintactico cuerpoSi = new ArbolSintactico ("cuerpo si" ,null , bloque_si);
-											ArbolSintactico cuerpoSino = new ArbolSintactico ("cuerpo sino" ,null , bloque_sino);
-											ArbolSintactico cuerpo = new ArbolSintactico("bloque" , cuerpoSi, cuerpoSino );
-											/*cuerpo.getHijoDer().setValor ("sino");
-											cuerpo.getHijoIzq().setValor ("si");*/
-											sel_simple.setHijoDer(cuerpo) ;
+											bloque_si.setHijoDer(bloque_sino);
+											//ArbolSintactico cuerpoSi = new ArbolSintactico ("cuerpo si" ,null , bloque_si);
+											//ArbolSintactico cuerpoSino = new ArbolSintactico ("cuerpo sino" ,null , bloque_sino);
+											//ArbolSintactico cuerpo = new ArbolSintactico("bloque" , cuerpoSi, cuerpoSino );
+											//sel_simple.setHijoDer(cuerpo) ;
 											$$.obj = sel_simple ;
 										  }
 ;
@@ -274,7 +272,7 @@ seleccion : seleccion_simple	{	manejador.estructuraSintactica(analizador.getNroL
 
 seleccion_simple : SI '(' condicion ')' ENTONCES bloque	{	ArbolSintactico cn = ((ArbolSintactico)$3.obj);
 															ArbolSintactico bl = ((ArbolSintactico)$6.obj);
-															ArbolSintactico bloque = new ArbolSintactico ("bloque", null , bl);
+															ArbolSintactico bloque = new ArbolSintactico ("bloque", bl , null);
 															$$.obj = new ArbolSintactico ("si",cn,bloque);
 														}
 				 | SI '(' condicion ')' error bloque {manejador.error(analizador.getNroLinea(), analizador.getMensaje(46),"SINTACTICO");}
@@ -297,7 +295,7 @@ condicion: expresion COMPARADOR expresion	{ 	String lexema = ((Token)$2.obj).get
 												ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 												ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
 												ArbolSintactico comp = new ArbolSintactico (lexema,a1,a2);
-												if ( a1.getTipo() == a2.getTipo())
+												if ( a1.getTipo().equals(a2.getTipo()))
 													comp.setTipo(a1.getTipo());
 												else{
 													arbol.setError();
@@ -488,7 +486,7 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 								manejador.error(analizador.getNroLinea(), analizador.getMensaje(20), "LEXICO");
 							}
 					}					
-	   | expresion_vector {$$.obj = ((ArbolSintactico)$1.obj);}
+	   | expresion_vector {/*$$.obj = ((ArbolSintactico)$1.obj);*/}
 ;
 
 
