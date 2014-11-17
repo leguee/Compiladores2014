@@ -222,19 +222,19 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 																	a1.setTipo(tabla.getEntradaTS(a1.getValor()).getTipo());
 																}
 																ArbolSintactico expresionVector = ((ArbolSintactico)$3.obj);
-																if (!a3.getTipo().equals("entero")){
+																if (!expresionVector.getTipo().equals("entero")){
 																	manejador.error(analizador.getNroLinea(), analizador.getMensaje(67), "LEXICO");
 																	arbol.setError();	
 																}
 																
 																ArbolSintactico base = new Hoja (tabla.getEntradaTS(lexID),"&"+lexID);
-																ArbolSintactico rangoMenor = new Hoja ("null",tabla.getEntradaTS(lexID).getRangoMenor());
+																ArbolSintactico rangoMenor = new Hoja (null,tabla.getEntradaTS(lexID).getRangoMenor());
 																String factor ;
 																if (tabla.getEntradaTS(lexID).getTipo().equals("entero"))
 																	factor = "2";
 																else
 																	factor = "6";
-																ArbolSintactico tipo = new Hoja (null,tipo);
+																ArbolSintactico tipo = new Hoja (null,factor);
 																
 																ArbolSintactico resta = new ArbolSintactico("-",expresionVector,rangoMenor);
 																ArbolSintactico mult = new ArbolSintactico ("*",tipo,resta);
@@ -296,7 +296,15 @@ bloque: '{' sentencias_ejecutables '}'	{	manejador.estructuraSintactica(analizad
 condicion: expresion COMPARADOR expresion	{ 	String lexema = ((Token)$2.obj).getLexema();
 												ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 												ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-												$$.obj = new ArbolSintactico (lexema,a1,a2);
+												ArbolSintactico comp = new ArbolSintactico (lexema,a1,a2);
+												if ( a1.getTipo() == a2.getTipo())
+													comp.setTipo(a1.getTipo());
+												else{
+													arbol.setError();
+													manejador.error(analizador.getNroLinea(),analizador.getMensaje(72),"SEMANTICO");
+												}
+												
+												$$.obj = comp ;
 											}
 		 | expresion error expresion  {manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
 		 | error COMPARADOR expresion {manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}

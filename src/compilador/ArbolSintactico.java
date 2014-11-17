@@ -15,10 +15,8 @@ public class ArbolSintactico {
 
 	private Hoja hijoDerHoja ;
 	private Hoja hijoIzqHoja ;
-	private static int cont = 1;
 
-	ArbolSintactico puntAnterior = null ;
-	private static char ultimaVisita ;
+
 
 	private static boolean error = false ;
 
@@ -87,10 +85,10 @@ public class ArbolSintactico {
 		if (this != null){
 
 			while (a<nivel){
-				System.out.print("           ");
+				CompiladorGUI.imprimirArbol("   ", false);
 				a++;
 			}
-			System.out.println (valor);
+			CompiladorGUI.imprimirArbol(valor, true);
 			nivel++;
 
 			if (this.esNodo()){
@@ -136,12 +134,10 @@ public class ArbolSintactico {
 		}
 
 		//Se recorre el arbol in orden
-		if (this.hijoIzq != null) {
-			puntAnterior = this ;
-			ultimaVisita = 'i';
+		if (this.hijoIzq != null)
 			hijoIzq.generarAssembler(ts, sentencias);
-		}
-
+		
+		
 		//nodo del medio //////////////////////////////////////////////////////////////////////////////
 
 		//Si, seleccion
@@ -171,11 +167,8 @@ public class ArbolSintactico {
 
 
 		//Se recorre el arbol
-		if (this.hijoDer!= null) {
-			puntAnterior = this ;
-			ultimaVisita = 'd' ;
+		if (this.hijoDer!= null)
 			this.hijoDer.generarAssembler(ts,sentencias);
-		}
 
 
 		//Nodos que ignoro
@@ -270,6 +263,7 @@ public class ArbolSintactico {
 
 
 		//Operacion Aritmeticas---------------------------------------------------------------------------------
+
 
 
 		if (valor.equals("+")){ /////////////////////////////////////////////////////////////SUMA/////////////////////////////////////////
@@ -456,6 +450,17 @@ public class ArbolSintactico {
 					puntAnterior.setHijoIzq(null);
 				}			
 			}
+		} else {
+			return;
+		}
+		if (valor.equals("+")){ // TODO hacerlo que maneje los enteros y los dobles , ir creando las var aux
+			 String oper = "ADD";
+		}else if (valor.equals("-")){
+			String oper = "SUB";
+		}else if (valor.equals("*")){
+			String oper = "MUL";
+		}else if (valor.equals("/")){  
+			String oper = "DIV";
 		} else {
 			return;
 		}

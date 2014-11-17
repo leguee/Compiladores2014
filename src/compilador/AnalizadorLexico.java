@@ -344,6 +344,8 @@ public class AnalizadorLexico {
         case 68: return "los tipos en la asignacion son diferentes";
         case 69: return "el rango menor del vector es mayor que el mayor";
         case 70: return "el vector tiene que tener el indice entre [ ]" ;
+        case 71: return "el rango del vector es negativo";
+        case 72: return "los tipos en la comparacion son diferentes";
         }
         return null;
     }
