@@ -3,7 +3,7 @@ package compilador;
 import java.util.Vector;
 
 public class Sentencia { 
-	private Integer label = 0;
+	private static Integer label = 0;
 	private Vector<String> pilaEtiquetas = new Vector<String>();
 	private Vector<String> codigo = new Vector<String>();
 	
