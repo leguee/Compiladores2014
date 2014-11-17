@@ -17,8 +17,9 @@ public class ArbolSintactico {
 
 	private Hoja hijoDerHoja ;
 	private Hoja hijoIzqHoja ;
-	ArbolSintactico puntAnterior = null ;
-	private static char ultimaVisita ;
+	
+	static ArbolSintactico puntAnterior = null ;
+	static char ultimaVisita ;
 
 	private static boolean error = false ;
 
@@ -138,19 +139,13 @@ public class ArbolSintactico {
 		
 		System.out.println ("esta en "+this.getValor());
 		if ( puntAnterior != null)
-		System.out.println ("punt anterior: "+this.puntAnterior.getValor());
+		System.out.println ("punt anterior: "+puntAnterior.getValor());
 		
 		//Se recorre el arbol in orden
-		if (this.hijoIzqHoja != null){
-			this.puntAnterior = this ;
-			ultimaVisita = 'i';
-			System.out.println ("entro a "+hijoIzqHoja.getValor());
-			hijoIzqHoja.generarAssembler(ts, sentencias, puntAnterior);
-			System.out.println ("salio de "+hijoIzqHoja.getValor());
-		}
 		
-		if (this.hijoIzq != null) {
-			this.puntAnterior = this ;
+		
+		if ((this.hijoIzq != null)&&(!this.hijoIzq.esHoja())) {
+			puntAnterior = this;
 			ultimaVisita = 'i';
 			System.out.println ("entro a "+hijoIzq.getValor());
 			hijoIzq.generarAssembler(ts, sentencias,puntAnterior);
@@ -192,17 +187,9 @@ public class ArbolSintactico {
 			sentencias.agregarEtiqueta(label);
 		}
 		
-		if (this.hijoDerHoja != null){
-			puntAnterior = this ;
-			ultimaVisita = 'i';
-			
-			
-			hijoDerHoja.generarAssembler(ts, sentencias,puntAnterior);
-			
-		}
 
 		//Se recorre el arbol
-		if (this.hijoDer!= null) {
+		if ((this.hijoDer != null)&&(!this.hijoDer.esHoja())) {
 			puntAnterior = this ;
 			ultimaVisita = 'd' ;
 			System.out.println ("entro a "+hijoDer.getValor());
