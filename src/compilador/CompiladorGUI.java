@@ -59,6 +59,8 @@ public class CompiladorGUI extends JFrame implements Mensajes {
     private Grafico f ;
     private JButton mostrarArbol ;
     private JButton guardarAssembler ;
+    private ArbolSintactico arbol;
+    private GeneradorAssembler codigoAssembler;
 
     //private JPanel insidePanel2;
     //private JTabbedPane tab;
@@ -302,6 +304,14 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         analizadorSintactico.setLexico(analizadorLexico);
         analizadorSintactico.setMensajes(this);
         analizadorSintactico.run();
+        arbol = analizadorSintactico.getArbol();
+        
+        codigoAssembler = new GeneradorAssembler(arbol, analizadorLexico.getTablaDeSimbolos());
+        
+        this.assembler( codigoAssembler.getCodigoAssembler());
+        analizadorSintactico.getArbol().imprimir(0);
+        
+        
 	}
 	
 	protected void mostrarArbol (){
@@ -311,7 +321,6 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         analizadorSintactico.setMensajes(this);
         analizadorSintactico.run();
         f = Drawer.dibujarGrafo(analizadorSintactico.getArbol());
-        analizadorSintactico.getArbol().imprimir(0);
 	}
 
 	protected void guardarAssembler (){

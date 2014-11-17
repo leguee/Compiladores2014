@@ -15,6 +15,8 @@ public class ArbolSintactico {
 
 	private Hoja hijoDerHoja ;
 	private Hoja hijoIzqHoja ;
+	ArbolSintactico puntAnterior = null ;
+	private static char ultimaVisita ;
 
 
 
@@ -134,9 +136,12 @@ public class ArbolSintactico {
 		}
 
 		//Se recorre el arbol in orden
-		if (this.hijoIzq != null)
+		if (this.hijoIzq != null) {
+			puntAnterior = this ;
+			ultimaVisita = 'i';
 			hijoIzq.generarAssembler(ts, sentencias);
-		
+		}
+
 		
 		//nodo del medio //////////////////////////////////////////////////////////////////////////////
 
@@ -167,8 +172,11 @@ public class ArbolSintactico {
 
 
 		//Se recorre el arbol
-		if (this.hijoDer!= null)
+		if (this.hijoDer!= null) {
+			puntAnterior = this ;
+			ultimaVisita = 'd' ;
 			this.hijoDer.generarAssembler(ts,sentencias);
+		}
 
 
 		//Nodos que ignoro
@@ -221,19 +229,19 @@ public class ArbolSintactico {
 
 
 		//Asignación
-		if (valor.equals("asig") || valor.equals("asig vector")){
+		if (valor.equals("asig") ){// || valor.equals("asig vector")
 			//boolean widening = izquierdo.getTipo().equals(TIPOS.ENTERO_LSS) && derecho.getTipo().equals(TIPOS.ENTERO);
 
 			if (this.tipo.equals("entero")) {
 				String dest = "_"+hijoIzq.valor;
 				String orig; // TODO ver en que parte se carga la parte derecha de la asignacion
-				sentencias.add("MOV "+dest+" , "+ orig);
+				//sentencias.add("MOV "+dest+" , "+ orig);
 			}else if (this.tipo.equals("doble")) {
 				// TODO aca todo las instrucciones de trata de Dobles FLD etc
 
 				String dest = "_"+hijoIzq.valor;
 				String orig; // TODO ver en que parte se carga la parte derecha de la asignacion
-				sentencias.add("FLD "+ orig);
+				//sentencias.add("FLD "+ orig);
 				sentencias.add("FSTP "+dest);
 
 				//FLD _g
@@ -356,13 +364,13 @@ public class ArbolSintactico {
 				}			
 			}
 		}else if (valor.equals("*")){/////////////////////////////////////////////////////////////MULTIPLIC/////////////////////////////////////////
-			if (this.tipo.equals("entero")) {//TODO verificar el overflow del producto ENTERO
+			if (this.tipo.equals("entero")) {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
 				ts.addETS("aux"+ ent.getIdAux(), ent);				
 				sentencias.add("MUL " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
-				sentencias.add("CMP "+ hijoIzqHoja.getEntrada().getLexAss() + ", _@max_entero"); // TODO ver si no es al revez
+				sentencias.add("CMP "+ hijoIzqHoja.getEntrada().getLexAss() + ", _@max_entero"); 
 				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
 				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
 				if (ultimaVisita == 'd') {

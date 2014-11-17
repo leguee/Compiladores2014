@@ -6,6 +6,8 @@ public class EntradaTS {
 	 public static final Short ID = 264;
 	 public static int IDDOBLE = 1;
 	 public static int IDENTERO = 1;
+	 public static int IDAUX = 1;
+	 public static final short AUX=275;
 	
 	private Short id;
 	private String lexema;
@@ -14,6 +16,7 @@ public class EntradaTS {
 	private int idDoble;
 	private int idEntero;
 	private String cadena;
+	private int idAux;
 
 
 	private String rangoMenor = null ;
@@ -60,6 +63,10 @@ public class EntradaTS {
         }
         else
             this.idEntero = 0;
+	    if (this.id.equals(AUX)) {
+	    	idAux = IDAUX;
+	    	IDAUX++;
+	    }
         
 	}
 
@@ -120,7 +127,10 @@ public class EntradaTS {
 	         if (id.equals(CONSTANTE)) {
 	        	return new String("_doble" + this.idDoble);
 	         }
-	         else return new String("_entero"+ this.idEntero);
+		 else if(id.equals(AUX)) { 
+        	 return new String("@aux"+this.idAux);
+         } else
+        	 return new String("_entero"+ this.idEntero);
 		 		
 	}
 	
@@ -141,5 +151,8 @@ public class EntradaTS {
 	public boolean isDeclarada (){
 		return declarada ;
 	}
+	public int getIdAux() {
+    	return this.idAux;
+    }
 	
 }

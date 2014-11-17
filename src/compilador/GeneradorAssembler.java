@@ -9,6 +9,7 @@ public class GeneradorAssembler {
 	 public static final Short CONSTANTE = 265;
 	 public static final Short CTEENTERO=274;
 	 public static final Short STRING = 267; // cadena de caracteres
+	 public static final short AUX=275;
 	public static final Short ID = 264;
 	 
 	 
@@ -69,7 +70,7 @@ public class GeneradorAssembler {
 					  variables.add(new String(entrada.getLexAss()+ " DW " + entrada.getLexema())); //
 				  }
 				  else	
-					  if(entrada.getId().equals(ID) && entrada.getRangoMayor() == null){ // si es un ID y no es un vector 
+					  if((entrada.getId().equals(ID) && entrada.getRangoMayor() == null) || entrada.getId().equals(AUX)){ // si es un ID y no es un vector o es un AUX 
 						  if (entrada.getTipo().equals("doble"))
 						  { 
 							  variables.add(new String(entrada.getLexAss()+ " DQ ?"));
