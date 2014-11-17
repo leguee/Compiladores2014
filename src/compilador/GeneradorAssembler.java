@@ -98,7 +98,7 @@ public class GeneradorAssembler {
 
 		  Sentencia sentencias = new Sentencia(); // es la clase que voy a usar para la recursion, y va a tener el codigo generado 
 		  arb.generarAssembler(ts, sentencias , null);// despues de recorrer el arbol y ademas tiene una pila de labels
-		  codigoAs = sentencias.getCodigo();
+		  codigoAs.addAll( sentencias.getCodigo());
 
 		  //--------------------------------------------------------
 
