@@ -6,7 +6,6 @@ import java.util.Vector;
 public class ArbolSintactico {
 
 	public static final short AUX=275;
-
 	private String tipo = "NADA" ;
 	private String valor ;
 
@@ -17,8 +16,6 @@ public class ArbolSintactico {
 	private Hoja hijoIzqHoja ;
 	ArbolSintactico puntAnterior = null ;
 	private static char ultimaVisita ;
-
-
 
 	private static boolean error = false ;
 
@@ -128,8 +125,6 @@ public class ArbolSintactico {
 	public void generarAssembler(TablaSimbolos ts, Sentencia sentencias) {
 
 		//IZQUIERDA #################################################################################
-
-
 		if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
 			String label = sentencias.apilarEtiqueta();
 			sentencias.agregarEtiqueta(label);
@@ -229,29 +224,20 @@ public class ArbolSintactico {
 
 
 		//Asignación
-		if (valor.equals("asig") ){// || valor.equals("asig vector")
-			//boolean widening = izquierdo.getTipo().equals(TIPOS.ENTERO_LSS) && derecho.getTipo().equals(TIPOS.ENTERO);
-
+		if (valor.equals("asig") ){// ||TODO valor.equals("asig vector")
+			System.out.println("el tipo es ");
+			System.out.println( );
+			System.out.println("...............es hoja.......");
+			
+			String dest = hijoIzq.getHijoIzqHoja().getEntrada().getLexAss(); // aca se rompe
+			System.out.println("reafraedasdsadsadsa");
+			String orig = hijoDerHoja.getEntrada().getLexAss(); 
 			if (this.tipo.equals("entero")) {
-				String dest = "_"+hijoIzq.valor;
-				String orig; // TODO ver en que parte se carga la parte derecha de la asignacion
-				//sentencias.add("MOV "+dest+" , "+ orig);
+				sentencias.add("MOV "+dest+" , "+ orig);
 			}else if (this.tipo.equals("doble")) {
-				// TODO aca todo las instrucciones de trata de Dobles FLD etc
-
-				String dest = "_"+hijoIzq.valor;
-				String orig; // TODO ver en que parte se carga la parte derecha de la asignacion
-				//sentencias.add("FLD "+ orig);
+				sentencias.add("FLD "+ orig);
 				sentencias.add("FSTP "+dest);
-
-				//FLD _g
-				//FSTP _a
-
-
 			}
-
-			// TODO Si es un acceso a un vector hay que moverlo primero
-
 			return;
 		}
 
@@ -461,17 +447,7 @@ public class ArbolSintactico {
 		} else {
 			return;
 		}
-		if (valor.equals("+")){ // TODO hacerlo que maneje los enteros y los dobles , ir creando las var aux
-			 String oper = "ADD";
-		}else if (valor.equals("-")){
-			String oper = "SUB";
-		}else if (valor.equals("*")){
-			String oper = "MUL";
-		}else if (valor.equals("/")){  
-			String oper = "DIV";
-		} else {
-			return;
-		}
+		
 
 
 		/* ---------------------------------------------------------------------------------- */
