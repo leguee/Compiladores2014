@@ -84,10 +84,10 @@ public class ArbolSintactico {
 		if (this != null){
 
 			while (a<nivel){
-				System.out.print("           ");
+				CompiladorGUI.imprimirArbol("   ", false);
 				a++;
 			}
-			System.out.println (valor);
+			CompiladorGUI.imprimirArbol(valor, true);
 			nivel++;
 
 			if (this.esNodo()){
