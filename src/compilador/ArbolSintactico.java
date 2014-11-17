@@ -4,7 +4,7 @@ import java.util.Vector;
 
 
 public class ArbolSintactico {
-	
+
 	private EntradaTS entrada ;
 
 	public EntradaTS getEntrada() {
@@ -32,7 +32,7 @@ public class ArbolSintactico {
 	public ArbolSintactico (){
 
 	}
-	
+
 	public ArbolSintactico (EntradaTS e ,String valor){
 		this.entrada = e ;
 		this.valor = valor ;
@@ -235,9 +235,8 @@ public class ArbolSintactico {
 			System.out.println("el tipo es ");
 			System.out.println( );
 			System.out.println("...............es hoja.......");
-
-			String dest = hijoIzqHoja.getEntrada().getLexAss(); // aca se rompe
-			String orig = hijoDerHoja.getEntrada().getLexAss(); 
+			String dest = hijoIzq.getEntrada().getLexAss(); // aca se rompe
+			String orig = hijoDer.getEntrada().getLexAss(); 
 			if (this.tipo.equals("entero")) {
 				sentencias.add("MOV "+dest+" , "+ orig);
 			}else if (this.tipo.equals("doble")) {
@@ -340,7 +339,7 @@ public class ArbolSintactico {
 				if (ultimaVisita == 'd') {
 					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
 					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
-					
+
 				}
 				else
 				{
@@ -428,7 +427,7 @@ public class ArbolSintactico {
 				if (ultimaVisita == 'd') {
 					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
 					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
-					
+
 				}
 				else
 				{
