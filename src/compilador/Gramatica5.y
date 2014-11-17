@@ -348,9 +348,9 @@ expresion : expresion '+' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.ob
 		  | expresion '-' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 									ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
 									ArbolSintactico res = new ArbolSintactico ("-",a1,a2);
-								  if ( a1.getTipo().equals(a2.getTipo()))
-								  	res.setTipo(a1.getTipo());
-								  else{
+								  	if ( a1.getTipo().equals(a2.getTipo()))
+								  		res.setTipo(a1.getTipo());
+								  	else{
 								  	manejador.error(analizador.getNroLinea(),analizador.getMensaje(65),"SEMANTICO");
 								  	arbol.setError();
 								  	}
@@ -361,7 +361,7 @@ expresion : expresion '+' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.ob
 
 termino : termino '*' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-								  ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
+								  ArbolSintactico res = new ArbolSintactico ("/",a1,a2);
 								  if ( a1.getTipo().equals(a2.getTipo()))
 								  	res.setTipo(a1.getTipo());
 								  else{
@@ -382,11 +382,11 @@ termino : termino '*' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 								  $$.obj = res;
 								}
 		| factor {
-					ArbolSintactico a1 = ((ArbolSintactico)val_peek(0).obj);
+					ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 					String t = a1.getValor () ;
 					EntradaTS ETs = tabla.getEntradaTS(t);
 					try {
-						if ( (!tabla.contieneLexema(t) || 
+						if ((!tabla.contieneLexema(t) || 
 								!ETs.isDeclarada())&& ETs.getId()==264){
 							manejador.error(analizador.getNroLinea(),analizador.getMensaje (60 ) , "SEMANTICO");
 							ArbolSintactico.setError();

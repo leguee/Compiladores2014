@@ -6,15 +6,8 @@ import java.util.Vector;
 public class ArbolSintactico {
 
 	private EntradaTS entrada ;
-
-	public EntradaTS getEntrada() {
-		return entrada;
-	}
-
-	public void setEntrada(EntradaTS entrada) {
-		this.entrada = entrada;
-	}
-
+	
+	
 	public static final short AUX=275;
 	private String tipo = "NADA" ;
 	private String valor ;
@@ -32,10 +25,14 @@ public class ArbolSintactico {
 	public ArbolSintactico (){
 
 	}
-
+	
 	public ArbolSintactico (EntradaTS e ,String valor){
 		this.entrada = e ;
 		this.valor = valor ;
+		this.hijoDer = null ;
+		this.hijoDerHoja = null ;
+		this.hijoIzq = null ;
+		this.hijoIzqHoja = null ;
 	}
 
 	public ArbolSintactico (String valor , ArbolSintactico i , ArbolSintactico d){
@@ -137,15 +134,27 @@ public class ArbolSintactico {
 		return tipo ;
 	}
 
-	public void generarAssembler(TablaSimbolos ts, Sentencia sentencias) {
-
-
-
+	public void generarAssembler(TablaSimbolos ts, Sentencia sentencias , ArbolSintactico puntAnterior) {
+		
+		System.out.println ("esta en "+this.getValor());
+		if ( puntAnterior != null)
+		System.out.println ("punt anterior: "+this.puntAnterior.getValor());
+		
 		//Se recorre el arbol in orden
-		if (this.hijoIzq != null) {
-			puntAnterior = this ;
+		if (this.hijoIzqHoja != null){
+			this.puntAnterior = this ;
 			ultimaVisita = 'i';
-			hijoIzq.generarAssembler(ts, sentencias);
+			System.out.println ("entro a "+hijoIzqHoja.getValor());
+			hijoIzqHoja.generarAssembler(ts, sentencias, puntAnterior);
+			System.out.println ("salio de "+hijoIzqHoja.getValor());
+		}
+		
+		if (this.hijoIzq != null) {
+			this.puntAnterior = this ;
+			ultimaVisita = 'i';
+			System.out.println ("entro a "+hijoIzq.getValor());
+			hijoIzq.generarAssembler(ts, sentencias,puntAnterior);
+			System.out.println ("salio de "+hijoIzq.getValor());
 		}
 
 
@@ -182,12 +191,23 @@ public class ArbolSintactico {
 			String label = sentencias.apilarEtiqueta();
 			sentencias.agregarEtiqueta(label);
 		}
+		
+		if (this.hijoDerHoja != null){
+			puntAnterior = this ;
+			ultimaVisita = 'i';
+			
+			
+			hijoDerHoja.generarAssembler(ts, sentencias,puntAnterior);
+			
+		}
 
 		//Se recorre el arbol
 		if (this.hijoDer!= null) {
 			puntAnterior = this ;
 			ultimaVisita = 'd' ;
-			this.hijoDer.generarAssembler(ts,sentencias);
+			System.out.println ("entro a "+hijoDer.getValor());
+			this.hijoDer.generarAssembler(ts,sentencias,puntAnterior);
+			System.out.println ("salio de "+hijoDer.getValor());
 		}
 
 
@@ -235,8 +255,11 @@ public class ArbolSintactico {
 			System.out.println("el tipo es ");
 			System.out.println( );
 			System.out.println("...............es hoja.......");
+
 			String dest = hijoIzq.getEntrada().getLexAss(); // aca se rompe
-			String orig = hijoDer.getEntrada().getLexAss(); 
+			System.out.println (dest);
+			System.out.println (hijoDer.getValor());
+			String orig = hijoDer.getEntrada().getLexAss();
 			if (this.tipo.equals("entero")) {
 				sentencias.add("MOV "+dest+" , "+ orig);
 			}else if (this.tipo.equals("doble")) {
@@ -270,17 +293,29 @@ public class ArbolSintactico {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
-				ts.addETS("aux"+ ent.getIdAux(), ent);			
+				
+				ts.addETS("aux"+ ent.getIdAux(), ent);		
+				
 				sentencias.add("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
+				System.out.println ("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
 				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
+				System.out.println ("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
+					System.out.println (puntAnterior.getValor());
+					String tipo = puntAnterior.getHijoDer().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					puntAnterior.setHijoDer(nuevoNodo);
+					puntAnterior.getHijoDer().setTipo(tipo);
+					System.out.println (puntAnterior.getValor());
+					puntAnterior.getHijoDer().setHijoDer(null);
+					puntAnterior.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
 					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
 					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
+					puntAnterior.getHijoDer().setHijoDer(null);
+					puntAnterior.getHijoDer().setHijoIzq(null);
 				}
 
 			}else if (this.tipo.equals("doble")) {
@@ -339,7 +374,7 @@ public class ArbolSintactico {
 				if (ultimaVisita == 'd') {
 					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
 					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
-
+					
 				}
 				else
 				{
@@ -427,7 +462,7 @@ public class ArbolSintactico {
 				if (ultimaVisita == 'd') {
 					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
 					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
-
+					
 				}
 				else
 				{
@@ -438,6 +473,7 @@ public class ArbolSintactico {
 		} else {
 			return;
 		}
+
 
 
 		/* ---------------------------------------------------------------------------------- */
@@ -473,6 +509,14 @@ public class ArbolSintactico {
 		return null;
 	}
 
+	public EntradaTS getEntrada() {
+		return entrada;
+	}
 
+	public void setEntrada(EntradaTS entrada) {
+		this.entrada = entrada;
+	}
+
+	
 
 }
