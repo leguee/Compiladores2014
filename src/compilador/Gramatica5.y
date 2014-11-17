@@ -32,7 +32,7 @@ import java.util.Enumeration;
 programa : declaraciones sentencias_ejecutables FIN	{	ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 														ArbolSintactico a2 = ((ArbolSintactico)$2.obj);
 														arbol = new ArbolSintactico ("program",a1,a2);
-														arbol.imprimir (0);
+														
 														
 													}
 		 | declaraciones sentencias_ejecutables error FIN {manejador.error(analizador.getNroLinea(),analizador.getMensaje(4),"SINTACTICO");}
