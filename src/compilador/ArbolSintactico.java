@@ -4,6 +4,16 @@ import java.util.Vector;
 
 
 public class ArbolSintactico {
+	
+	private EntradaTS entrada ;
+
+	public EntradaTS getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(EntradaTS entrada) {
+		this.entrada = entrada;
+	}
 
 	public static final short AUX=275;
 	private String tipo = "NADA" ;
@@ -21,6 +31,11 @@ public class ArbolSintactico {
 
 	public ArbolSintactico (){
 
+	}
+	
+	public ArbolSintactico (EntradaTS e ,String valor){
+		this.entrada = e ;
+		this.valor = valor ;
 	}
 
 	public ArbolSintactico (String valor , ArbolSintactico i , ArbolSintactico d){
@@ -140,10 +155,12 @@ public class ArbolSintactico {
 		if (valor.equals("si")){
 			//Se generó ya la comparación !!!!!!!!!!!!!!!!!! TODO ver donde se generó en la recursion
 			//Se debe poner el salto y apilarlo
-			String comparador = this.hijoIzq .getValor(); // me va a devolver si es:  >=     <=		>		<		=		^=
-			String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
-			String salto = getSalto(comparador); // si es JE, JB, JNE etc
-			sentencias.add(salto + etiqueta);
+			if ( hijoIzq != null){
+				String comparador = this.hijoIzq.getValor(); // me va a devolver si es:  >=     <=		>		<		=		^=
+				String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
+				String salto = getSalto(comparador); // si es JE, JB, JNE etc
+				sentencias.add(salto + etiqueta);
+			}
 		}
 
 		// bloque o Cuerpo sino
@@ -254,19 +271,17 @@ public class ArbolSintactico {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
-				ts.addETS("aux"+ ent.getIdAux(), ent);				
-				sentencias.add("ADD " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
+				ts.addETS("aux"+ ent.getIdAux(), ent);			
+				sentencias.add("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
-					puntAnterior.setHijoDer(null);
+					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.setHijoIzq(null);
+					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 				}
 
 			}else if (this.tipo.equals("doble")) {
@@ -274,23 +289,21 @@ public class ArbolSintactico {
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
 				ts.addETS("aux"+ent.getIdAux(), ent);
-				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
-				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FLD " + hijoDer.getEntrada().getLexAss());
+				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FADD ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
 				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
-					puntAnterior.setHijoDer(null);
+					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.setHijoIzq(null);
+					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 				}			
 			}
 
@@ -300,18 +313,16 @@ public class ArbolSintactico {
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
 				ts.addETS("aux"+ ent.getIdAux(), ent);				
-				sentencias.add("SUB " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("SUB " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
-					puntAnterior.setHijoDer(null);
+					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.setHijoIzq(null);
+					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 				}
 
 			}else if (this.tipo.equals("doble")) {
@@ -319,23 +330,22 @@ public class ArbolSintactico {
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
 				ts.addETS("aux"+ent.getIdAux(), ent);
-				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
-				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FLD " + hijoDer.getEntrada().getLexAss());
+				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FSUBR ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
 				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
-					puntAnterior.setHijoDer(null);
+					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
+					
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.setHijoIzq(null);
+					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 				}			
 			}
 		}else if (valor.equals("*")){/////////////////////////////////////////////////////////////MULTIPLIC/////////////////////////////////////////
@@ -344,20 +354,18 @@ public class ArbolSintactico {
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
 				ts.addETS("aux"+ ent.getIdAux(), ent);				
-				sentencias.add("MUL " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
-				sentencias.add("CMP "+ hijoIzqHoja.getEntrada().getLexAss() + ", _@max_entero"); 
+				sentencias.add("MUL " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
+				sentencias.add("CMP "+ hijoIzq.getEntrada().getLexAss() + ", _@max_entero"); 
 				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
-					puntAnterior.setHijoDer(null);
+					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.setHijoIzq(null);
+					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 				}
 
 			}else if (this.tipo.equals("doble")) {
@@ -365,8 +373,8 @@ public class ArbolSintactico {
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
 				ts.addETS("aux"+ent.getIdAux(), ent);
-				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
-				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FLD " + hijoDer.getEntrada().getLexAss());
+				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FMUL ");
 				sentencias.add("FLD _@max_doble");
 				sentencias.add("FCOMPP ");
@@ -375,18 +383,16 @@ public class ArbolSintactico {
 				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
 				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
-					puntAnterior.setHijoDer(null);
+					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.setHijoIzq(null);
+					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 				}			
 			}
 		}else if (valor.equals("/")){  /////////////////////////////////////////////////////////////DIVISION/////////////////////////////////////////
@@ -395,18 +401,16 @@ public class ArbolSintactico {
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
 				ts.addETS("aux"+ ent.getIdAux(), ent);				
-				sentencias.add("DIV " + hijoIzqHoja.getEntrada().getLexAss() +","+ hijoDerHoja.getEntrada().getLexAss() );
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("DIV " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
-					puntAnterior.setHijoDer(null);
+					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.setHijoIzq(null);
+					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 				}
 
 			}else if (this.tipo.equals("doble")) {
@@ -414,29 +418,27 @@ public class ArbolSintactico {
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
 				ts.addETS("aux"+ent.getIdAux(), ent);
-				sentencias.add("FLD " + hijoDerHoja.getEntrada().getLexAss());
-				sentencias.add("FLD " +hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FLD " + hijoDer.getEntrada().getLexAss());
+				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FDIVR ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
 				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzqHoja.getEntrada().getLexAss());
+				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDerHoja(new Hoja (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDerHoja().setTipo(puntAnterior.getHijoDer().getTipo());
-					puntAnterior.setHijoDer(null);
+					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
+					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
+					
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new Hoja (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzqHoja().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.setHijoIzq(null);
+					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 				}			
 			}
 		} else {
 			return;
 		}
-
 
 
 		/* ---------------------------------------------------------------------------------- */
