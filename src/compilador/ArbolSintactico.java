@@ -322,7 +322,7 @@ public class ArbolSintactico {
 					pAnt.getHijoIzq().setHijoIzq(null);
 				}
 
-			}else if (this.tipo.equals("doble")) {
+			}else  {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
@@ -387,7 +387,7 @@ public class ArbolSintactico {
 					pAnt.getHijoIzq().setHijoIzq(null);
 				}
 
-			}else if (this.tipo.equals("doble")) {
+			}else  {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
@@ -453,7 +453,7 @@ public class ArbolSintactico {
 					pAnt.getHijoIzq().setHijoIzq(null);
 				}
 
-			}else if (this.tipo.equals("doble")) {
+			}else  {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
@@ -521,7 +521,7 @@ public class ArbolSintactico {
 					pAnt.getHijoIzq().setHijoDer(null);
 					pAnt.getHijoIzq().setHijoIzq(null);
 				}
-			}else if (this.tipo.equals("doble")) {
+			}else {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("doble");
