@@ -19,7 +19,9 @@ public class ArbolSintactico {
 	private Hoja hijoIzqHoja ;
 	
 	static ArbolSintactico puntAnterior = null ;
+	ArbolSintactico pAnt = null ;
 	static char ultimaVisita ;
+	char uVis ;
 
 	private static boolean error = false ;
 
@@ -137,19 +139,26 @@ public class ArbolSintactico {
 
 	public void generarAssembler(TablaSimbolos ts, Sentencia sentencias , ArbolSintactico puntAnterior) {
 		
+		this.pAnt = puntAnterior ;
+		this.uVis = ultimaVisita ;
+		
 		System.out.println ("esta en "+this.getValor());
-		if ( puntAnterior != null)
-		System.out.println ("punt anterior: "+puntAnterior.getValor());
+		if ( pAnt != null)
+		System.out.println ("punt anterior: "+pAnt.getValor());
 		
 		//Se recorre el arbol in orden
 		
 		
 		if ((this.hijoIzq != null)&&(!this.hijoIzq.esHoja())) {
+			
+			
+		
 			puntAnterior = this;
 			ultimaVisita = 'i';
 			System.out.println ("entro a "+hijoIzq.getValor());
 			hijoIzq.generarAssembler(ts, sentencias,puntAnterior);
 			System.out.println ("salio de "+hijoIzq.getValor());
+			
 		}
 
 
@@ -190,11 +199,15 @@ public class ArbolSintactico {
 
 		//Se recorre el arbol
 		if ((this.hijoDer != null)&&(!this.hijoDer.esHoja())) {
-			puntAnterior = this ;
+			
+			
+			
 			ultimaVisita = 'd' ;
+			puntAnterior = this ;
 			System.out.println ("entro a "+hijoDer.getValor());
 			this.hijoDer.generarAssembler(ts,sentencias,puntAnterior);
 			System.out.println ("salio de "+hijoDer.getValor());
+			
 		}
 
 
@@ -287,22 +300,31 @@ public class ArbolSintactico {
 				System.out.println ("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
 				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
 				System.out.println ("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
-				if (ultimaVisita == 'd') {
-					System.out.println (puntAnterior.getValor());
-					String tipo = puntAnterior.getHijoDer().getTipo();
+				if (uVis == 'd') {
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoDer().getTipo();
 					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
-					puntAnterior.setHijoDer(nuevoNodo);
-					puntAnterior.getHijoDer().setTipo(tipo);
-					System.out.println (puntAnterior.getValor());
-					puntAnterior.getHijoDer().setHijoDer(null);
-					puntAnterior.getHijoDer().setHijoIzq(null);
+					pAnt.setHijoDer(nuevoNodo);
+					pAnt.getHijoDer().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoDer().setHijoDer(null);
+					pAnt.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoIzq().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoIzq(nuevoNodo);
+					pAnt.getHijoIzq().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoIzq().setHijoDer(null);
+					pAnt.getHijoIzq().setHijoIzq(null);
+					
+					/*puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
 					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
 					puntAnterior.getHijoDer().setHijoDer(null);
-					puntAnterior.getHijoDer().setHijoIzq(null);
+					puntAnterior.getHijoDer().setHijoIzq(null);*/
 				}
 
 			}else if (this.tipo.equals("doble")) {
