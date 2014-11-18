@@ -1171,7 +1171,7 @@ case 72:
 //#line 362 "Gramatica5.y"
 { ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)val_peek(0).obj);
-								  ArbolSintactico res = new ArbolSintactico ("/",a1,a2);
+								  ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
 								  if ( a1.getTipo().equals(a2.getTipo()))
 								  	res.setTipo(a1.getTipo());
 								  else{

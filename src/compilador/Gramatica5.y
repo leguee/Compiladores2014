@@ -361,7 +361,7 @@ expresion : expresion '+' termino	{ ArbolSintactico a1 = ((ArbolSintactico)$1.ob
 
 termino : termino '*' factor	{ ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)$3.obj);
-								  ArbolSintactico res = new ArbolSintactico ("/",a1,a2);
+								  ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
 								  if ( a1.getTipo().equals(a2.getTipo()))
 								  	res.setTipo(a1.getTipo());
 								  else{
