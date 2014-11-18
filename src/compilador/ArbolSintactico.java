@@ -320,11 +320,6 @@ public class ArbolSintactico {
 					System.out.println (pAnt.getValor());
 					pAnt.getHijoIzq().setHijoDer(null);
 					pAnt.getHijoIzq().setHijoIzq(null);
-					
-					/*puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
-					puntAnterior.getHijoDer().setHijoDer(null);
-					puntAnterior.getHijoDer().setHijoIzq(null);*/
 				}
 
 			}else if (this.tipo.equals("doble")) {
@@ -339,14 +334,26 @@ public class ArbolSintactico {
 				sentencias.add("FLD "+  ent.getLexAss() );
 				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
-				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
+				if (uVis == 'd') {
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoDer().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoDer(nuevoNodo);
+					pAnt.getHijoDer().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoDer().setHijoDer(null);
+					pAnt.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoIzq().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoIzq(nuevoNodo);
+					pAnt.getHijoIzq().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoIzq().setHijoDer(null);
+					pAnt.getHijoIzq().setHijoIzq(null);
 				}			
 			}
 
@@ -358,14 +365,26 @@ public class ArbolSintactico {
 				ts.addETS("aux"+ ent.getIdAux(), ent);				
 				sentencias.add("SUB " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
 				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
-				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
+				if (uVis == 'd') {
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoDer().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoDer(nuevoNodo);
+					pAnt.getHijoDer().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoDer().setHijoDer(null);
+					pAnt.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoIzq().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoIzq(nuevoNodo);
+					pAnt.getHijoIzq().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoIzq().setHijoDer(null);
+					pAnt.getHijoIzq().setHijoIzq(null);
 				}
 
 			}else if (this.tipo.equals("doble")) {
@@ -380,15 +399,26 @@ public class ArbolSintactico {
 				sentencias.add("FLD "+  ent.getLexAss() );
 				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
-				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
-					
+				if (uVis == 'd') {
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoDer().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoDer(nuevoNodo);
+					pAnt.getHijoDer().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoDer().setHijoDer(null);
+					pAnt.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoIzq().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoIzq(nuevoNodo);
+					pAnt.getHijoIzq().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoIzq().setHijoDer(null);
+					pAnt.getHijoIzq().setHijoIzq(null);
 				}			
 			}
 		}else if (valor.equals("*")){/////////////////////////////////////////////////////////////MULTIPLIC/////////////////////////////////////////
@@ -401,14 +431,26 @@ public class ArbolSintactico {
 				sentencias.add("CMP "+ hijoIzq.getEntrada().getLexAss() + ", _@max_entero"); 
 				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
 				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
-				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
+				if (uVis == 'd') {
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoDer().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoDer(nuevoNodo);
+					pAnt.getHijoDer().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoDer().setHijoDer(null);
+					pAnt.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoIzq().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoIzq(nuevoNodo);
+					pAnt.getHijoIzq().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoIzq().setHijoDer(null);
+					pAnt.getHijoIzq().setHijoIzq(null);
 				}
 
 			}else if (this.tipo.equals("doble")) {
@@ -428,14 +470,26 @@ public class ArbolSintactico {
 				sentencias.add("FLD "+  ent.getLexAss() );
 				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
-				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
+				if (uVis == 'd') {
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoDer().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoDer(nuevoNodo);
+					pAnt.getHijoDer().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoDer().setHijoDer(null);
+					pAnt.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoIzq().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoIzq(nuevoNodo);
+					pAnt.getHijoIzq().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoIzq().setHijoDer(null);
+					pAnt.getHijoIzq().setHijoIzq(null);
 				}			
 			}
 		}else if (valor.equals("/")){  /////////////////////////////////////////////////////////////DIVISION/////////////////////////////////////////
@@ -446,16 +500,27 @@ public class ArbolSintactico {
 				ts.addETS("aux"+ ent.getIdAux(), ent);				
 				sentencias.add("DIV " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
 				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
-				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
+				if (uVis == 'd') {
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoDer().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoDer(nuevoNodo);
+					pAnt.getHijoDer().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoDer().setHijoDer(null);
+					pAnt.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoIzq().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoIzq(nuevoNodo);
+					pAnt.getHijoIzq().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoIzq().setHijoDer(null);
+					pAnt.getHijoIzq().setHijoIzq(null);
 				}
-
 			}else if (this.tipo.equals("doble")) {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
@@ -468,17 +533,27 @@ public class ArbolSintactico {
 				sentencias.add("FLD "+  ent.getLexAss() );
 				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
-				if (ultimaVisita == 'd') {
-					puntAnterior.setHijoDer(new ArbolSintactico (ent,"@aux"+ent.getIdAux()));
-					puntAnterior.getHijoDer().setTipo(puntAnterior.getHijoDer().getTipo());
-					
+				if (uVis == 'd') {
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoDer().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoDer(nuevoNodo);
+					pAnt.getHijoDer().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoDer().setHijoDer(null);
+					pAnt.getHijoDer().setHijoIzq(null);
 				}
 				else
 				{
-					puntAnterior.setHijoIzq(new ArbolSintactico (ent,"@aux"+ ent.getIdAux()));
-					puntAnterior.getHijoIzq().setTipo(puntAnterior.getHijoIzq().getTipo());
-				}			
-			}
+					System.out.println (pAnt.getValor());
+					String tipo = pAnt.getHijoIzq().getTipo();
+					ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+					pAnt.setHijoIzq(nuevoNodo);
+					pAnt.getHijoIzq().setTipo(tipo);
+					System.out.println (pAnt.getValor());
+					pAnt.getHijoIzq().setHijoDer(null);
+					pAnt.getHijoIzq().setHijoIzq(null);
+				}			}
 		} else {
 			return;
 		}
