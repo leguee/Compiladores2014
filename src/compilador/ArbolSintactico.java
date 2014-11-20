@@ -162,7 +162,7 @@ public class ArbolSintactico {
 		}
 
 
-		//nodo del medio //////////////////////////////////////////////////////////////////////////////
+		//nnodo del medio //////////////////////////////////////////////////////////////////////////////
 
 		//Si, seleccion
 		if (valor.equals("si")){
@@ -270,7 +270,7 @@ public class ArbolSintactico {
 		}
 
 
-		//Comparación 
+		//TODO Comparación 
 		/*if (valor.equals("=") || v alor.equals("<") || valor.equals("<=") || valor.equals(">") || valor.equals(">=") || valor.equals("^=")){
 
 
@@ -279,7 +279,7 @@ public class ArbolSintactico {
 		}*/
 
 
-		if (valor.equals("indice")){ // tratar el indice
+		if (valor.equals("indice")){ // TODO tratar el indice, y ver que no esté fuera de rango
 			return;
 		}
 
