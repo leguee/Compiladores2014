@@ -15,8 +15,8 @@ public class ArbolSintactico {
 	private ArbolSintactico hijoDer ;
 	private ArbolSintactico hijoIzq ;
 
-	private Hoja hijoDerHoja ;
-	private Hoja hijoIzqHoja ;
+//	private Hoja hijoDerHoja ;
+//	private Hoja hijoIzqHoja ;
 	
 	static ArbolSintactico puntAnterior = null ;
 	ArbolSintactico pAnt = null ;
@@ -33,17 +33,17 @@ public class ArbolSintactico {
 		this.entrada = e ;
 		this.valor = valor ;
 		this.hijoDer = null ;
-		this.hijoDerHoja = null ;
+	//	this.hijoDerHoja = null ;
 		this.hijoIzq = null ;
-		this.hijoIzqHoja = null ;
+	//	this.hijoIzqHoja = null ;
 	}
 
 	public ArbolSintactico (String valor , ArbolSintactico i , ArbolSintactico d){
 		this.valor = valor ;
 		hijoIzq = i ;
 		hijoDer = d ;
-		hijoDerHoja = null ;
-		hijoIzqHoja = null ;
+	//	hijoDerHoja = null ;
+	//	hijoIzqHoja = null ;
 	}
 
 	public void setHijoDer (ArbolSintactico a){
@@ -70,21 +70,21 @@ public class ArbolSintactico {
 		return valor ;
 	} 
 
-	public void setHijoDerHoja (Hoja d){
-		hijoDerHoja = d ;
-	}
-
-	public Hoja getHijoDerHoja (){
-		return hijoDerHoja ;
-	}
-
-	public void setHijoIzqHoja (Hoja i){
-		hijoIzqHoja = i ;
-	}
-
-	public Hoja getHijoIzqHoja (){
-		return hijoIzqHoja ;
-	}
+//	public void setHijoDerHoja (Hoja d){
+//		hijoDerHoja = d ;
+//	}
+//
+//	public Hoja getHijoDerHoja (){
+//		return hijoDerHoja ;
+//	}
+//
+//	public void setHijoIzqHoja (Hoja i){
+//		hijoIzqHoja = i ;
+//	}
+//
+//	public Hoja getHijoIzqHoja (){
+//		return hijoIzqHoja ;
+//	}
 
 	public boolean esHoja (){
 		return false ;
@@ -99,7 +99,7 @@ public class ArbolSintactico {
 		if (this != null){
 
 			while (a<nivel){
-				CompiladorGUI.imprimirArbol("   ", false);
+				CompiladorGUI.imprimirArbol("           ", false);
 				a++;
 			}
 			CompiladorGUI.imprimirArbol(valor, true);
@@ -111,12 +111,12 @@ public class ArbolSintactico {
 				if(this.hijoDer!=null)
 					this.hijoDer.imprimir(nivel);
 			}
-			else{
-				if (this.hijoIzqHoja!=null)
-					this.hijoIzqHoja.imprimir(nivel);
-				if (this.hijoDerHoja!= null)
-					this.hijoDerHoja.imprimir(nivel);
-			}
+//			else{
+//				if (this.hijoIzqHoja!=null)
+//					this.hijoIzqHoja.imprimir(nivel);
+//				if (this.hijoDerHoja!= null)
+//					this.hijoDerHoja.imprimir(nivel);
+//			}
 		}
 	}
 
