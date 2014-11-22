@@ -15,8 +15,8 @@ public class ArbolSintactico {
 	private ArbolSintactico hijoDer ;
 	private ArbolSintactico hijoIzq ;
 
-	private Hoja hijoDerHoja ;
-	private Hoja hijoIzqHoja ;
+//	private Hoja hijoDerHoja ;
+//	private Hoja hijoIzqHoja ;
 	
 	static ArbolSintactico puntAnterior = null ;
 	ArbolSintactico pAnt = null ;
@@ -33,17 +33,17 @@ public class ArbolSintactico {
 		this.entrada = e ;
 		this.valor = valor ;
 		this.hijoDer = null ;
-		this.hijoDerHoja = null ;
+	//	this.hijoDerHoja = null ;
 		this.hijoIzq = null ;
-		this.hijoIzqHoja = null ;
+	//	this.hijoIzqHoja = null ;
 	}
 
 	public ArbolSintactico (String valor , ArbolSintactico i , ArbolSintactico d){
 		this.valor = valor ;
 		hijoIzq = i ;
 		hijoDer = d ;
-		hijoDerHoja = null ;
-		hijoIzqHoja = null ;
+	//	hijoDerHoja = null ;
+	//	hijoIzqHoja = null ;
 	}
 
 	public void setHijoDer (ArbolSintactico a){
@@ -70,21 +70,21 @@ public class ArbolSintactico {
 		return valor ;
 	} 
 
-	public void setHijoDerHoja (Hoja d){
-		hijoDerHoja = d ;
-	}
-
-	public Hoja getHijoDerHoja (){
-		return hijoDerHoja ;
-	}
-
-	public void setHijoIzqHoja (Hoja i){
-		hijoIzqHoja = i ;
-	}
-
-	public Hoja getHijoIzqHoja (){
-		return hijoIzqHoja ;
-	}
+//	public void setHijoDerHoja (Hoja d){
+//		hijoDerHoja = d ;
+//	}
+//
+//	public Hoja getHijoDerHoja (){
+//		return hijoDerHoja ;
+//	}
+//
+//	public void setHijoIzqHoja (Hoja i){
+//		hijoIzqHoja = i ;
+//	}
+//
+//	public Hoja getHijoIzqHoja (){
+//		return hijoIzqHoja ;
+//	}
 
 	public boolean esHoja (){
 		return false ;
@@ -99,7 +99,7 @@ public class ArbolSintactico {
 		if (this != null){
 
 			while (a<nivel){
-				CompiladorGUI.imprimirArbol("   ", false);
+				CompiladorGUI.imprimirArbol("           ", false);
 				a++;
 			}
 			CompiladorGUI.imprimirArbol(valor, true);
@@ -111,12 +111,12 @@ public class ArbolSintactico {
 				if(this.hijoDer!=null)
 					this.hijoDer.imprimir(nivel);
 			}
-			else{
-				if (this.hijoIzqHoja!=null)
-					this.hijoIzqHoja.imprimir(nivel);
-				if (this.hijoDerHoja!= null)
-					this.hijoDerHoja.imprimir(nivel);
-			}
+//			else{
+//				if (this.hijoIzqHoja!=null)
+//					this.hijoIzqHoja.imprimir(nivel);
+//				if (this.hijoDerHoja!= null)
+//					this.hijoDerHoja.imprimir(nivel);
+//			}
 		}
 	}
 
@@ -142,17 +142,8 @@ public class ArbolSintactico {
 		this.pAnt = puntAnterior ;
 		this.uVis = ultimaVisita ;
 		
-		System.out.println ("esta en "+this.getValor());
-		if ( pAnt != null)
-		System.out.println ("punt anterior: "+pAnt.getValor());
-		
 		//Se recorre el arbol in orden
-		
-		
 		if ((this.hijoIzq != null)&&(!this.hijoIzq.esHoja())) {
-			
-			
-		
 			puntAnterior = this;
 			ultimaVisita = 'i';
 			System.out.println ("entro a "+hijoIzq.getValor());
@@ -160,16 +151,15 @@ public class ArbolSintactico {
 			System.out.println ("salio de "+hijoIzq.getValor());
 			
 		}
-
-
-		//nnodo del medio //////////////////////////////////////////////////////////////////////////////
+		//nodo del medio //////////////////////////////////////////////////////////////////////////////
 
 		//Si, seleccion
 		if (valor.equals("si")){
-			//Se generó ya la comparación !!!!!!!!!!!!!!!!!! TODO ver donde se generó en la recursion
-			//Se debe poner el salto y apilarlo
+			
 			if ( hijoIzq != null){
 				String comparador = this.hijoIzq.getValor(); // me va a devolver si es:  >=     <=		>		<		=		^=
+				//hijoIzq.getHijoDer().generarAssembler(ts, sentencias, puntAnterior);
+				//hijoIzq.getHijoIzq().generarAssembler(ts, sentencias, puntAnterior);
 				String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
 				String salto = getSalto(comparador); // si es JE, JB, JNE etc
 				sentencias.add(salto + etiqueta);
@@ -264,7 +254,7 @@ public class ArbolSintactico {
 		}
 
 
-		//TODO Comparación 
+		//Comparación 
 		/*if (valor.equals("=") || v alor.equals("<") || valor.equals("<=") || valor.equals(">") || valor.equals(">=") || valor.equals("^=")){
 
 
@@ -273,7 +263,9 @@ public class ArbolSintactico {
 		}*/
 
 
+
 		if (valor.equals("vector")){ // TODO tratar el indice, y ver que no esté fuera de rango
+
 			return;
 		}
 
@@ -325,8 +317,6 @@ public class ArbolSintactico {
 				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FADD ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
-				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
@@ -390,8 +380,7 @@ public class ArbolSintactico {
 				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FSUBR ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
-				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
+
 
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
@@ -461,8 +450,6 @@ public class ArbolSintactico {
 				sentencias.add("SAHF ");
 				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
-				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
@@ -524,8 +511,6 @@ public class ArbolSintactico {
 				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FDIVR ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
-				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());

@@ -199,7 +199,9 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 											manejador.error(analizador.getNroLinea(),analizador.getMensaje (68 ) , "SEMANTICO");
 											arbol.setError();
 										}
-										$$.obj = new ArbolSintactico ("asig", a1 , a3 );
+										ArbolSintactico dev = new ArbolSintactico ("asig", a1, a3);
+										dev.setTipo(a1.getTipo());
+										$$.obj = dev ;
 										}
 		  | ID ASIGNACION expresion error {manejador.error(analizador.getNroLinea(),analizador.getMensaje(7),"SINTACTICO");}
 		  | ID ASIGNACION error ';' {manejador.error(analizador.getNroLinea(),analizador.getMensaje(55),"SINTACTICO");}
@@ -422,20 +424,20 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 									nuevaEntrada.setTipo("doble");
 								}
 							}
-							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(lexema),lexema);
 							a1.setTipo ("doble"); 
 							$$.obj = a1 ;
 							
 						}
 	   | CONSTANTE { String lexema = ((Token)$1.obj).getLexema();
-	   					ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+	   					ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(lexema),lexema);
 							a1.setTipo ("doble"); 
 							$$.obj = a1 ;
 						
 					}
 	   
 	   | ID		{	String lexema = ((Token)$1.obj).getLexema();
-	   				ArbolSintactico a1 = new Hoja (tabla.getTabla().get(lexema),lexema);
+	   				ArbolSintactico a1 = new ArbolSintactico (tabla.getTabla().get(lexema),lexema);
 	   				if ( tabla.getEntradaTS(lexema).isDeclarada())
 	   					a1.setTipo(tabla.getEntradaTS(lexema).getTipo());
 					$$.obj = a1 ;
@@ -465,7 +467,7 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 								}
 							}
 							
-							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(lexema),lexema);
 							a1.setTipo ("entero"); 
 							$$.obj = a1 ;
 							
@@ -478,7 +480,7 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 						String lexema = ((Token)$1.obj).getLexema();
 
 							if(Long.parseLong(lexema)<= Short.MAX_VALUE ) { //TODO
-							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(lexema),lexema);
 							a1.setTipo ("entero"); 
 							$$.obj = a1 ;
 							}
