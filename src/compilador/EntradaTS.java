@@ -128,7 +128,7 @@ public class EntradaTS {
 	        	return new String("_doble" + this.idDoble);
 	         }
 		 else if(id.equals(AUX)) { 
-        	 return new String("@aux"+this.idAux);
+        	 return new String("_@aux"+this.idAux);
          } else
         	 return new String("_entero"+ this.idEntero);
 		 		

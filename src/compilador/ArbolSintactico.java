@@ -252,13 +252,7 @@ public class ArbolSintactico {
 
 		//Asignación
 		if (valor.equals("asig") ){// ||TODO valor.equals("asig vector")
-			System.out.println("el tipo es ");
-			System.out.println( );
-			System.out.println("...............es hoja.......");
-
-			String dest = hijoIzq.getEntrada().getLexAss(); // aca se rompe
-			System.out.println (dest);
-			System.out.println (hijoDer.getValor());
+			String dest = hijoIzq.getEntrada().getLexAss(); 
 			String orig = hijoDer.getEntrada().getLexAss();
 			if (this.tipo.equals("entero")) {
 				sentencias.add("MOV "+dest+" , "+ orig);
@@ -279,7 +273,7 @@ public class ArbolSintactico {
 		}*/
 
 
-		if (valor.equals("indice")){ // TODO tratar el indice, y ver que no esté fuera de rango
+		if (valor.equals("vector")){ // TODO tratar el indice, y ver que no esté fuera de rango
 			return;
 		}
 

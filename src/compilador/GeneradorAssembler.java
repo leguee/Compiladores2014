@@ -77,7 +77,22 @@ public class GeneradorAssembler {
 						  }
 						  else if (entrada.getTipo().equals("entero"))
 							  variables.add(new String(entrada.getLexAss() + " DW ?"));
-					  }// TODO ver como inicializa los vectores y los manda a las declaracions
+					  } else if (entrada.getId().equals(ID) && entrada.getRangoMenor()!= null && entrada.getRangoMayor()!= null){
+						// TODO ver como inicializa los vectores y los manda a las declaracions
+						  int limInf = Integer.parseInt(entrada.getRangoMenor());
+						  int limSup = Integer.parseInt(entrada.getRangoMayor());
+						  int tamanio = limSup - limInf + 1;
+						  if( entrada.getTipo().equals("entero")){
+							  variables.add(new String(entrada.getLexAss() + " DW "+ tamanio +" DUP ( 0 )"));
+						  }else if (entrada.getTipo().equals("doble")){
+							  variables.add(new String(entrada.getLexAss() + " DQ "+ tamanio +" DUP ( 0 )"));
+						  }
+						  //creo los limites del vector
+						  
+						  variables.add(new String(entrada.getLexAss()+  "LimInf DW "+ limInf));
+						  variables.add(new String(entrada.getLexAss()+  "LimSup DW "+ limSup));
+						  
+					  } 
 					  else if (entrada.getId().equals(STRING)){
 						  entrada.setCadena(cadena);
 						  cadena++;
@@ -86,6 +101,7 @@ public class GeneradorAssembler {
 		  }
 		  return variables;
 	  }
+	  
 
 	  public Vector<String> getCodigoAssembler() {
 
