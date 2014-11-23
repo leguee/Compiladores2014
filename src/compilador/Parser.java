@@ -503,7 +503,7 @@ final static String yyrule[] = {
 "expresion_vector : ID '[' error ']'",
 };
 
-//#line 532 "Gramatica5.y"
+//#line 534 "Gramatica5.y"
 
 void yyerror(String s) {
 	if(s.contains("under"))
@@ -909,31 +909,33 @@ case 32:
 											manejador.error(analizador.getNroLinea(),analizador.getMensaje (68 ) , "SEMANTICO");
 											arbol.setError();
 										}
-										yyval.obj = new ArbolSintactico ("asig", a1 , a3 );
+										ArbolSintactico dev = new ArbolSintactico ("asig", a1, a3);
+										dev.setTipo(a1.getTipo());
+										yyval.obj = dev ;
 										}
 break;
 case 33:
-//#line 204 "Gramatica5.y"
+//#line 206 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(7),"SINTACTICO");}
 break;
 case 34:
-//#line 205 "Gramatica5.y"
+//#line 207 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(55),"SINTACTICO");}
 break;
 case 35:
-//#line 206 "Gramatica5.y"
+//#line 208 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(11),"SINTACTICO");}
 break;
 case 36:
-//#line 207 "Gramatica5.y"
+//#line 209 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(12),"SINTACTICO");}
 break;
 case 37:
-//#line 208 "Gramatica5.y"
+//#line 210 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(54),"SINTACTICO");}
 break;
 case 38:
-//#line 209 "Gramatica5.y"
+//#line 211 "Gramatica5.y"
 {	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(43));
 																String lexID = ((Token)val_peek(6).obj).getLexema();
 																EntradaTS ET = tabla.getEntradaTS (lexID);
@@ -979,24 +981,24 @@ case 38:
 															}
 break;
 case 39:
-//#line 252 "Gramatica5.y"
+//#line 254 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(11),"SINTACTICO");}
 break;
 case 40:
-//#line 253 "Gramatica5.y"
+//#line 255 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(38),"SINTACTICO");}
 break;
 case 41:
-//#line 254 "Gramatica5.y"
+//#line 256 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(7),"SINTACTICO");}
 break;
 case 42:
-//#line 257 "Gramatica5.y"
+//#line 259 "Gramatica5.y"
 {	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(32));
 								}
 break;
 case 43:
-//#line 259 "Gramatica5.y"
+//#line 261 "Gramatica5.y"
 { manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(48));
 											ArbolSintactico sel_simple = ((ArbolSintactico)val_peek(2).obj);
 											ArbolSintactico bloque_si = sel_simple.getHijoDer();
@@ -1010,7 +1012,7 @@ case 43:
 										  }
 break;
 case 44:
-//#line 273 "Gramatica5.y"
+//#line 275 "Gramatica5.y"
 {	ArbolSintactico cn = ((ArbolSintactico)val_peek(3).obj);
 															ArbolSintactico bl = ((ArbolSintactico)val_peek(0).obj);
 															ArbolSintactico bloque = new ArbolSintactico ("bloque", bl , null);
@@ -1018,45 +1020,45 @@ case 44:
 														}
 break;
 case 45:
-//#line 278 "Gramatica5.y"
+//#line 280 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(46),"SINTACTICO");}
 break;
 case 46:
-//#line 279 "Gramatica5.y"
+//#line 281 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(47),"SINTACTICO");}
 break;
 case 47:
-//#line 280 "Gramatica5.y"
+//#line 282 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(47),"SINTACTICO");}
 break;
 case 48:
-//#line 281 "Gramatica5.y"
+//#line 283 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
 break;
 case 49:
-//#line 282 "Gramatica5.y"
+//#line 284 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(51),"SINTACTICO");}
 break;
 case 50:
-//#line 283 "Gramatica5.y"
+//#line 285 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(52),"SINTACTICO");}
 break;
 case 51:
-//#line 286 "Gramatica5.y"
+//#line 288 "Gramatica5.y"
 {	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(35));
 											yyval.obj = ((ArbolSintactico)val_peek(1).obj);
 										}
 break;
 case 52:
-//#line 289 "Gramatica5.y"
+//#line 291 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(13),"SINTACTICO");}
 break;
 case 53:
-//#line 290 "Gramatica5.y"
+//#line 292 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(14),"SINTACTICO");}
 break;
 case 54:
-//#line 294 "Gramatica5.y"
+//#line 296 "Gramatica5.y"
 { 	String lexema = ((Token)val_peek(1).obj).getLexema();
 												ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 												ArbolSintactico a2 = ((ArbolSintactico)val_peek(0).obj);
@@ -1072,23 +1074,23 @@ case 54:
 											}
 break;
 case 55:
-//#line 307 "Gramatica5.y"
-{manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
-break;
-case 56:
-//#line 308 "Gramatica5.y"
-{manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
-break;
-case 57:
 //#line 309 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
 break;
-case 58:
+case 56:
 //#line 310 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
 break;
+case 57:
+//#line 311 "Gramatica5.y"
+{manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
+break;
+case 58:
+//#line 312 "Gramatica5.y"
+{manejador.error(analizador.getNroLinea(),analizador.getMensaje(53),"SINTACTICO");}
+break;
 case 59:
-//#line 314 "Gramatica5.y"
+//#line 316 "Gramatica5.y"
 {	manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(33));
 														ArbolSintactico bl = ((ArbolSintactico)val_peek(4).obj);
 														ArbolSintactico cn = ((ArbolSintactico)val_peek(1).obj);
@@ -1096,19 +1098,19 @@ case 59:
 													}
 break;
 case 60:
-//#line 320 "Gramatica5.y"
+//#line 322 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(50),"SINTACTICO");}
 break;
 case 61:
-//#line 321 "Gramatica5.y"
+//#line 323 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(51),"SINTACTICO");}
 break;
 case 62:
-//#line 322 "Gramatica5.y"
+//#line 324 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(52),"SINTACTICO");}
 break;
 case 63:
-//#line 325 "Gramatica5.y"
+//#line 327 "Gramatica5.y"
 {manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(34));
 									String lexema = ((Token)val_peek(2).obj).getLexema();
 									ArbolSintactico string = new Hoja (tabla.getTabla().get(lexema), lexema);
@@ -1116,27 +1118,27 @@ case 63:
 }
 break;
 case 64:
-//#line 330 "Gramatica5.y"
+//#line 332 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(7),"SINTACTICO");}
 break;
 case 65:
-//#line 331 "Gramatica5.y"
+//#line 333 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(17),"SINTACTICO");}
 break;
 case 66:
-//#line 332 "Gramatica5.y"
+//#line 334 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(18),"SINTACTICO");}
 break;
 case 67:
-//#line 333 "Gramatica5.y"
+//#line 335 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(58),"SINTACTICO");}
 break;
 case 68:
-//#line 334 "Gramatica5.y"
+//#line 336 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(), analizador.getMensaje(59),"SINTACTICO");}
 break;
 case 69:
-//#line 337 "Gramatica5.y"
+//#line 339 "Gramatica5.y"
 { ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 										ArbolSintactico a2 = ((ArbolSintactico)val_peek(0).obj);
 										ArbolSintactico res = new ArbolSintactico ("+",a1,a2);
@@ -1150,7 +1152,7 @@ case 69:
 									}
 break;
 case 70:
-//#line 348 "Gramatica5.y"
+//#line 350 "Gramatica5.y"
 { ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 									ArbolSintactico a2 = ((ArbolSintactico)val_peek(0).obj);
 									ArbolSintactico res = new ArbolSintactico ("-",a1,a2);
@@ -1164,11 +1166,11 @@ case 70:
 									}
 break;
 case 71:
-//#line 359 "Gramatica5.y"
+//#line 361 "Gramatica5.y"
 {yyval.obj = ((ArbolSintactico)val_peek(0).obj);}
 break;
 case 72:
-//#line 362 "Gramatica5.y"
+//#line 364 "Gramatica5.y"
 { ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)val_peek(0).obj);
 								  ArbolSintactico res = new ArbolSintactico ("*",a1,a2);
@@ -1182,7 +1184,7 @@ case 72:
 								}
 break;
 case 73:
-//#line 373 "Gramatica5.y"
+//#line 375 "Gramatica5.y"
 { ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 								  ArbolSintactico a2 = ((ArbolSintactico)val_peek(0).obj);
 								  ArbolSintactico res = new ArbolSintactico ("/",a1,a2);
@@ -1196,7 +1198,7 @@ case 73:
 								}
 break;
 case 74:
-//#line 384 "Gramatica5.y"
+//#line 386 "Gramatica5.y"
 {
 					ArbolSintactico a1 = ((ArbolSintactico)val_peek(0).obj);
 					String t = a1.getValor () ;
@@ -1216,7 +1218,7 @@ case 74:
 				  }
 break;
 case 75:
-//#line 403 "Gramatica5.y"
+//#line 405 "Gramatica5.y"
 {	String lexema = ((Token)val_peek(0).obj).getLexema();
 							EntradaTS entrada = (EntradaTS)tabla.getTabla().get(lexema);
 							String nuevoLexema = "-"+lexema;
@@ -1239,32 +1241,32 @@ case 75:
 									nuevaEntrada.setTipo("doble");
 								}
 							}
-							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(lexema),lexema);
 							a1.setTipo ("doble"); 
 							yyval.obj = a1 ;
 							
 						}
 break;
 case 76:
-//#line 430 "Gramatica5.y"
+//#line 432 "Gramatica5.y"
 { String lexema = ((Token)val_peek(0).obj).getLexema();
-	   					ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+	   					ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(lexema),lexema);
 							a1.setTipo ("doble"); 
 							yyval.obj = a1 ;
 						
 					}
 break;
 case 77:
-//#line 437 "Gramatica5.y"
+//#line 439 "Gramatica5.y"
 {	String lexema = ((Token)val_peek(0).obj).getLexema();
-	   				ArbolSintactico a1 = new Hoja (tabla.getTabla().get(lexema),lexema);
+	   				ArbolSintactico a1 = new ArbolSintactico (tabla.getTabla().get(lexema),lexema);
 	   				if ( tabla.getEntradaTS(lexema).isDeclarada())
 	   					a1.setTipo(tabla.getEntradaTS(lexema).getTipo());
 					yyval.obj = a1 ;
 				}
 break;
 case 78:
-//#line 443 "Gramatica5.y"
+//#line 445 "Gramatica5.y"
 {	String lexema = ((Token)val_peek(0).obj).getLexema();
 							
 						if(Long.parseLong(lexema)<= Short.MAX_VALUE+1 ) { /*TODO*/
@@ -1290,7 +1292,7 @@ case 78:
 								}
 							}
 							
-							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(lexema),lexema);
 							a1.setTipo ("entero"); 
 							yyval.obj = a1 ;
 							
@@ -1301,12 +1303,12 @@ case 78:
 				}
 break;
 case 79:
-//#line 477 "Gramatica5.y"
+//#line 479 "Gramatica5.y"
 {	
 						String lexema = ((Token)val_peek(0).obj).getLexema();
 
 							if(Long.parseLong(lexema)<= Short.MAX_VALUE ) { /*TODO*/
-							ArbolSintactico a1 = new Hoja(tabla.getTabla().get(lexema),lexema);
+							ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(lexema),lexema);
 							a1.setTipo ("entero"); 
 							yyval.obj = a1 ;
 							}
@@ -1316,11 +1318,11 @@ case 79:
 					}
 break;
 case 80:
-//#line 489 "Gramatica5.y"
+//#line 491 "Gramatica5.y"
 {/*$$.obj = ((ArbolSintactico)$1.obj);*/}
 break;
 case 81:
-//#line 493 "Gramatica5.y"
+//#line 495 "Gramatica5.y"
 {	String lexema = ((Token)val_peek(3).obj).getLexema();
 											ArbolSintactico id = new Hoja (tabla.getTabla().get(lexema),lexema);
 											EntradaTS ET = tabla.getEntradaTS (lexema);
@@ -1355,18 +1357,18 @@ case 81:
 										}
 break;
 case 82:
-//#line 525 "Gramatica5.y"
+//#line 527 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(39),"SINTACTICO");}
 break;
 case 83:
-//#line 526 "Gramatica5.y"
+//#line 528 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(11),"SINTACTICO");}
 break;
 case 84:
-//#line 527 "Gramatica5.y"
+//#line 529 "Gramatica5.y"
 {manejador.error(analizador.getNroLinea(),analizador.getMensaje(44),"SINTACTICO");}
 break;
-//#line 1293 "Parser.java"
+//#line 1295 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

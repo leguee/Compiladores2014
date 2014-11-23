@@ -142,17 +142,8 @@ public class ArbolSintactico {
 		this.pAnt = puntAnterior ;
 		this.uVis = ultimaVisita ;
 		
-		System.out.println ("esta en "+this.getValor());
-		if ( pAnt != null)
-		System.out.println ("punt anterior: "+pAnt.getValor());
-		
 		//Se recorre el arbol in orden
-		
-		
 		if ((this.hijoIzq != null)&&(!this.hijoIzq.esHoja())) {
-			
-			
-		
 			puntAnterior = this;
 			ultimaVisita = 'i';
 			System.out.println ("entro a "+hijoIzq.getValor());
@@ -160,16 +151,15 @@ public class ArbolSintactico {
 			System.out.println ("salio de "+hijoIzq.getValor());
 			
 		}
-
-
-		//nnodo del medio //////////////////////////////////////////////////////////////////////////////
+		//nodo del medio //////////////////////////////////////////////////////////////////////////////
 
 		//Si, seleccion
 		if (valor.equals("si")){
-			//Se generó ya la comparación !!!!!!!!!!!!!!!!!! TODO ver donde se generó en la recursion
-			//Se debe poner el salto y apilarlo
+			
 			if ( hijoIzq != null){
 				String comparador = this.hijoIzq.getValor(); // me va a devolver si es:  >=     <=		>		<		=		^=
+				//hijoIzq.getHijoDer().generarAssembler(ts, sentencias, puntAnterior);
+				//hijoIzq.getHijoIzq().generarAssembler(ts, sentencias, puntAnterior);
 				String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
 				String salto = getSalto(comparador); // si es JE, JB, JNE etc
 				sentencias.add(salto + etiqueta);
@@ -252,13 +242,12 @@ public class ArbolSintactico {
 
 		//Asignación
 		if (valor.equals("asig") ){// ||TODO valor.equals("asig vector")
-			System.out.println("el tipo es ");
-			System.out.println( );
-			System.out.println("...............es hoja.......");
+
 
 			String dest = hijoIzq.getEntrada().getLexAss(); // aca se rompe
 			System.out.println (dest);
 			System.out.println (hijoDer.getValor());
+			System.out.println (this.tipo);
 			String orig = hijoDer.getEntrada().getLexAss();
 			if (this.tipo.equals("entero")) {
 				sentencias.add("MOV "+dest+" , "+ orig);
@@ -270,7 +259,7 @@ public class ArbolSintactico {
 		}
 
 
-		//TODO Comparación 
+		//Comparación 
 		/*if (valor.equals("=") || v alor.equals("<") || valor.equals("<=") || valor.equals(">") || valor.equals(">=") || valor.equals("^=")){
 
 
@@ -279,7 +268,7 @@ public class ArbolSintactico {
 		}*/
 
 
-		if (valor.equals("indice")){ // TODO tratar el indice, y ver que no esté fuera de rango
+		if (valor.equals("indice")){ // tratar el indice
 			return;
 		}
 
@@ -331,8 +320,6 @@ public class ArbolSintactico {
 				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FADD ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
-				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
@@ -396,8 +383,7 @@ public class ArbolSintactico {
 				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FSUBR ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
-				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
+
 
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
@@ -467,8 +453,6 @@ public class ArbolSintactico {
 				sentencias.add("SAHF ");
 				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
-				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
@@ -530,8 +514,6 @@ public class ArbolSintactico {
 				sentencias.add("FLD " +hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FDIVR ");
 				sentencias.add("FSTP "+ ent.getLexAss() );
-				sentencias.add("FLD "+  ent.getLexAss() );
-				sentencias.add("FSTP "+hijoIzq.getEntrada().getLexAss());
 
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
