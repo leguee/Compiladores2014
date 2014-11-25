@@ -146,9 +146,9 @@ public class ArbolSintactico {
 		if ((this.hijoIzq != null)&&(!this.hijoIzq.esHoja())) {
 			puntAnterior = this;
 			ultimaVisita = 'i';
-			System.out.println ("entro a "+hijoIzq.getValor());
+			//System.out.println ("entro a "+hijoIzq.getValor());
 			hijoIzq.generarAssembler(ts, sentencias,puntAnterior);
-			System.out.println ("salio de "+hijoIzq.getValor());
+			//System.out.println ("salio de "+hijoIzq.getValor());
 			
 		}
 		//nodo del medio //////////////////////////////////////////////////////////////////////////////
@@ -241,7 +241,7 @@ public class ArbolSintactico {
 
 
 		//Asignación
-		if (valor.equals("asig") ){// ||TODO valor.equals("asig vector")
+		if (valor.equals("asig") ){
 			String dest = hijoIzq.getEntrada().getLexAss(); 
 			String orig = hijoDer.getEntrada().getLexAss();
 			if (this.tipo.equals("entero")) {
@@ -252,8 +252,94 @@ public class ArbolSintactico {
 			}
 			return;
 		}
+		
+		
+		if (valor.equals("asig a vector")){ 
 
+			System.out.println("el tipo de .asig a vector,: del lado izq"+ ". entradaTS: "+ hijoIzq.getEntrada().getTipo());
+			System.out.println("o de donde estoy parado : " + this.getTipo());
+			if (hijoIzq.getEntrada().getTipo().equals("entero")){
+				sentencias.add("MOV ["+hijoIzq.getEntrada().getNombVector()+" + "+ hijoIzq.getEntrada().getLexAss()+" ] , "+ hijoDer.getEntrada().getLexAss());
+			}else if(hijoIzq.getEntrada().getTipo().equals("doble")){
+				sentencias.add("FLD " + hijoDer.getEntrada().getLexAss() );
+				sentencias.add("FSTP [ "+hijoIzq.getEntrada().getNombVector()+" + "+ hijoIzq.getEntrada().getLexAss()+" ] ");
+			}
+				return;
+		}
+	
+			
+		if (valor.equals("vector")){  // TODO siempre es entero porque es el indice???
+			EntradaTS ent= new EntradaTS(AUX, "");
+			ent.setLexema("aux"+ ent.getIdAux());
+			ent.setTipo("entero");
+			ent.setNombVector(hijoIzq.getEntrada().getLexAss());
+			ent.setTipo(hijoIzq.getEntrada().getTipo());//
+			ts.addETS("aux"+ ent.getIdAux(), ent);
+			sentencias.add("MOV "+ ent.getLexAss()+ " , "+ hijoDer.getEntrada().getLexAss());
+			if (uVis == 'd') { // TODO ver si esto es necesario
+				System.out.println (pAnt.getValor());
+				String tipo = pAnt.getHijoDer().getTipo();
+				ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+				pAnt.setHijoDer(nuevoNodo);
+				pAnt.getHijoDer().setTipo(tipo);
+				System.out.println (pAnt.getValor());
+				pAnt.getHijoDer().setHijoDer(null);
+				pAnt.getHijoDer().setHijoIzq(null);
+			}
+			else
+			{
+				System.out.println (pAnt.getValor());
+				String tipo = pAnt.getHijoIzq().getTipo();
+				ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+				pAnt.setHijoIzq(nuevoNodo);
+				pAnt.getHijoIzq().setTipo(tipo);
+				System.out.println (pAnt.getValor());
+				pAnt.getHijoIzq().setHijoDer(null);
+				pAnt.getHijoIzq().setHijoIzq(null);
+			}
+			
+			
+			return;
+		}
 
+		if (valor.equals("asig vector")){ // TODO siempre es entero porque es el indice 
+			EntradaTS ent= new EntradaTS(AUX, "");
+			ent.setLexema("aux"+ ent.getIdAux());
+			ent.setTipo("entero");
+			ts.addETS("aux"+ ent.getIdAux(), ent);	
+			if( hijoIzq.getTipo().equals("entero")){
+				sentencias.add("MOV "+ent.getLexAss()+", ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]" );
+				System.out.println("MOV "+ent.getLexAss()+", ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]" );
+			}else if(hijoIzq.getTipo().equals("doble")){
+				sentencias.add("FLD "+" ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]");
+				sentencias.add("FSTP "+ent.getLexAss());
+			}
+			//System.out.println("el tipo de "+hijoIzq.getEntrada().getLexAss() + hijoIzq.getTipo() + "...o el tipo de la entradaTS: "+ hijoIzq.getEntrada().getTipo());
+			if (uVis == 'd') {// TODO ver si esto es necesario
+				System.out.println (pAnt.getValor());
+				String tipo = pAnt.getHijoDer().getTipo();
+				ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+				pAnt.setHijoDer(nuevoNodo);
+				pAnt.getHijoDer().setTipo(tipo);
+				System.out.println (pAnt.getValor());
+				pAnt.getHijoDer().setHijoDer(null);
+				pAnt.getHijoDer().setHijoIzq(null);
+			}
+			else
+			{
+				System.out.println (pAnt.getValor());
+				String tipo = pAnt.getHijoIzq().getTipo();
+				ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
+				pAnt.setHijoIzq(nuevoNodo);
+				pAnt.getHijoIzq().setTipo(tipo);
+				System.out.println (pAnt.getValor());
+				pAnt.getHijoIzq().setHijoDer(null);
+				pAnt.getHijoIzq().setHijoIzq(null);
+			}
+			return;
+		}
+		
+		
 		//Comparación 
 		/*if (valor.equals("=") || v alor.equals("<") || valor.equals("<=") || valor.equals(">") || valor.equals(">=") || valor.equals("^=")){
 
@@ -264,10 +350,7 @@ public class ArbolSintactico {
 
 
 
-		if (valor.equals("vector")){ // TODO tratar el indice, y ver que no esté fuera de rango
-
-			return;
-		}
+		
 
 
 		//Operacion Aritmeticas---------------------------------------------------------------------------------
@@ -275,17 +358,28 @@ public class ArbolSintactico {
 
 
 		if (valor.equals("+")){ /////////////////////////////////////////////////////////////SUMA/////////////////////////////////////////
-			if (this.tipo.equals("entero")) {
+			if (this.tipo.equals("entero") || hijoIzq.getValor().contains("&")) {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
 				
 				ts.addETS("aux"+ ent.getIdAux(), ent);		
-				
-				sentencias.add("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
-				System.out.println ("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
-				System.out.println ("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
+
+				if (hijoIzq.getValor().contains("&")){ // si es un &vector
+					String izq = "0";
+					sentencias.add("ADD " + hijoDer.getEntrada().getLexAss() +","+ izq );
+					System.out.println("asignacion del vector en la suma ...................................");
+					System.out.println ("ADD " + hijoDer.getEntrada().getLexAss() +","+ izq );
+					sentencias.add("MOV "+ent.getLexAss()+", "+hijoDer.getEntrada().getLexAss());
+					System.out.println ("MOV "+ent.getLexAss()+", "+hijoDer.getEntrada().getLexAss());
+					System.out.println("asignacion del vector en la suma .....FIN FIN FIN..............................");
+				} else {
+					sentencias.add("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
+					System.out.println ("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
+					sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
+					System.out.println ("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
+				}
+
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
 					String tipo = pAnt.getHijoDer().getTipo();
@@ -342,12 +436,16 @@ public class ArbolSintactico {
 			}
 
 		}else if (valor.equals("-")){/////////////////////////////////////////////////////////////RESTA/////////////////////////////////////////
-			if (this.tipo.equals("entero")) {
+			if (this.tipo.equals("entero") || hijoDer.getEntrada() == null ) {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
-				ts.addETS("aux"+ ent.getIdAux(), ent);				
-				sentencias.add("SUB " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
+				ts.addETS("aux"+ ent.getIdAux(), ent);
+				if (hijoDer.getEntrada() == null){ // es porque es el LimInf del vector en la resta de indices TODO verificar limites aca
+					sentencias.add("SUB " + hijoIzq.getEntrada().getLexAss() +", "+ hijoDer.getValor() );
+					System.out.println("el hijo derecho es null tengo que acceder por el getValor porque no tiene EntradaTs ");
+				}else 
+					sentencias.add("SUB " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
 				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
@@ -405,15 +503,26 @@ public class ArbolSintactico {
 				}			
 			}
 		}else if (valor.equals("*")){/////////////////////////////////////////////////////////////MULTIPLIC/////////////////////////////////////////
-			if (this.tipo.equals("entero")) {
+			//TODO tambien se rompe acá, en el calculo de la direccion
+//			if(hijoIzq.getEntrada() == null) {
+//				System.out.println("esto pertenece al producto con el factor del vector");
+//			}
+//			else{
+			if (this.tipo.equals("entero") || hijoIzq.getEntrada() == null) {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
-				ts.addETS("aux"+ ent.getIdAux(), ent);				
-				sentencias.add("MUL " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
-				sentencias.add("CMP "+ hijoIzq.getEntrada().getLexAss() + ", _@max_entero"); 
-				sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
+				ts.addETS("aux"+ ent.getIdAux(), ent);
+				if(hijoIzq.getEntrada() == null) {
+					System.out.println("esto pertenece al producto con el factor del vector");
+					sentencias.add("MUL " + hijoDer.getEntrada().getLexAss()  +","+ hijoIzq.getValor() );
+
+				}else{
+					sentencias.add("MUL " + hijoDer.getEntrada().getLexAss() +","+ hijoIzq.getEntrada().getLexAss() );
+					sentencias.add("CMP "+ hijoDer.getEntrada().getLexAss() + ", _@max_entero"); 
+					sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
+				}
+				sentencias.add("MOV "+ent.getLexAss()+", "+hijoDer.getEntrada().getLexAss());
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
 					String tipo = pAnt.getHijoDer().getTipo();

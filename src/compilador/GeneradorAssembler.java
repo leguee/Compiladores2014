@@ -78,7 +78,6 @@ public class GeneradorAssembler {
 						  else if (entrada.getTipo().equals("entero"))
 							  variables.add(new String(entrada.getLexAss() + " DW ?"));
 					  } else if (entrada.getId().equals(ID) && entrada.getRangoMenor()!= null && entrada.getRangoMayor()!= null){
-						// TODO ver como inicializa los vectores y los manda a las declaracions
 						  int limInf = Integer.parseInt(entrada.getRangoMenor());
 						  int limSup = Integer.parseInt(entrada.getRangoMayor());
 						  int tamanio = limSup - limInf + 1;

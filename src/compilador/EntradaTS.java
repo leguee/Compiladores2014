@@ -17,6 +17,7 @@ public class EntradaTS {
 	private int idEntero;
 	private String cadena;
 	private int idAux;
+	private String nombVector;
 
 
 	private String rangoMenor = null ;
@@ -46,6 +47,7 @@ public class EntradaTS {
 		this.id = id; 
 		this.setLexema(lexema);
 		tipo = null;
+		setNombVector(null);
 		contRef = 1;
 		 cadena = null;
 	    if (this.id.equals(CONSTANTE))
@@ -154,5 +156,13 @@ public class EntradaTS {
 	public int getIdAux() {
     	return this.idAux;
     }
+
+	public String getNombVector() {
+		return nombVector;
+	}
+
+	public void setNombVector(String nombVector) {
+		this.nombVector = nombVector;
+	}
 	
 }
