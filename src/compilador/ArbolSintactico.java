@@ -142,27 +142,48 @@ public class ArbolSintactico {
 		this.pAnt = puntAnterior ;
 		this.uVis = ultimaVisita ;
 		
+		if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
+			String label = sentencias.apilarEtiqueta();
+			sentencias.agregarEtiqueta(label+":");
+		}
+		
 		//Se recorre el arbol in orden
 		if ((this.hijoIzq != null)&&(!this.hijoIzq.esHoja())) {
 			puntAnterior = this;
 			ultimaVisita = 'i';
-			//System.out.println ("entro a "+hijoIzq.getValor());
 			hijoIzq.generarAssembler(ts, sentencias,puntAnterior);
-			//System.out.println ("salio de "+hijoIzq.getValor());
 			
 		}
 		//nodo del medio //////////////////////////////////////////////////////////////////////////////
 
 		//Si, seleccion
 		if (valor.equals("si")){
-			
+
 			if ( hijoIzq != null){
+
 				String comparador = this.hijoIzq.getValor(); // me va a devolver si es:  >=     <=		>		<		=		^=
-				//hijoIzq.getHijoDer().generarAssembler(ts, sentencias, puntAnterior);
-				//hijoIzq.getHijoIzq().generarAssembler(ts, sentencias, puntAnterior);
-				String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
-				String salto = getSalto(comparador); // si es JE, JB, JNE etc
-				sentencias.add(salto + etiqueta);
+				String varComp1 = hijoIzq.getHijoIzq().getEntrada().getLexAss(); 
+				String varComp2 = hijoIzq.getHijoDer().getEntrada().getLexAss(); 
+				if (hijoIzq.getTipo().equals("doble")){
+					sentencias.add("FLD "+varComp1);
+					sentencias.add("FLD "+varComp2);
+					sentencias.add("FCOMPP");
+					sentencias.add("FSTSW AX");
+					sentencias.add("SAHF");
+					String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
+					String salto = getSalto(comparador); // si es JE, JB, JNE etc
+					sentencias.add(salto + etiqueta);
+				}
+				else{
+					sentencias.add("FILD "+varComp1);
+					sentencias.add("FILD "+varComp2);
+					sentencias.add("FICOMP");
+					sentencias.add("FSTSW AX");
+					sentencias.add("SAHF");
+					String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
+					String salto = getSalto(comparador); // si es JE, JB, JNE etc
+					sentencias.add(salto + etiqueta);
+				}
 			}
 		}
 
@@ -177,21 +198,15 @@ public class ArbolSintactico {
 
 			}
 			//Primer Label
-			sentencias.agregarEtiqueta(etiquetaPrimera);
+			sentencias.agregarEtiqueta(etiquetaPrimera+":");
 		}
 
 		//IZQUIERDA #################################################################################
-		if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
-			String label = sentencias.apilarEtiqueta();
-			sentencias.agregarEtiqueta(label);
-		}
+		
 		
 
 		//Se recorre el arbol
 		if ((this.hijoDer != null)&&(!this.hijoDer.esHoja())) {
-			
-			
-			
 			ultimaVisita = 'd' ;
 			puntAnterior = this ;
 			System.out.println ("entro a "+hijoDer.getValor());
@@ -222,7 +237,7 @@ public class ArbolSintactico {
 		if (valor.equals("bloque")){
 			if (hijoDer!= null){
 				String etiqueta = sentencias.desapilarEtiqueta();
-				sentencias.agregarEtiqueta(etiqueta);
+				sentencias.agregarEtiqueta(etiqueta+":");
 			}
 			return;
 		}
@@ -230,12 +245,37 @@ public class ArbolSintactico {
 
 		//Iteración salida poner etiqueta
 		if (valor.equals("iterar")){
+
+			String comparador = this.hijoDer.getValor(); // me va a devolver si es:  >=     <=		>		<		=		^=
+			String varComp1 = hijoDer.getHijoIzq().getEntrada().getLexAss(); 
+			String varComp2 = hijoDer.getHijoDer().getEntrada().getLexAss();
+			if (hijoDer.getTipo().equals("doble")){
+				sentencias.add("FLD "+varComp1);
+				sentencias.add("FLD "+varComp2);
+				sentencias.add("FCOMPP");
+				sentencias.add("FSTSW AX");
+				sentencias.add("SAHF");
+				String etiqueta = sentencias.desapilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
+				String salto = getSalto(comparador); // si es JE, JB, JNE etc
+				sentencias.add(salto + etiqueta);
+			}
+			else
+			{
+				sentencias.add("FILD "+varComp1);
+				sentencias.add("FILD "+varComp2);
+				sentencias.add("FICOMP");//un solo POP despues ver que se puede hacer.
+				sentencias.add("FSTSW AX");
+				sentencias.add("SAHF");
+				String etiqueta = sentencias.desapilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
+				String salto = getSalto(comparador); // si es JE, JB, JNE etc
+				sentencias.add(salto + etiqueta);
+			}
 			//Se agrega el salto
-			String comparador = this.hijoDer.getValor();
+			/*String comparador = this.hijoDer.getValor();
 			String etiqueta = sentencias.desapilarEtiqueta();
 			String salto = getSalto(comparador); // si es JE, JB, JNE etc
 			//Se agrega la sentencia
-			sentencias.add(salto + etiqueta);
+			sentencias.add(salto + etiqueta);*/
 			return;
 		}
 
