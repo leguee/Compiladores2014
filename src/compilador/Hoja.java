@@ -15,13 +15,6 @@ public class Hoja extends ArbolSintactico {
 	
 	public Hoja () {}
 	
-	public EntradaTS getEntrada ( ){
-		return entrada ;
-	}
-	
-	public void setEntrada (EntradaTS e){
-		entrada = e ;
-	}
 	
 	public boolean esHoja (){
 		return true ;
