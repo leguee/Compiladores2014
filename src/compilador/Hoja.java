@@ -28,4 +28,14 @@ public class Hoja extends ArbolSintactico {
 		System.out.print(this.entrada.getLexema());
 	}
 
+	public EntradaTS getEntrada() {
+		return entrada;
+	}
+
+	public void setEntrada(EntradaTS entrada) {
+		this.entrada = entrada;
+	}
+	
+	
+
 }
