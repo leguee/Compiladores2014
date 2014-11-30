@@ -292,7 +292,7 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         textoWarning.setText(" ");
         textoAssembler.setText(" ");
         textoArbol.setText(" ");
-        
+        ArbolSintactico.resetError();
 //        int aux = -1;
 //        while (aux != 0)
 //        {
@@ -306,9 +306,19 @@ public class CompiladorGUI extends JFrame implements Mensajes {
         analizadorSintactico.run();
         arbol = analizadorSintactico.getArbol();
         
-        codigoAssembler = new GeneradorAssembler(arbol, analizadorLexico.getTablaDeSimbolos());
         
-        this.assembler( codigoAssembler.getCodigoAssembler());
+        codigoAssembler = new GeneradorAssembler(arbol, analizadorLexico.getTablaDeSimbolos());
+        if ( !ArbolSintactico.tieneError()){
+        	this.assembler( codigoAssembler.getCodigoAssembler());
+        }
+        else {
+            this.textoAssembler.append("   NO SE GENERO CODIGO ASSEMBLER POR ERRORES EN LAS SENTENCIAS EJECUTABLES \n \n");
+            this.textoAssembler.append("           PARA MAS INFORMACION CONSULTE LA PESTAÑA DE ERRORES");
+        }
+        
+        
+        
+        
         analizadorSintactico.getArbol().imprimir(0);
         
         

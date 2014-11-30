@@ -29,6 +29,9 @@ public class ArbolSintactico {
 
 	}
 	
+	public static void resetError(){
+		error = false;
+	}
 	public ArbolSintactico (EntradaTS e ,String valor){
 		this.entrada = e ;
 		this.valor = valor ;
