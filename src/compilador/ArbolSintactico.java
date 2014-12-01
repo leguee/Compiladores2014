@@ -145,7 +145,7 @@ public class ArbolSintactico {
 		this.pAnt = puntAnterior ;
 		this.uVis = ultimaVisita ;
 		
-		if (valor.equals("iterar")){ // TODO verificar que estos string sean correcto lo que se se setea en valor
+		if (valor.equals("iterar")){ // 
 			String label = sentencias.apilarEtiqueta();
 			sentencias.agregarEtiqueta(label+":");
 		}
@@ -311,15 +311,25 @@ public class ArbolSintactico {
 		}
 	
 			
-		if (valor.equals("vector")){  // TODO siempre es entero porque es el indice???
+		if (valor.equals("vector")){  //  siempre es entero porque devuelve un aux con el corrimiento 
 			EntradaTS ent= new EntradaTS(AUX, "");
 			ent.setLexema("aux"+ ent.getIdAux());
 			ent.setTipo("entero");
 			ent.setNombVector(hijoIzq.getEntrada().getLexAss());
-			ent.setTipo(hijoIzq.getEntrada().getTipo());//
+			ent.setTipo(hijoIzq.getEntrada().getTipo());// seteo con el tipo del vector
 			ts.addETS("aux"+ ent.getIdAux(), ent);
 			sentencias.add("MOV "+ ent.getLexAss()+ " , "+ hijoDer.getEntrada().getLexAss());
-			if (uVis == 'd') { // TODO ver si esto es necesario
+			if (hijoIzq.getEntrada().getTipo().equals("entero")){ // VERIFICA LOS LIMITES
+				sentencias.add("DIV " +hijoDer.getEntrada().getLexAss() + " , 2" );
+			}else if (hijoIzq.getEntrada().getTipo().equals("doble")){
+				sentencias.add("DIV " +hijoDer.getEntrada().getLexAss() + " , 6" );
+			}
+			sentencias.add("ADD "+hijoDer.getEntrada().getLexAss() +" , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
+			sentencias.add("CMP "+hijoDer.getEntrada().getLexAss() + " , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
+			sentencias.add("JB VECTOR_FUERA_DE_RANGO");
+			sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , "+hijoDer.getEntrada().getLexAss());
+			sentencias.add("JB VECTOR_FUERA_DE_RANGO \n");
+			if (uVis == 'd') {
 				System.out.println (pAnt.getValor());
 				String tipo = pAnt.getHijoDer().getTipo();
 				ArbolSintactico nuevoNodo = new ArbolSintactico (ent,"@aux"+ent.getIdAux());
@@ -350,14 +360,28 @@ public class ArbolSintactico {
 			ent.setLexema("aux"+ ent.getIdAux());
 			ent.setTipo("entero");
 			ts.addETS("aux"+ ent.getIdAux(), ent);	
-			if( hijoIzq.getTipo().equals("entero")){
+			sentencias.add("MOV " +ent.getLexAss() +" , "+hijoDer.getEntrada().getLexAss()); // Creo una copia de Aux hijo derech
+			//if( hijoIzq.getTipo().equals("entero")){
+			if( hijoIzq.getEntrada().getTipo().equals("entero")){
+				sentencias.add("DIV " +ent.getLexAss() + " , 2" );//  VERIFICO PRIMERO EL LIMITE DEL INDICE
+				sentencias.add("ADD "+ent.getLexAss() +" , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
+				sentencias.add("CMP "+ent.getLexAss() + " , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
+				sentencias.add("JB VECTOR_FUERA_DE_RANGO");
+				sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , "+ent.getLexAss());
+				sentencias.add("JB VECTOR_FUERA_DE_RANGO \n");
 				sentencias.add("MOV "+ent.getLexAss()+", ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]" );
-				System.out.println("MOV "+ent.getLexAss()+", ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]" );
-			}else if(hijoIzq.getTipo().equals("doble")){
+				//System.out.println("MOV "+ent.getLexAss()+", ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]" );
+			}else if( hijoIzq.getEntrada().getTipo().equals("doble")){//if(hijoIzq.getTipo().equals("doble")){
+				sentencias.add("DIV " +ent.getLexAss() + " , 6" );//  VERIFICO PRIMERO EL LIMITE DEL INDICE
+				sentencias.add("ADD "+ent.getLexAss() +" , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
+				sentencias.add("CMP "+ent.getLexAss() + " , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
+				sentencias.add("JB VECTOR_FUERA_DE_RANGO");
+				sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , "+ent.getLexAss());
+				sentencias.add("JB VECTOR_FUERA_DE_RANGO \n");
 				sentencias.add("FLD "+" ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]");
 				sentencias.add("FSTP "+ent.getLexAss());
 			}
-			//System.out.println("el tipo de "+hijoIzq.getEntrada().getLexAss() + hijoIzq.getTipo() + "...o el tipo de la entradaTS: "+ hijoIzq.getEntrada().getTipo());
+			//  ESTO DA LO MISMO  System.out.println("el tipo de "+hijoIzq.getEntrada().getLexAss() + hijoIzq.getTipo() + "...o el tipo de la entradaTS: "+ hijoIzq.getEntrada().getTipo());
 			if (uVis == 'd') {// TODO ver si esto es necesario
 				System.out.println (pAnt.getValor());
 				String tipo = pAnt.getHijoDer().getTipo();
@@ -484,7 +508,7 @@ public class ArbolSintactico {
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
 				ts.addETS("aux"+ ent.getIdAux(), ent);
-				if (hijoDer.getEntrada() == null){ // es porque es el LimInf del vector en la resta de indices TODO verificar limites aca
+				if (hijoDer.getEntrada() == null){ // es porque es el LimInf del vector en la resta de indices 
 					sentencias.add("SUB " + hijoIzq.getEntrada().getLexAss() +", "+ hijoDer.getValor() );
 					System.out.println("el hijo derecho es null tengo que acceder por el getValor porque no tiene EntradaTs ");
 				}else 
@@ -546,7 +570,7 @@ public class ArbolSintactico {
 				}			
 			}
 		}else if (valor.equals("*")){/////////////////////////////////////////////////////////////MULTIPLIC/////////////////////////////////////////
-			//TODO tambien se rompe acá, en el calculo de la direccion
+			//
 //			if(hijoIzq.getEntrada() == null) {
 //				System.out.println("esto pertenece al producto con el factor del vector");
 //			}
