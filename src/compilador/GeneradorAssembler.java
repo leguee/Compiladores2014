@@ -93,9 +93,9 @@ public class GeneradorAssembler {
 						  
 					  } 
 					  else if (entrada.getId().equals(STRING)){
-						  entrada.setCadena(cadena);
-						  cadena++;
-						  variables.add(new String(entrada.getCadena() + " DB " + "\"" + entrada.getLexema() + "\"" + " ,0"));
+						  //entrada.setCadena(cadena);
+						  //cadena++;
+						  variables.add(new String(entrada.getLexAss() + " DB " + "\"" + entrada.getLexema() + "\"" + " ,0"));
 					  }
 		  }
 		  return variables;

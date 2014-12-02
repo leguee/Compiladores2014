@@ -414,6 +414,11 @@ public class ArbolSintactico {
 
 			return;
 		}*/
+		
+		if (valor.equals("print")){
+			System.out.println("el hijo izq del print tienen " + hijoIzq.getEntrada().getLexAss());
+			 sentencias.add("invoke MessageBox, NULL, addr "+ hijoIzq.getEntrada().getLexAss()+", addr TITULO , MB_OK " );
+		}
 
 
 

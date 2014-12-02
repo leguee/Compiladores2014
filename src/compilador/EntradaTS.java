@@ -3,10 +3,12 @@ package compilador;
 public class EntradaTS {
 	 public static final Short CONSTANTE = 265;
 	 public static final short CTEENTERO=274;
+	 public static final Short STRING = 267;
 	 public static final Short ID = 264;
 	 public static int IDDOBLE = 1;
 	 public static int IDENTERO = 1;
 	 public static int IDAUX = 1;
+	 public static int IDCADENA = 1;
 	 public static final short AUX=275;
 	
 	private Short id;
@@ -15,7 +17,8 @@ public class EntradaTS {
 	private int contRef;
 	private int idDoble;
 	private int idEntero;
-	private String cadena;
+	private int idCadena;
+	//private String cadena;
 	private int idAux;
 	private String nombVector;
 
@@ -49,7 +52,7 @@ public class EntradaTS {
 		tipo = null;
 		setNombVector(null);
 		contRef = 1;
-		 cadena = null;
+		 //cadena = null;
 	    if (this.id.equals(CONSTANTE))
         {
             idDoble = IDDOBLE;
@@ -68,6 +71,11 @@ public class EntradaTS {
 	    if (this.id.equals(AUX)) {
 	    	idAux = IDAUX;
 	    	IDAUX++;
+	    }
+	    
+	    if (this.id.equals(STRING)){
+	    	idCadena = IDCADENA;
+	    	IDCADENA++;
 	    }
         
 	}
@@ -131,18 +139,20 @@ public class EntradaTS {
 	         }
 		 else if(id.equals(AUX)) { 
         	 return new String("_@aux"+this.idAux);
-         } else
-        	 return new String("_entero"+ this.idEntero);
+         } else if (id.equals(STRING)){
+        	return new String ("cadena" + this.idCadena); 
+         }
+         else	 return new String("_entero"+ this.idEntero);
 		 		
 	}
 	
-    public void setCadena(int c){ // Me trata las cadenas en las declaraciones, y aumenta el c 
-        cadena = new String("cadena"+c);
-    }
-
-    public String getCadena(){
-        return cadena;
-    }
+//    public void setCadena(int c){ // Me trata las cadenas en las declaraciones, y aumenta el c 
+//        cadena = new String("cadena"+c);
+//    }
+//
+//    public String getCadena(){
+//        return cadena;
+//    }
 
 	
 	
