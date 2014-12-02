@@ -326,7 +326,7 @@ iteracion : ITERAR bloque HASTA '(' condicion ')'	{	manejador.estructuraSintacti
 
 print: IMPRIMIR '(' STRING ')' ';' {manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(34));
 									String lexema = ((Token)$3.obj).getLexema();
-									ArbolSintactico string = new Hoja (tabla.getTabla().get(lexema), lexema);
+									ArbolSintactico string = new ArbolSintactico (tabla.getTabla().get(lexema), lexema);
 									$$.obj = new ArbolSintactico ("print" , string , null );
 }
 	 | IMPRIMIR '(' STRING ')' error {manejador.error(analizador.getNroLinea(),analizador.getMensaje(7),"SINTACTICO");}

@@ -1113,7 +1113,7 @@ case 63:
 //#line 327 "Gramatica5.y"
 {manejador.estructuraSintactica(analizador.getNroLinea(), analizador.getMensaje(34));
 									String lexema = ((Token)val_peek(2).obj).getLexema();
-									ArbolSintactico string = new Hoja (tabla.getTabla().get(lexema), lexema);
+									ArbolSintactico string = new ArbolSintactico (tabla.getTabla().get(lexema), lexema);
 									yyval.obj = new ArbolSintactico ("print" , string , null );
 }
 break;
