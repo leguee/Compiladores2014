@@ -285,10 +285,13 @@ public class ArbolSintactico {
 
 		//Asignación
 		if (valor.equals("asig") ){
+//			mov ax, _@aux1
+//			MOV _a , ax
 			String dest = hijoIzq.getEntrada().getLexAss(); 
 			String orig = hijoDer.getEntrada().getLexAss();
 			if (this.tipo.equals("entero")) {
-				sentencias.add("MOV "+dest+" , "+ orig);
+				sentencias.add("MOV AX ," + orig );
+				sentencias.add("MOV "+dest+" , AX");
 			}else if (this.tipo.equals("doble")) {
 				sentencias.add("FLD "+ orig);
 				sentencias.add("FSTP "+dest);
@@ -440,16 +443,21 @@ public class ArbolSintactico {
 				if (hijoIzq.getValor().contains("&")){ // si es un &vector
 					String izq = "0";
 					sentencias.add("ADD " + hijoDer.getEntrada().getLexAss() +","+ izq );
-					System.out.println("asignacion del vector en la suma ...................................");
-					System.out.println ("ADD " + hijoDer.getEntrada().getLexAss() +","+ izq );
-					sentencias.add("MOV "+ent.getLexAss()+", "+hijoDer.getEntrada().getLexAss());
-					System.out.println ("MOV "+ent.getLexAss()+", "+hijoDer.getEntrada().getLexAss());
-					System.out.println("asignacion del vector en la suma .....FIN FIN FIN..............................");
+					sentencias.add("MOV AX, "+ hijoDer.getEntrada().getLexAss());
+					//System.out.println("asignacion del vector en la suma ...................................");
+					//System.out.println ("ADD " + hijoDer.getEntrada().getLexAss() +","+ izq );
+					sentencias.add("MOV "+ent.getLexAss()+", AX" );
+					//System.out.println ("MOV "+ent.getLexAss()+", "+hijoDer.getEntrada().getLexAss());
+					//System.out.println("asignacion del vector en la suma .....FIN FIN FIN..............................");
 				} else {
-					sentencias.add("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
-					System.out.println ("ADD " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
-					sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
-					System.out.println ("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
+					
+//					mov ax, _entero4
+//					ADD ax,_entero6
+//					MOV _@aux1, ax
+					sentencias.add("MOV AX ," + hijoIzq.getEntrada().getLexAss());
+					sentencias.add("ADD AX ,"+ hijoDer.getEntrada().getLexAss() );
+					sentencias.add("MOV "+ent.getLexAss()+", AX");
+
 				}
 
 				if (uVis == 'd') {
@@ -514,11 +522,14 @@ public class ArbolSintactico {
 				ent.setTipo("entero");
 				ts.addETS("aux"+ ent.getIdAux(), ent);
 				if (hijoDer.getEntrada() == null){ // es porque es el LimInf del vector en la resta de indices 
-					sentencias.add("SUB " + hijoIzq.getEntrada().getLexAss() +", "+ hijoDer.getValor() );
+					sentencias.add("MOV AX ," + hijoIzq.getEntrada().getLexAss());
+					sentencias.add("SUB AX, "+ hijoDer.getValor() );
 					System.out.println("el hijo derecho es null tengo que acceder por el getValor porque no tiene EntradaTs ");
-				}else 
-					sentencias.add("SUB " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
+				}else {
+					sentencias.add("MOV AX ," + hijoIzq.getEntrada().getLexAss());
+					sentencias.add("SUB AX ,"+ hijoDer.getEntrada().getLexAss() );
+				}	
+				sentencias.add("MOV "+ent.getLexAss()+", AX");
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
 					String tipo = pAnt.getHijoDer().getTipo();
