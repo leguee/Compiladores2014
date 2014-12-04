@@ -296,14 +296,14 @@ public class ArbolSintactico {
 		
 		
 		if (valor.equals("asig a vector")){ 
-
-			System.out.println("el tipo de .asig a vector,: del lado izq"+ ". entradaTS: "+ hijoIzq.getEntrada().getTipo());
-			System.out.println("o de donde estoy parado : " + this.getTipo());
 			if (hijoIzq.getEntrada().getTipo().equals("entero")){
-				sentencias.add("MOV ["+hijoIzq.getEntrada().getNombVector()+" + "+ hijoIzq.getEntrada().getLexAss()+" ] , "+ hijoDer.getEntrada().getLexAss());
+				sentencias.add("MOV AX ," + hijoIzq.getEntrada().getLexAss());
+				sentencias.add("MOV CX , "+ hijoDer.getEntrada().getLexAss());
+				sentencias.add("MOV ["+hijoIzq.getEntrada().getNombVector()+" + AX ] , CX ");
 			}else if(hijoIzq.getEntrada().getTipo().equals("doble")){
 				sentencias.add("FLD " + hijoDer.getEntrada().getLexAss() );
-				sentencias.add("FSTP [ "+hijoIzq.getEntrada().getNombVector()+" + "+ hijoIzq.getEntrada().getLexAss()+" ] ");
+				sentencias.add("MOV AX , "+ hijoIzq.getEntrada().getLexAss());
+				sentencias.add("FSTP [ "+hijoIzq.getEntrada().getNombVector()+" + AX ] ");
 			}
 				return;
 		}
@@ -316,16 +316,19 @@ public class ArbolSintactico {
 			ent.setNombVector(hijoIzq.getEntrada().getLexAss());
 			ent.setTipo(hijoIzq.getEntrada().getTipo());// seteo con el tipo del vector
 			ts.addETS("aux"+ ent.getIdAux(), ent);
-			sentencias.add("MOV "+ ent.getLexAss()+ " , "+ hijoDer.getEntrada().getLexAss());
+			sentencias.add("MOV AX, "+ hijoDer.getEntrada().getLexAss());
+			sentencias.add("MOV "+ ent.getLexAss()+ " , AX" );
 			if (hijoIzq.getEntrada().getTipo().equals("entero")){ // VERIFICA LOS LIMITES
-				sentencias.add("DIV " +hijoDer.getEntrada().getLexAss() + " , 2" );
+				sentencias.add("MOV CX , 2"); // Uso cx para guardar el inmediato
+				sentencias.add("IDIV CX" );
 			}else if (hijoIzq.getEntrada().getTipo().equals("doble")){
-				sentencias.add("DIV " +hijoDer.getEntrada().getLexAss() + " , 6" );
+				sentencias.add("MOV CX, 8");
+				sentencias.add("IDIV CX" );
 			}
-			sentencias.add("ADD "+hijoDer.getEntrada().getLexAss() +" , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
-			sentencias.add("CMP "+hijoDer.getEntrada().getLexAss() + " , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
+			sentencias.add("ADD AX , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
+			sentencias.add("CMP AX , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
 			sentencias.add("JB VECTOR_FUERA_DE_RANGO");
-			sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , "+hijoDer.getEntrada().getLexAss());
+			sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , AX");
 			sentencias.add("JB VECTOR_FUERA_DE_RANGO \n");
 			if (uVis == 'd') {
 				System.out.println (pAnt.getValor());
@@ -358,25 +361,30 @@ public class ArbolSintactico {
 			ent.setLexema("aux"+ ent.getIdAux());
 			ent.setTipo("entero");
 			ts.addETS("aux"+ ent.getIdAux(), ent);	
-			sentencias.add("MOV " +ent.getLexAss() +" , "+hijoDer.getEntrada().getLexAss()); // Creo una copia de Aux hijo derech
+			sentencias.add("MOV AX , "+hijoDer.getEntrada().getLexAss()); // Creo una copia de Aux hijo derech
 			//if( hijoIzq.getTipo().equals("entero")){
 			if( hijoIzq.getEntrada().getTipo().equals("entero")){
-				sentencias.add("DIV " +ent.getLexAss() + " , 2" );//  VERIFICO PRIMERO EL LIMITE DEL INDICE
-				sentencias.add("ADD "+ent.getLexAss() +" , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
-				sentencias.add("CMP "+ent.getLexAss() + " , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
+				sentencias.add("MOV CX, 2");
+				sentencias.add("IDIV CX" );//  VERIFICO PRIMERO EL LIMITE DEL INDICE
+				sentencias.add("ADD AX , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
+				sentencias.add("CMP AX , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
 				sentencias.add("JB VECTOR_FUERA_DE_RANGO");
-				sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , "+ent.getLexAss());
+				sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , AX");
 				sentencias.add("JB VECTOR_FUERA_DE_RANGO \n");
-				sentencias.add("MOV "+ent.getLexAss()+", ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]" );
+				sentencias.add("MOV AX , "+hijoDer.getEntrada().getLexAss());
+				sentencias.add("MOV AX , ["+hijoIzq.getEntrada().getLexAss() +" + AX ]" );
+				sentencias.add("MOV "+ent.getLexAss() + " , AX");
 				//System.out.println("MOV "+ent.getLexAss()+", ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]" );
-			}else if( hijoIzq.getEntrada().getTipo().equals("doble")){//if(hijoIzq.getTipo().equals("doble")){
-				sentencias.add("DIV " +ent.getLexAss() + " , 6" );//  VERIFICO PRIMERO EL LIMITE DEL INDICE
-				sentencias.add("ADD "+ent.getLexAss() +" , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
-				sentencias.add("CMP "+ent.getLexAss() + " , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
+			}else if( hijoIzq.getEntrada().getTipo().equals("doble")){//if(hijoIzq.getTipo().equals("doble")){ // TODO FALTA CAMBIAR 
+				sentencias.add("MOV CX, 8");
+				sentencias.add("IDIV CX" );//  VERIFICO PRIMERO EL LIMITE DEL INDICE
+				sentencias.add("ADD AX , " +hijoIzq.getEntrada().getLexAss()+"LimInf" );
+				sentencias.add("CMP AX , "+hijoIzq.getEntrada().getLexAss()+"LimSup");
 				sentencias.add("JB VECTOR_FUERA_DE_RANGO");
-				sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , "+ent.getLexAss());
+				sentencias.add("CMP "+hijoIzq.getEntrada().getLexAss()+"LimInf" + " , AX");
 				sentencias.add("JB VECTOR_FUERA_DE_RANGO \n");
-				sentencias.add("FLD "+" ["+hijoIzq.getEntrada().getLexAss() +" + "+ hijoDer.getEntrada().getLexAss()+" ]");
+				sentencias.add("MOV AX , "+hijoDer.getEntrada().getLexAss());
+				sentencias.add("FLD "+" ["+hijoIzq.getEntrada().getLexAss() +" + AX ]");
 				sentencias.add("FSTP "+ent.getLexAss());
 			}
 			//  ESTO DA LO MISMO  System.out.println("el tipo de "+hijoIzq.getEntrada().getLexAss() + hijoIzq.getTipo() + "...o el tipo de la entradaTS: "+ hijoIzq.getEntrada().getTipo());
