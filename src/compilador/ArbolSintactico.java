@@ -178,11 +178,9 @@ public class ArbolSintactico {
 					sentencias.add(salto + etiqueta);
 				}
 				else{
-					sentencias.add("FILD "+varComp1);
-					sentencias.add("FILD "+varComp2);
-					sentencias.add("FICOMP");
-					sentencias.add("FSTSW AX");
-					sentencias.add("SAHF");
+
+					sentencias.add("MOV AX, "+varComp1);
+					sentencias.add("CMP AX , "+varComp2);
 					String etiqueta = sentencias.apilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
 					String salto = getSalto(comparador); // si es JE, JB, JNE etc
 					sentencias.add(salto + etiqueta);
@@ -264,11 +262,8 @@ public class ArbolSintactico {
 			}
 			else
 			{
-				sentencias.add("FILD "+varComp1);
-				sentencias.add("FILD "+varComp2);
-				sentencias.add("FICOMP");//un solo POP despues ver que se puede hacer.
-				sentencias.add("FSTSW AX");
-				sentencias.add("SAHF");
+				sentencias.add("MOV AX, "+varComp1);
+				sentencias.add("CMP AX , "+varComp2);
 				String etiqueta = sentencias.desapilarEtiqueta(); // no me importa el tipo porque con las instrucciones FSTSW FWAIT y SAHF se oculta y se procesa como si fuera entero
 				String salto = getSalto(comparador); // si es JE, JB, JNE etc
 				sentencias.add(salto + etiqueta);
