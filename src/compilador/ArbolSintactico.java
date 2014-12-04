@@ -414,7 +414,7 @@ public class ArbolSintactico {
 		}*/
 		
 		if (valor.equals("print")){
-			System.out.println("el hijo izq del print tienen " + hijoIzq.getEntrada().getLexAss());
+			//System.out.println("el hijo izq del print tienen " + hijoIzq.getEntrada().getLexAss());
 			 sentencias.add("invoke MessageBox, NULL, addr "+ hijoIzq.getEntrada().getLexAss()+", addr TITULO , MB_OK " );
 		}
 
@@ -593,14 +593,18 @@ public class ArbolSintactico {
 				ts.addETS("aux"+ ent.getIdAux(), ent);
 				if(hijoIzq.getEntrada() == null) {
 					System.out.println("esto pertenece al producto con el factor del vector");
-					sentencias.add("MUL " + hijoDer.getEntrada().getLexAss()  +","+ hijoIzq.getValor() );
+					sentencias.add("MOV AX , "+ hijoDer.getEntrada().getLexAss());
+					sentencias.add("IMUL AX ,"+ hijoIzq.getValor() );
+					
 
 				}else{
-					sentencias.add("MUL " + hijoDer.getEntrada().getLexAss() +","+ hijoIzq.getEntrada().getLexAss() );
-					sentencias.add("CMP "+ hijoDer.getEntrada().getLexAss() + ", _@max_entero"); 
+					sentencias.add("MOV AX ,"+hijoDer.getEntrada().getLexAss() );
+					sentencias.add("MOV DX , 0");
+					sentencias.add("IMUL AX ,"+ hijoIzq.getEntrada().getLexAss() );
+					sentencias.add("CMP AX , _@max_entero"); 
 					sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
 				}
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoDer.getEntrada().getLexAss());
+				sentencias.add("MOV "+ent.getLexAss()+", AX");
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
 					String tipo = pAnt.getHijoDer().getTipo();
@@ -665,9 +669,14 @@ public class ArbolSintactico {
 				EntradaTS ent= new EntradaTS(AUX, "");
 				ent.setLexema("aux"+ ent.getIdAux());
 				ent.setTipo("entero");
-				ts.addETS("aux"+ ent.getIdAux(), ent);				
-				sentencias.add("DIV " + hijoIzq.getEntrada().getLexAss() +","+ hijoDer.getEntrada().getLexAss() );
-				sentencias.add("MOV "+ent.getLexAss()+", "+hijoIzq.getEntrada().getLexAss());
+				ts.addETS("aux"+ ent.getIdAux(), ent);			
+				
+				sentencias.add("MOV DX , 0");
+				sentencias.add("MOV AX ,"+hijoIzq.getEntrada().getLexAss());
+				sentencias.add("CWD");
+				sentencias.add("IDIV "+ hijoDer.getEntrada().getLexAss() );
+				sentencias.add("MOV "+ent.getLexAss()+", AX");
+				
 				if (uVis == 'd') {
 					System.out.println (pAnt.getValor());
 					String tipo = pAnt.getHijoDer().getTipo();
