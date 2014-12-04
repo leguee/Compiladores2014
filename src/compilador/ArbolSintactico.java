@@ -296,11 +296,12 @@ public class ArbolSintactico {
 		
 		
 		if (valor.equals("asig a vector")){ 
-			if (hijoIzq.getEntrada().getTipo().equals("entero")){
+		
+			if (hijoIzq.getEntrada().getTipoVector().equals("entero")){
 				sentencias.add("MOV AX ," + hijoIzq.getEntrada().getLexAss());
 				sentencias.add("MOV BX , "+ hijoDer.getEntrada().getLexAss());
 				sentencias.add("MOV ["+hijoIzq.getEntrada().getNombVector()+" + AX ] , BX ");
-			}else if(hijoIzq.getEntrada().getTipo().equals("doble")){
+			}else if(hijoIzq.getEntrada().getTipoVector().equals("doble")){
 				sentencias.add("FLD " + hijoDer.getEntrada().getLexAss() );
 				sentencias.add("MOV AX , "+ hijoIzq.getEntrada().getLexAss());
 				sentencias.add("FSTP [ "+hijoIzq.getEntrada().getNombVector()+" + AX ] ");
@@ -314,7 +315,7 @@ public class ArbolSintactico {
 			ent.setLexema("aux"+ ent.getIdAux());
 			ent.setTipo("entero");
 			ent.setNombVector(hijoIzq.getEntrada().getLexAss());
-			ent.setTipo(hijoIzq.getEntrada().getTipo());// seteo con el tipo del vector
+			ent.setTipoVector(hijoIzq.getEntrada().getTipo());// seteo con el tipo del vector
 			ts.addETS("aux"+ ent.getIdAux(), ent);
 			sentencias.add("MOV AX, "+ hijoDer.getEntrada().getLexAss());
 			sentencias.add("MOV "+ ent.getLexAss()+ " , AX" );
@@ -389,6 +390,7 @@ public class ArbolSintactico {
 				sentencias.add("JB VECTOR_FUERA_DE_RANGO \n");
 				sentencias.add("MOV AX , "+hijoDer.getEntrada().getLexAss());
 				sentencias.add("FLD "+" ["+hijoIzq.getEntrada().getLexAss() +" + AX ]");
+				ent.setTipo("doble");
 				sentencias.add("FSTP "+ent.getLexAss());
 			}
 			//  ESTO DA LO MISMO  System.out.println("el tipo de "+hijoIzq.getEntrada().getLexAss() + hijoIzq.getTipo() + "...o el tipo de la entradaTS: "+ hijoIzq.getEntrada().getTipo());

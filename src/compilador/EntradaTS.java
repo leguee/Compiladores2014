@@ -18,7 +18,7 @@ public class EntradaTS {
 	private int idDoble;
 	private int idEntero;
 	private int idCadena;
-	//private String cadena;
+	private String tipoVector;
 	private int idAux;
 	private String nombVector;
 
@@ -50,6 +50,7 @@ public class EntradaTS {
 		this.id = id; 
 		this.setLexema(lexema);
 		tipo = null;
+		tipoVector = null;
 		setNombVector(null);
 		contRef = 1;
 		 //cadena = null;
@@ -173,6 +174,14 @@ public class EntradaTS {
 
 	public void setNombVector(String nombVector) {
 		this.nombVector = nombVector;
+	}
+
+	public void setTipoVector(String tipo2) {
+		this.tipoVector = tipo2;
+		
+	}
+	public String getTipoVector(){
+		return this.tipoVector;
 	}
 	
 }
