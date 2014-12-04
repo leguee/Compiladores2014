@@ -1,0 +1,10 @@
+vect[ 2 .. 7] vector de entero;
+entero a; 
+vect[4] := 5;
+a:= vect[4];
+si ( a = 5 )entonces{
+	imprimir (" lo que tiene adentro el vector es 5");
+}
+sino {
+imprimir (" dsadadsadsa");
+}
