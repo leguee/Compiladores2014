@@ -1,0 +1,12 @@
+vectorA [ 1 .. 9 ] vector de entero ;
+
+vectorB [ 1 .. 9 ] vector de entero ;
+
+vectorA[4] := 2 ;
+vectorA [5] := 2 ;
+vectorB[4] := 6 ;
+vectorB [ vectorA[4] + 1 ] := vectorB[ vectorA[4] + vectorA [5]] ;
+
+si ( vectorB [ 3 ] = 6 ) entonces {
+	imprimir ("resultado correcto");
+}

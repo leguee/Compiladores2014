@@ -1,0 +1,21 @@
+vectorA [ 1 .. 3 ] vector de entero ;
+entero pos , menor ;
+
+vectorA[ 1 ] := 6 ;
+vectorA[ 2 ] := 2 ;
+vectorA[ 3 ] := 10 ;
+
+menor := 100 ;
+pos := 1 ;
+
+iterar{
+	si ( vectorA[ pos ] < menor ) entonces {
+		menor := vectorA[ pos ] ;
+	}
+	pos := pos + 1 ;
+}
+hasta ( pos = 3 ) 
+
+si ( menor = 2 ) entonces {
+	imprimir ("dio bien el menor es 2");
+}

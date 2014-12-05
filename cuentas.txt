@@ -1,0 +1,37 @@
+entero a , b ;
+doble c , d ;
+
+a := 7 ;
+b := 8 ;
+
+a := a + b ;
+a := a - b ;
+
+a := a*b;
+a := a/b ;
+
+si ( a = 7 ) entonces {
+	imprimir("el resultado es correcto en enteros");
+}
+sino
+{
+	imprimir ("resultado incorrecto en enteros");
+}
+
+c := 2.0 ;
+d := 8.0 ;
+
+d := d-c ;
+d := d+c ;
+d := d*c ;
+d := d/c ;
+
+si ( d = 8.0 ) entonces 
+{
+	imprimir ("resultado correcto en dobles ");
+}
+sino
+{
+	imprimir ("resultado incorrecto en dobles");
+}
+	

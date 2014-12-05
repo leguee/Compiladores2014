@@ -92,7 +92,7 @@ declaracion : tipo lista_variables ';' 	{ 	manejador.estructuraSintactica(analiz
 lista_variables : lista_variables ',' ID		{	Token token = (Token)$3.obj;
 													token.setTipo("entero");
 													vt.add(token);
-													ArbolSintactico a3 = new Hoja (tabla.getTabla().get(token.getLexema()),token.getLexema());
+													ArbolSintactico a3 = new ArbolSintactico (tabla.getTabla().get(token.getLexema()),token.getLexema());
 													ArbolSintactico a1 = ((ArbolSintactico)$1.obj);
 													$$.obj = new ArbolSintactico ("lista var",a1,a3);
 												}								
@@ -102,7 +102,7 @@ lista_variables : lista_variables ',' ID		{	Token token = (Token)$3.obj;
 													token.setTipo("entero");
 													tokens.add(token);
 													vt = tokens ;	
-													$$.obj = new Hoja (tabla.getTabla().get(token.getLexema()),token.getLexema());
+													$$.obj = new ArbolSintactico (tabla.getTabla().get(token.getLexema()),token.getLexema());
 												}
 				
 ;
@@ -112,8 +112,8 @@ vector_declaracion : ID '[' CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo	{
 																				String iden = ident.getLexema();
 																				String rangoMenor = ((Token)$3.obj).getLexema();
 																				String rangoMayor = ((Token)$5.obj).getLexema();
-																				ArbolSintactico rMenor = new Hoja (tabla.getTabla().get(rangoMenor),rangoMenor);
-																				ArbolSintactico rMayor = new Hoja (tabla.getTabla().get(rangoMayor),rangoMayor);
+																				ArbolSintactico rMenor = new ArbolSintactico (tabla.getTabla().get(rangoMenor),rangoMenor);
+																				ArbolSintactico rMayor = new ArbolSintactico (tabla.getTabla().get(rangoMayor),rangoMayor);
 																				ArbolSintactico rango = new ArbolSintactico (("rango") ,rMenor,rMayor);
 																				ArbolSintactico tipo = ((ArbolSintactico)$9.obj);
 																				
@@ -150,10 +150,10 @@ vector_declaracion : ID '[' CTEENTERO RANGO CTEENTERO ']' VECTOR DE tipo	{
 				   
 				   
 tipo : DOBLE	{	String lexema = ((Token)$1.obj).getLexema();
-					$$.obj = new Hoja (tabla.getTabla().get(lexema),lexema);
+					$$.obj = new ArbolSintactico (tabla.getTabla().get(lexema),lexema);
 				}
 	 | ENTERO 	{	String lexema = ((Token)$1.obj).getLexema();
-					$$.obj = new Hoja (tabla.getTabla().get(lexema),lexema);
+					$$.obj = new ArbolSintactico (tabla.getTabla().get(lexema),lexema);
 				}
 ;
 
@@ -189,7 +189,7 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 											arbol.setError();
 											manejador.error(analizador.getNroLinea(),analizador.getMensaje (70) , "SEMANTICO");
 										}
-										ArbolSintactico a1 = new Hoja(tabla.getTabla().get(token1.getLexema()),token1.getLexema());
+										ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(token1.getLexema()),token1.getLexema());
 										if ( tabla.getEntradaTS(a1.getValor()).isDeclarada()){
 											a1.setTipo(tabla.getEntradaTS(a1.getValor()).getTipo());
 										}
@@ -219,7 +219,7 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 																if (tabla.contieneLexema(lexID) && ET.getRangoMenor() == null)
 																		manejador.error(analizador.getNroLinea(),analizador.getMensaje (62 ) , "SEMANTICO");
 																
-																ArbolSintactico a1 = new Hoja (tabla.getTabla().get(lexID),lexID);
+																ArbolSintactico a1 = new ArbolSintactico (tabla.getTabla().get(lexID),lexID);
 																if ( tabla.getEntradaTS(a1.getValor()).isDeclarada()){
 																	a1.setTipo(tabla.getEntradaTS(a1.getValor()).getTipo());
 																}
@@ -229,14 +229,14 @@ asignacion: ID ASIGNACION expresion ';' {manejador.estructuraSintactica(analizad
 																	arbol.setError();	
 																}
 																
-																ArbolSintactico base = new Hoja (tabla.getEntradaTS(lexID),"&"+lexID);
-																ArbolSintactico rangoMenor = new Hoja (null,tabla.getEntradaTS(lexID).getRangoMenor());
+																ArbolSintactico base = new ArbolSintactico (tabla.getEntradaTS(lexID),"&"+lexID);
+																ArbolSintactico rangoMenor = new ArbolSintactico (null,tabla.getEntradaTS(lexID).getRangoMenor());
 																String factor ;
 																if (tabla.getEntradaTS(lexID).getTipo().equals("entero"))
 																	factor = "2";
 																else
 																	factor = "6";
-																ArbolSintactico tipo = new Hoja (null,factor);
+																ArbolSintactico tipo = new ArbolSintactico (null,factor);
 																
 																ArbolSintactico resta = new ArbolSintactico("-",expresionVector,rangoMenor);
 																ArbolSintactico mult = new ArbolSintactico ("*",tipo,resta);
@@ -493,7 +493,7 @@ factor : '-' CONSTANTE	{	String lexema = ((Token)$2.obj).getLexema();
 
 
 expresion_vector : ID '[' expresion ']' {	String lexema = ((Token)$1.obj).getLexema();
-											ArbolSintactico id = new Hoja (tabla.getTabla().get(lexema),lexema);
+											ArbolSintactico id = new ArbolSintactico (tabla.getTabla().get(lexema),lexema);
 											EntradaTS ET = tabla.getEntradaTS (lexema);
 											id.setTipo (ET.getTipo());
 											if ( !tabla.contieneLexema(lexema) || !ET.isDeclarada() ){
@@ -506,7 +506,7 @@ expresion_vector : ID '[' expresion ']' {	String lexema = ((Token)$1.obj).getLex
 												manejador.error(analizador.getNroLinea(), analizador.getMensaje(67), "LEXICO");
 												arbol.setError();	
 											}
-											ArbolSintactico base = new Hoja (tabla.getEntradaTS(lexema),"&"+lexema);
+											ArbolSintactico base = new ArbolSintactico (tabla.getEntradaTS(lexema),"&"+lexema);
 											String factor ;
 											if (id.getTipo().equals("entero")){
 												factor = "2" ;
@@ -515,8 +515,8 @@ expresion_vector : ID '[' expresion ']' {	String lexema = ((Token)$1.obj).getLex
 												factor = "6";
 												}
 												
-											ArbolSintactico tipo = new Hoja (null,factor);
-											ArbolSintactico rango = new Hoja (null,ET.getRangoMenor());
+											ArbolSintactico tipo = new ArbolSintactico (null,factor);
+											ArbolSintactico rango = new ArbolSintactico (null,ET.getRangoMenor());
 											ArbolSintactico resta = new ArbolSintactico ("-",exp,rango);
 											ArbolSintactico mult = new ArbolSintactico ("*",tipo,resta);
 											ArbolSintactico direccion = new ArbolSintactico ("+",base,mult);

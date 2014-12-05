@@ -777,7 +777,7 @@ case 12:
 {	Token token = (Token)val_peek(0).obj;
 													token.setTipo("entero");
 													vt.add(token);
-													ArbolSintactico a3 = new Hoja (tabla.getTabla().get(token.getLexema()),token.getLexema());
+													ArbolSintactico a3 = new ArbolSintactico (tabla.getTabla().get(token.getLexema()),token.getLexema());
 													ArbolSintactico a1 = ((ArbolSintactico)val_peek(2).obj);
 													yyval.obj = new ArbolSintactico ("lista var",a1,a3);
 												}
@@ -793,7 +793,7 @@ case 14:
 													token.setTipo("entero");
 													tokens.add(token);
 													vt = tokens ;	
-													yyval.obj = new Hoja (tabla.getTabla().get(token.getLexema()),token.getLexema());
+													yyval.obj = new ArbolSintactico (tabla.getTabla().get(token.getLexema()),token.getLexema());
 												}
 break;
 case 15:
@@ -803,8 +803,8 @@ case 15:
 																				String iden = ident.getLexema();
 																				String rangoMenor = ((Token)val_peek(6).obj).getLexema();
 																				String rangoMayor = ((Token)val_peek(4).obj).getLexema();
-																				ArbolSintactico rMenor = new Hoja (tabla.getTabla().get(rangoMenor),rangoMenor);
-																				ArbolSintactico rMayor = new Hoja (tabla.getTabla().get(rangoMayor),rangoMayor);
+																				ArbolSintactico rMenor = new ArbolSintactico (tabla.getTabla().get(rangoMenor),rangoMenor);
+																				ArbolSintactico rMayor = new ArbolSintactico (tabla.getTabla().get(rangoMayor),rangoMayor);
 																				ArbolSintactico rango = new ArbolSintactico (("rango") ,rMenor,rMayor);
 																				ArbolSintactico tipo = ((ArbolSintactico)val_peek(0).obj);
 																				
@@ -860,13 +860,13 @@ break;
 case 22:
 //#line 152 "Gramatica5.y"
 {	String lexema = ((Token)val_peek(0).obj).getLexema();
-					yyval.obj = new Hoja (tabla.getTabla().get(lexema),lexema);
+					yyval.obj = new ArbolSintactico (tabla.getTabla().get(lexema),lexema);
 				}
 break;
 case 23:
 //#line 155 "Gramatica5.y"
 {	String lexema = ((Token)val_peek(0).obj).getLexema();
-					yyval.obj = new Hoja (tabla.getTabla().get(lexema),lexema);
+					yyval.obj = new ArbolSintactico (tabla.getTabla().get(lexema),lexema);
 				}
 break;
 case 24:
@@ -899,7 +899,7 @@ case 32:
 											arbol.setError();
 											manejador.error(analizador.getNroLinea(),analizador.getMensaje (70) , "SEMANTICO");
 										}
-										ArbolSintactico a1 = new Hoja(tabla.getTabla().get(token1.getLexema()),token1.getLexema());
+										ArbolSintactico a1 = new ArbolSintactico(tabla.getTabla().get(token1.getLexema()),token1.getLexema());
 										if ( tabla.getEntradaTS(a1.getValor()).isDeclarada()){
 											a1.setTipo(tabla.getEntradaTS(a1.getValor()).getTipo());
 										}
@@ -947,7 +947,7 @@ case 38:
 																if (tabla.contieneLexema(lexID) && ET.getRangoMenor() == null)
 																		manejador.error(analizador.getNroLinea(),analizador.getMensaje (62 ) , "SEMANTICO");
 																
-																ArbolSintactico a1 = new Hoja (tabla.getTabla().get(lexID),lexID);
+																ArbolSintactico a1 = new ArbolSintactico (tabla.getTabla().get(lexID),lexID);
 																if ( tabla.getEntradaTS(a1.getValor()).isDeclarada()){
 																	a1.setTipo(tabla.getEntradaTS(a1.getValor()).getTipo());
 																}
@@ -957,14 +957,14 @@ case 38:
 																	arbol.setError();	
 																}
 																
-																ArbolSintactico base = new Hoja (tabla.getEntradaTS(lexID),"&"+lexID);
-																ArbolSintactico rangoMenor = new Hoja (null,tabla.getEntradaTS(lexID).getRangoMenor());
+																ArbolSintactico base = new ArbolSintactico (tabla.getEntradaTS(lexID),"&"+lexID);
+																ArbolSintactico rangoMenor = new ArbolSintactico (null,tabla.getEntradaTS(lexID).getRangoMenor());
 																String factor ;
 																if (tabla.getEntradaTS(lexID).getTipo().equals("entero"))
 																	factor = "2";
 																else
 																	factor = "6";
-																ArbolSintactico tipo = new Hoja (null,factor);
+																ArbolSintactico tipo = new ArbolSintactico (null,factor);
 																
 																ArbolSintactico resta = new ArbolSintactico("-",expresionVector,rangoMenor);
 																ArbolSintactico mult = new ArbolSintactico ("*",tipo,resta);
@@ -1324,7 +1324,7 @@ break;
 case 81:
 //#line 495 "Gramatica5.y"
 {	String lexema = ((Token)val_peek(3).obj).getLexema();
-											ArbolSintactico id = new Hoja (tabla.getTabla().get(lexema),lexema);
+											ArbolSintactico id = new ArbolSintactico (tabla.getTabla().get(lexema),lexema);
 											EntradaTS ET = tabla.getEntradaTS (lexema);
 											id.setTipo (ET.getTipo());
 											if ( !tabla.contieneLexema(lexema) || !ET.isDeclarada() ){
@@ -1337,7 +1337,7 @@ case 81:
 												manejador.error(analizador.getNroLinea(), analizador.getMensaje(67), "LEXICO");
 												arbol.setError();	
 											}
-											ArbolSintactico base = new Hoja (tabla.getEntradaTS(lexema),"&"+lexema);
+											ArbolSintactico base = new ArbolSintactico (tabla.getEntradaTS(lexema),"&"+lexema);
 											String factor ;
 											if (id.getTipo().equals("entero")){
 												factor = "2" ;
@@ -1346,8 +1346,8 @@ case 81:
 												factor = "6";
 												}
 												
-											ArbolSintactico tipo = new Hoja (null,factor);
-											ArbolSintactico rango = new Hoja (null,ET.getRangoMenor());
+											ArbolSintactico tipo = new ArbolSintactico (null,factor);
+											ArbolSintactico rango = new ArbolSintactico (null,ET.getRangoMenor());
 											ArbolSintactico resta = new ArbolSintactico ("-",exp,rango);
 											ArbolSintactico mult = new ArbolSintactico ("*",tipo,resta);
 											ArbolSintactico direccion = new ArbolSintactico ("+",base,mult);
