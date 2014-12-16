@@ -617,7 +617,7 @@ public class ArbolSintactico {
 					sentencias.add("MOV AX ,"+hijoDer.getEntrada().getLexAss() );
 					sentencias.add("MOV DX , 0");
 					sentencias.add("IMUL AX ,"+ hijoIzq.getEntrada().getLexAss() );
-					sentencias.add("CMP AX , _@max_entero"); 
+					sentencias.add("CMP _@max_entero , AX "); 
 					sentencias.add("JB OVERFLOW_EN_PRODUCTO ");
 				}
 				sentencias.add("MOV "+ent.getLexAss()+", AX");
